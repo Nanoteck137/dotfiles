@@ -30,7 +30,6 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.vim/plugged')
 Plug 'scrooloose/nerdtree'
-Plug 'ryanoasis/vim-devicons'
 Plug 'dracula/vim', { 'as': 'dracula' }
 call plug#end()
 
@@ -58,6 +57,9 @@ inoremap <Tab> <C-R>=Tab_Or_Complete()<CR>
 set history=500
 " Set visable line at 80 characters
 set colorcolumn=80
+
+" Add line numbers
+set number
 
 " Enable filetype plugins
 filetype plugin on
