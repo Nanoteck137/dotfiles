@@ -186,3 +186,7 @@ mode "resize" {
 }
 
 bindsym $mod+r mode "resize"
+
+for_window [title="^QEMU \(Windows\)$"] floating enable
+for_window [class="qemu"] floating enable
+for_window [class="(?i)qemu-system"] floating enable
