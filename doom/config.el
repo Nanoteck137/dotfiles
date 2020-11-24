@@ -41,9 +41,12 @@
 (define-key evil-normal-state-map (kbd "C-j") 'forward-paragraph)
 (define-key evil-normal-state-map (kbd "C-k") 'backward-paragraph)
 
+(define-key evil-normal-state-map (kbd "M-j") 'drag-stuff-down)
+(define-key evil-normal-state-map (kbd "M-k") 'drag-stuff-up)
+
+;; - `load!' for loading external *.el files relative to this one
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
-;; - `load!' for loading external *.el files relative to this one
 ;; - `use-package!' for configuring packages
 ;; - `after!' for running code after a package has loaded
 ;; - `add-load-path!' for adding directories to the `load-path', relative to
