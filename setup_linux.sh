@@ -9,3 +9,4 @@ ln -s $PWD/polybar $HOME/.config/
 ln -s $PWD/picom $HOME/.config/
 ln -s $PWD/spicetify $HOME/.config/
 ln -s $PWD/zsh/zshrc $HOME/.zshrc
+ln -s $PWD/doom $HOME/.doom.d
