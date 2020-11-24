@@ -38,6 +38,8 @@
 (setq evil-insert-state-cursor '(box "lightblue")
       evil-normal-state-cursor '(box "purple"))
 
+(define-key evil-normal-state-map (kbd "C-j") 'forward-paragraph)
+(define-key evil-normal-state-map (kbd "C-k") 'backward-paragraph)
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
