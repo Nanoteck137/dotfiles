@@ -4,20 +4,22 @@
 ///
 
 extern crate clap;
+extern crate path_absolutize;
 #[macro_use] extern crate serde_derive;
 
 use std::process::Command;
-use std::path::{ PathBuf };
+use std::path::{ Path, PathBuf };
 use clap::{Arg, App, AppSettings, SubCommand};
+use path_absolutize::*;
 
 #[derive(Deserialize, Debug)]
 struct Link {
-    source: PathBuf,
-    destination: PathBuf,
+    source: String,
+    destination: String,
 }
 
 impl Link {
-    fn new(source: PathBuf, destination: PathBuf) -> Self {
+    fn new(source: String, destination: String) -> Self {
         Self {
             source: source,
             destination: destination,
@@ -28,14 +30,10 @@ impl Link {
         // TODO(patrik): Check if the source exists
         let output = Command::new("ln")
                         .arg("-s")
-                        .arg(self.source.as_path())
-                        .arg(self.destination.as_path())
+                        .arg(&self.source)
+                        .arg(&self.destination)
                         .output()
                         .ok()?;
-
-        println!("Output: {}", String::from_utf8_lossy(&output.stdout));
-        println!("Error: {}", String::from_utf8_lossy(&output.stderr));
-        println!("Status: {}", output.status);
 
         return if !output.status.success() {
             None
@@ -92,14 +90,15 @@ impl PlutoObject {
     }
 
     fn setup(&self) {
+        println!("Setting up: {}", self.name);
         for link in &self.links {
             match link.do_link() {
                 Some(_) => {
-                    println!("Linking: {} -> {}", link.source.to_str().unwrap(), link.destination.to_str().unwrap());
+                    println!("Linking: {} -> {}", link.source, link.destination);
                 },
 
                 None => {
-                    println!("Linking (FAILED): {} -> {}", link.source.to_str().unwrap(), link.destination.to_str().unwrap());
+                    println!("Linking (FAILED): {} -> {}", link.source, link.destination);
                 }
             }
         }
@@ -109,12 +108,14 @@ impl PlutoObject {
 #[derive(Debug)]
 struct SetupOption {
     force: bool,
+    config: String,
 }
 
 impl Default for SetupOption {
     fn default() -> Self {
         Self {
-            force: false
+            force: false,
+            config: "pluto.json".to_string(),
         }
     }
 }
@@ -130,7 +131,10 @@ fn parse_command_line() -> PlutoCommand {
         SubCommand::with_name("setup")
             .arg(Arg::with_name("force")
                 .short("-f")
-                .long("force"));
+                .long("force"))
+            .arg(Arg::with_name("config")
+                    .short("-c")
+                    .long("config"));
 
     let check_command = SubCommand::with_name("check");
 
@@ -153,6 +157,9 @@ fn parse_command_line() -> PlutoCommand {
                 options.force = true;
             }
 
+            let config_path = submatch.value_of("config").unwrap_or("pluto.json");
+            options.config = config_path.to_string();
+
             PlutoCommand::Setup(options)
         },
 
@@ -166,31 +173,71 @@ fn parse_command_line() -> PlutoCommand {
     };
 }
 
-fn main() {
-    //let command = parse_command_line();
-    //println!("Command: {:?}", command);
+fn get_prefix() -> String {
+    return match std::env::var("PLUTO_DEST_PREFIX") {
+        Ok(val) => {
+            val
+        }
 
-    /*
-    let link = Link::new(PathBuf::from("testing/doom"), PathBuf::from("testing/doom.d"));
+        Err(e) => {
+            match std::env::var("HOME") {
+                Ok(val) => val,
+                Err(e) => {
+                    println!("Failed to find $HOME enviroment variable");
+                    std::process::exit(-1);
+                }
+            }
+        }
+    };
+}
 
-    let config = Config::new("Doom Emacs", vec![link]);
-    println!("Config: {:#?}", config);
+fn run_setup(options: &SetupOption) {
+    let json_content = std::fs::read_to_string(&options.config).unwrap();
 
-    config.setup();
-
-    let meta = std::fs::symlink_metadata("./target").unwrap();
-    println!("Meta: {:#?}", meta);
-    */
-
-    let json_content = std::fs::read_to_string("pluto.json").unwrap();
-
-    let data = match serde_json::from_str::<Vec<PlutoObject>>(&json_content) {
+    let mut objects = match serde_json::from_str::<Vec<PlutoObject>>(&json_content) {
         Ok(o) => o,
         Err(e) => {
-            println!("Json Error");
+            println!("Config Error:");
             println!("{}", e);
             std::process::exit(-1);
         }
     };
-    println!("Link: {:#?}", data);
+
+    let prefix = get_prefix();
+
+    // Process all the objects from the json and
+    // fix up the path so they are absolute paths
+    for obj in objects.iter_mut() {
+        for link in obj.links.iter_mut() {
+            let source = std::path::Path::new(&link.source);
+            (*link).source = String::from(source.absolutize().unwrap().to_str().unwrap());
+
+            let mut destination = PathBuf::from(&prefix);
+            destination.push(&link.destination);
+            (*link).destination = String::from(destination.to_str().unwrap());
+        }
+    }
+
+    println!("{:#?}", objects);
+
+    for obj in &objects {
+        obj.setup();
+        println!();
+    }
+}
+
+fn main() {
+    let command = parse_command_line();
+    println!("Command: {:?}", command);
+
+    match command {
+        PlutoCommand::Setup(opt) => run_setup(&opt),
+        PlutoCommand::Check => {
+            unimplemented!("Check is not implemented");
+        }
+
+        _ => {
+            panic!("Unknown command");
+        }
+    }
 }
