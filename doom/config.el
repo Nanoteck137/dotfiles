@@ -44,6 +44,8 @@
 (define-key evil-normal-state-map (kbd "M-j") 'drag-stuff-down)
 (define-key evil-normal-state-map (kbd "M-k") 'drag-stuff-up)
 
+(define-key evil-insert-state-map (kbd "C-<tab>") 'dabbrev-expand)
+
 (electric-indent-mode -1)
 
 ;; - `load!' for loading external *.el files relative to this one
