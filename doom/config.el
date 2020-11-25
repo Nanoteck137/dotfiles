@@ -44,6 +44,8 @@
 (define-key evil-normal-state-map (kbd "M-j") 'drag-stuff-down)
 (define-key evil-normal-state-map (kbd "M-k") 'drag-stuff-up)
 
+(electric-indent-mode -1)
+
 ;; - `load!' for loading external *.el files relative to this one
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
