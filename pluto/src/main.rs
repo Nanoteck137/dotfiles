@@ -4,13 +4,13 @@
 ///
 
 extern crate clap;
+#[macro_use] extern crate serde_derive;
 
 use std::process::Command;
 use std::path::{ PathBuf };
-
 use clap::{Arg, App, AppSettings, SubCommand};
 
-#[derive(Debug)]
+#[derive(Deserialize, Debug)]
 struct Link {
     source: PathBuf,
     destination: PathBuf,
@@ -45,29 +45,43 @@ impl Link {
     }
 }
 
-#[derive(Debug)]
+#[derive(Deserialize, Debug)]
 enum Platform {
     General,
     Desktop,
     Laptop,
 }
 
-#[derive(Debug)]
+impl Default for Platform {
+    fn default() -> Self {
+        Self::General
+    }
+}
+
+#[derive(Deserialize, Debug)]
 enum OperatingSystem {
     Linux,
 }
 
-#[derive(Debug)]
-struct Config<'a> {
-    name: &'a str,
+impl Default for OperatingSystem {
+    fn default() -> Self {
+        Self::Linux
+    }
+}
+
+#[derive(Deserialize, Debug)]
+struct PlutoObject {
+    name: String,
     links: Vec<Link>,
 
+    #[serde(default = "Platform::default")]
     platform: Platform,
+    #[serde(default = "OperatingSystem::default")]
     os: OperatingSystem,
 }
 
-impl<'a> Config<'a> {
-    fn new(name: &'a str, links: Vec<Link>) -> Self {
+impl PlutoObject {
+    fn new(name: String, links: Vec<Link>) -> Self {
         Self {
             name,
             links,
@@ -153,9 +167,10 @@ fn parse_command_line() -> PlutoCommand {
 }
 
 fn main() {
-    let command = parse_command_line();
-    println!("Command: {:?}", command);
+    //let command = parse_command_line();
+    //println!("Command: {:?}", command);
 
+    /*
     let link = Link::new(PathBuf::from("testing/doom"), PathBuf::from("testing/doom.d"));
 
     let config = Config::new("Doom Emacs", vec![link]);
@@ -165,4 +180,17 @@ fn main() {
 
     let meta = std::fs::symlink_metadata("./target").unwrap();
     println!("Meta: {:#?}", meta);
+    */
+
+    let json_content = std::fs::read_to_string("pluto.json").unwrap();
+
+    let data = match serde_json::from_str::<Vec<PlutoObject>>(&json_content) {
+        Ok(o) => o,
+        Err(e) => {
+            println!("Json Error");
+            println!("{}", e);
+            std::process::exit(-1);
+        }
+    };
+    println!("Link: {:#?}", data);
 }

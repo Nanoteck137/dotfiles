@@ -1,0 +1,11 @@
+[
+    {
+        "name": "Doom Emacs",
+        "links": [
+            {
+                "source": "./testing/doom",
+                "destination": "./testing/doom.d"
+            }
+        ]
+    }
+]
