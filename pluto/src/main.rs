@@ -3,8 +3,12 @@
 /// Pluto is a program to setup and manage dotfiles
 ///
 
+extern crate clap;
+
 use std::process::Command;
 use std::path::{ PathBuf };
+
+use clap::{Arg, App, AppSettings, SubCommand};
 
 #[derive(Debug)]
 struct Link {
@@ -88,29 +92,69 @@ impl<'a> Config<'a> {
     }
 }
 
-fn print_usage() {
-    println!("Pluto: Dotfile manager");
-    println!("");
-    println!("USAGE:");
-    println!("    pluto [options] [subcommand]");
-    println!("");
-    println!("Options:");
-    println!("    -f, --force   Force the setup");
-    println!("    -h, --help    Display the help infomation");
-    println!("");
-    println!("Subcommands:");
-    println!("    setup   Setup the dotfiles");
-    println!("    check   Check if the dotfiles are setup correctly");
+#[derive(Debug)]
+struct SetupOption {
+    force: bool,
+}
+
+impl Default for SetupOption {
+    fn default() -> Self {
+        Self {
+            force: false
+        }
+    }
+}
+
+#[derive(Debug)]
+enum PlutoCommand {
+    Setup(SetupOption),
+    Check
+}
+
+fn parse_command_line() -> PlutoCommand {
+    let setup_command =
+        SubCommand::with_name("setup")
+            .arg(Arg::with_name("force")
+                .short("-f")
+                .long("force"));
+
+    let check_command = SubCommand::with_name("check");
+
+    let matches =
+        App::new("Pluto")
+            .version("0.1")
+            .author("Patrik Millvik Rosenström <patrik.millvik@gmail.com>")
+            .about("Dotfile manager")
+            .subcommand(setup_command)
+            .subcommand(check_command)
+            .setting(AppSettings::SubcommandRequiredElseHelp)
+            .get_matches();
+
+    return match matches.subcommand() {
+        ("setup", submatch) => {
+            let submatch = submatch.unwrap();
+
+            let mut options = SetupOption::default();
+            if submatch.is_present("force") {
+                options.force = true;
+            }
+
+            PlutoCommand::Setup(options)
+        },
+
+        ("check", _) => {
+            PlutoCommand::Check
+        },
+
+        _ => {
+            panic!("Unknown subcommand");
+        }
+    };
 }
 
 fn main() {
-    let args: Vec<String> = std::env::args().collect();
-
-    if args.len() < 2 {
-        // TODO(patrik): Print the usage
-        print_usage();
-        return;
-    }
+    let command = parse_command_line();
+    println!("Command: {:?}", command);
 
     let link = Link::new(PathBuf::from("testing/doom"), PathBuf::from("testing/doom.d"));
 
