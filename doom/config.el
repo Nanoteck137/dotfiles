@@ -48,6 +48,9 @@
 
 (electric-indent-mode -1)
 
+(setq fill-column 79)
+(global-display-fill-column-indicator-mode t)
+
 ;; - `load!' for loading external *.el files relative to this one
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
