@@ -1,1 +1,0 @@
-/home/nanoteck137/dotfiles/polybar/launch_desktop.sh
