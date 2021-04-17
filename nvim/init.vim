@@ -91,6 +91,8 @@ nnoremap <leader>qp :cprev<CR>
 noremap <C-j> <M-}>
 noremap <C-k> <M-{>
 
+tnoremap <Esc> <C-\><C-n>
+
 function! TabOrComplete()
   if col('.')>1 && strpart( getline('.'), col('.')-2, 3 ) =~ '^\w'
     return "\<C-N>"
