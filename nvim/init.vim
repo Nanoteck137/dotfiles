@@ -35,6 +35,7 @@ set colorcolumn=80
 set signcolumn=yes
 set nowrap
 set cursorline
+set mouse=a
 
 set noswapfile
 set nobackup
@@ -75,20 +76,29 @@ nnoremap <leader>pd :lua require('telescope.builtin').treesitter()<CR>
 nnoremap <leader>pf :lua require('telescope.builtin').find_files()<CR>
 nnoremap <leader>pb :lua require('telescope.builtin').buffers()<CR>
 
-nmap <leader>wj <C-w><C-j>
-nmap <leader>wk <C-w><C-k>
-nmap <leader>wl <C-w><C-l>
-nmap <leader>wh <C-w><C-h>
-nmap <leader>wt <C-^>
-nmap <leader>wsv :vsp<CR>
-nmap <leader>wsh :sp<CR>
+nnoremap <leader>wj <C-w><C-j>
+nnoremap <leader>wk <C-w><C-k>
+nnoremap <leader>wl <C-w><C-l>
+nnoremap <leader>wh <C-w><C-h>
+nnoremap <leader>wt <C-^>
+nnoremap <leader>wsv :vsp<CR>
+nnoremap <leader>wsh :sp<CR>
 
-nmap <leader>qo :copen<CR>
-nmap <leader>qn :cnext<CR>
-nmap <leader>qp :cprev<CR>
+nnoremap <leader>qo :copen<CR>
+nnoremap <leader>qn :cnext<CR>
+nnoremap <leader>qp :cprev<CR>
 
-map <C-j> <M-}>
-map <C-k> <M-{>
+noremap <C-j> <M-}>
+noremap <C-k> <M-{>
+
+function! TabOrComplete()
+  if col('.')>1 && strpart( getline('.'), col('.')-2, 3 ) =~ '^\w'
+    return "\<C-N>"
+  else
+    return "\<Tab>"
+  endif
+endfunction
+inoremap <Tab> <C-R>=TabOrComplete()<CR>
 
 fun! TrimWhitespaces()
     let l:save = winsaveview()
