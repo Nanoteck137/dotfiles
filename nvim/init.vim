@@ -10,6 +10,9 @@ Plug 'nvim-telescope/telescope-fzy-native.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/playground'
 
+Plug 'beyondmarc/hlsl.vim'
+Plug 'calviken/vim-gdscript3'
+
 call plug#end()
 
 lua require('nvim-treesitter.configs').setup({ highlight = { enable = true } })
@@ -39,6 +42,9 @@ set mouse=a
 
 set noswapfile
 set nobackup
+
+" Testing stuff with syntax highligting
+" syntax keyword cppType u32
 
 lua << EOF
 local actions = require('telescope.actions')
