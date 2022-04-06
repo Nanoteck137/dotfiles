@@ -21,7 +21,7 @@ window:
   #dimensions:
     #columns: 180
     #lines: 40
-  opacity: 0.92
+  opacity: 0.5
 
 cursor:
   # Block Underline or Beam
