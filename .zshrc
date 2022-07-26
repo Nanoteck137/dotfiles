@@ -102,6 +102,3 @@ source $ZSH/oh-my-zsh.sh
 
 alias vim="nvim"
 export EDITOR="nvim"
-
-# Add rust cargo to the path
-source $HOME/.cargo/env

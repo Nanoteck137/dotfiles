@@ -21,7 +21,7 @@ window:
   #dimensions:
     #columns: 180
     #lines: 40
-  opacity: 0.5
+  opacity: 0.9
 
 cursor:
   # Block Underline or Beam
@@ -32,10 +32,7 @@ font:
     # Needs to be powerline font if using zsh theme with powerline
     family: Source Code Pro for Powerline
   # Font size
-  size: 14
-
-  # Better font rendering for mac
-  use_thin_strokes: true
+  size: 12
 
 # Colors (Hyper)
 colors:
