@@ -7,8 +7,7 @@ vim.cmd[[set winbar=%f]]
 
 vim.opt.clipboard = "unnamedplus"
 vim.opt.syntax = "on"
--- Using 3 is little buggy with lualine for now
-vim.opt.laststatus = 2
+vim.opt.laststatus = 3
 
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
@@ -66,6 +65,8 @@ require('lualine').setup {
   options = {
     theme = 'tokyonight'
   },
+
+  -- Using winbar is little buggy with lualine for now
 }
 
 require('Comment').setup {}
