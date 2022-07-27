@@ -40,3 +40,18 @@ function! TabOrComplete()
   endif
 endfunction
 inoremap <Tab> <C-R>=TabOrComplete()<CR>
+
+" https://github.com/tjdevries/config_manager/blob/master/xdg_config/nvim/autoload/tj.vim
+function! SaveAndExec() abort
+if &filetype == 'vim'
+  :silent! write
+  :source %
+elseif &filetype == 'lua'
+  :silent! write
+  :luafile %
+endif
+
+return
+endfunction
+
+nnoremap <leader>x :call SaveAndExec()<CR>

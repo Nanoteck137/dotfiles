@@ -1,4 +1,5 @@
 require("plugins")
+require("globals")
 
 vim.g.tokyonight_style = "storm"
 vim.cmd[[colorscheme tokyonight]]
@@ -62,10 +63,6 @@ require('telescope').setup {
 require('telescope').load_extension('fzy_native')
 
 require('lualine').setup {
-  options = {
-    theme = 'tokyonight'
-  },
-
   -- Using winbar is little buggy with lualine for now
 }
 
