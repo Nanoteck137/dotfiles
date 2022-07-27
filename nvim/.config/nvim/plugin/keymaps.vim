@@ -7,6 +7,9 @@ nnoremap <leader>ta :lua require('telescope.builtin').tags()<CR>
 nnoremap <leader>td <C-]>
 nnoremap <leader>tt <C-t>
 
+nnoremap <leader>hh :lua require('telescope.builtin').help_tags()<CR>
+nnoremap <leader>ho :lua require('telescope.builtin').vim_options()<CR>
+
 nnoremap <leader>wj <C-w><C-j>
 nnoremap <leader>wk <C-w><C-k>
 nnoremap <leader>wl <C-w><C-l>
@@ -22,7 +25,12 @@ nnoremap <leader>qp :cprev<CR>
 noremap <C-j> <M-}>
 noremap <C-k> <M-{>
 
-tnoremap <C-q> <C-\><C-n>
+tnoremap <leader><Esc> <C-\><C-n>
+tnoremap <Esc><Esc> <C-\><C-n>
+
+" Move line(s) up and down
+inoremap <C-j> <Esc>:m .+1<CR>==gi
+inoremap <C-k> <Esc>:m .-2<CR>==gi
 
 function! TabOrComplete()
   if col('.')>1 && strpart( getline('.'), col('.')-2, 3 ) =~ '^\w'

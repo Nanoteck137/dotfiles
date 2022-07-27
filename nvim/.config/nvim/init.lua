@@ -1,33 +1,44 @@
 require("plugins")
 
-vim.cmd("colorscheme onedark")
+vim.g.tokyonight_style = "storm"
+vim.cmd[[colorscheme tokyonight]]
+vim.cmd[[highlight WinSeperator guifg=None]]
+vim.cmd[[set winbar=%f]]
 
-vim.o.clipboard = "unnamedplus"
-vim.o.syntax = "on"
+vim.opt.clipboard = "unnamedplus"
+vim.opt.syntax = "on"
+-- Using 3 is little buggy with lualine for now
+vim.opt.laststatus = 2
 
-vim.o.tabstop = 4
-vim.o.shiftwidth = 4
-vim.o.expandtab = true
-vim.o.smartindent = true
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.expandtab = true
+vim.opt.smartindent = true
 
-vim.o.guicursor = true
-vim.o.hidden = true
-vim.o.relativenumber = true
-vim.o.nu = true
-vim.o.nohlsearch = true
-vim.o.noerrorbells = true
-vim.o.incsearch = true
-vim.o.scrolloff = 8
-vim.o.colorcolumn = 80
-vim.o.signcolumn = "yes"
-vim.o.nowrap = true 
-vim.o.cursorline = true
-vim.o.mouse = "a"
+vim.opt.relativenumber = true
+vim.opt.number = true
+vim.opt.wrap = false
+vim.opt.hidden = true
+vim.opt.scrolloff = 8
 
-vim.o.noswapfile = true
-vim.o.nobackup = true
+vim.opt.hlsearch = false
+vim.opt.incsearch = true
+
+vim.opt.belloff = "all"
+
+vim.opt.colorcolumn = "80"
+vim.opt.signcolumn = "yes"
+
+vim.opt.guicursor = "n-v-c:"
+vim.opt.cursorline = true
+vim.opt.mouse = "a"
+
+vim.opt.swapfile = false
+vim.opt.backup = false
 
 vim.g.mapleader = " "
+
+require('lspconfig').rust_analyzer.setup {}
 
 require('nvim-treesitter.configs').setup({ 
     highlight = { 
@@ -35,7 +46,6 @@ require('nvim-treesitter.configs').setup({
     } 
 })
 
--- NOTE(patrik): Install "ripgrep (rg), fzy"
 require('telescope').setup {
     defaults = {
         file_sorter = require('telescope.sorters').get_fzy_sorter,
@@ -51,3 +61,11 @@ require('telescope').setup {
 }
 
 require('telescope').load_extension('fzy_native')
+
+require('lualine').setup {
+  options = {
+    theme = 'tokyonight'
+  },
+}
+
+require('Comment').setup {}
