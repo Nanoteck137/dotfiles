@@ -36,14 +36,73 @@ vim.opt.mouse = "a"
 vim.opt.swapfile = false
 vim.opt.backup = false
 
+vim.opt.updatetime = 400
+
 vim.g.mapleader = " "
 
-require('lspconfig').rust_analyzer.setup {}
+require('lspconfig').rust_analyzer.setup {
+    on_attach = function(client, bufnr)
+        local bufopts = { noremap=true, silent=true, buffer=bufnr }
+        vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
 
-require('nvim-treesitter.configs').setup({ 
-    highlight = { 
-        enable = true 
-    } 
+        -- NOTE(patrik): Maybe? vim.keymap.set('n', '<leader>gi', vim.lsp.buf.implementation, bufopts)
+
+        vim.keymap.set('n', '<leader>r', vim.lsp.buf.rename, bufopts)
+
+        vim.keymap.set('n', '<leader>vr', vim.lsp.buf.references, bufopts)
+
+        vim.keymap.set('n', '<leader>vs', vim.lsp.buf.signature_help, bufopts)
+
+        vim.keymap.set('n', '<leader>gt', vim.lsp.buf.type_definition, bufopts)
+        vim.keymap.set('n', '<leader>gd', vim.lsp.buf.definition, bufopts)
+
+        vim.keymap.set('n', '<leader>vws', require("telescope.builtin").lsp_workspace_symbols, bufopts)
+        vim.keymap.set('n', '<leader>vds', require("telescope.builtin").lsp_document_symbols, bufopts)
+
+        -- USE: format({options})
+
+        vim.keymap.set('n', '<leader>hs', vim.lsp.buf.document_highlight, bufopts)
+        vim.keymap.set('n', '<leader>hc', vim.lsp.buf.clear_references, bufopts)
+
+        local group = vim.api.nvim_create_augroup("testing", { clear = false })
+
+        vim.api.nvim_clear_autocmds({
+            buffer = bufnr,
+            group = group,
+        })
+
+        vim.api.nvim_create_autocmd("BufWritePre", {
+            group = group,
+            pattern = "<buffer>",
+            callback = function()
+                vim.lsp.buf.format()
+            end,
+        })
+
+        vim.api.nvim_create_autocmd("CursorHold", {
+            buffer = bufnr,
+            group = group,
+            callback = vim.lsp.buf.document_highlight,
+        })
+
+        vim.api.nvim_create_autocmd("CursorMoved", {
+            buffer = bufnr,
+            group = group,
+            callback = vim.lsp.buf.clear_references,
+        })
+
+        vim.api.nvim_create_autocmd("CursorMovedI", {
+            buffer = bufnr,
+            group = group,
+            callback = vim.lsp.buf.clear_references,
+        })
+    end
+}
+
+require('nvim-treesitter.configs').setup({
+    highlight = {
+        enable = true
+    }
 })
 
 require('telescope').setup {
