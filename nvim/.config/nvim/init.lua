@@ -1,8 +1,10 @@
 require("plugins")
 require("globals")
 
+-- TODO(patrik): Fix winbar i.e buffer pending saving
 -- TODO(patrik): Explore tabs inside nvim
 -- TODO(patrik): Explore quickfix list
+-- TODO(patrik): Explore focus
 
 vim.g.tokyonight_style = "storm"
 vim.cmd[[colorscheme tokyonight]]
@@ -177,19 +179,17 @@ cmp.setup {
     },
 }
 
-require('lualine').setup {
-  -- Using winbar is little buggy with lualine for now
-}
-
+require('lualine').setup {}
 require('Comment').setup {}
+require("focus").setup {}
 
-vim.keymap.set({ "i", "s" }, "<c-k>", function()
+vim.keymap.set({ "i", "s" }, "<c-n>", function()
     if ls.expand_or_jumpable() then
         ls.expand_or_jump()
     end
 end, { silent = true })
 
-vim.keymap.set({ "i", "s" }, "<c-j>", function()
+vim.keymap.set({ "i", "s" }, "<c-p>", function()
     if ls.jumpable(-1) then
         ls.jump(-1)
     end
@@ -201,4 +201,68 @@ vim.keymap.set({ "i", "s" }, "<c-l>", function()
     end
 end)
 
-vim.keymap.set("n", "<leader><leader>s", "<cmd>source ~/.config/nvim/plugin/luasnip.lua<CR>");
+
+local tb = require('telescope.builtin')
+
+function close_all_windows_in_current_tab()
+    local wins = vim.api.nvim_tabpage_list_wins(0)
+    local current_win = vim.api.nvim_get_current_win()
+    for _, win in ipairs(wins) do
+        if win ~= current_win then
+            vim.api.nvim_win_close(win, false)
+        end
+    end
+end
+
+-- https://github.com/tjdevries/config_manager/blob/master/xdg_config/nvim/autoload/tj.vim
+function save_and_exec()
+    local type = vim.bo.filetype
+    if type == "lua" or type == "vim" then
+        vim.cmd[[silent! write]]
+        vim.cmd[[source %]]
+    end
+end
+
+vim.keymap.set("n", "<leader>ps", function()
+    local search = vim.fn.input("Grep for: ");
+    tb.grep_string({ search = search })
+end)
+
+vim.keymap.set("n", "<leader>pd", tb.treesitter)
+vim.keymap.set("n", "<leader>pf", tb.find_files)
+vim.keymap.set("n", "<leader>pb", tb.buffers)
+
+vim.keymap.set("n", "<leader>hh", tb.help_tags)
+vim.keymap.set("n", "<leader>ho", tb.vim_options)
+
+vim.keymap.set("n", "<leader>wj", "<C-w><C-j>")
+vim.keymap.set("n", "<leader>wk", "<C-w><C-k>")
+vim.keymap.set("n", "<leader>wl", "<C-w><C-l>")
+vim.keymap.set("n", "<leader>wh", "<C-w><C-h>")
+vim.keymap.set("n", "<leader>wp", "<C-w><C-p>")
+vim.keymap.set("n", "<leader>wra", close_all_windows_in_current_tab)
+
+-- vim.keymap.set("n", "<leader>wt", "<C-^>")
+vim.keymap.set("n", "<leader>wsv", "<cmd>vsp<CR>")
+vim.keymap.set("n", "<leader>wsh", "<cmd>sp<CR>")
+
+vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>")
+
+vim.keymap.set({ "n", "v" }, "<C-j>", "<M-}>")
+vim.keymap.set({ "n", "v" }, "<C-k>", "<M-{>")
+
+vim.keymap.set("n", "<leader>xx", save_and_exec)
+-- vim.keymap.set("n", "<leader>xs", "<cmd>source ~/.config/nvim/plugin/luasnip.lua<CR>");
+
+-- TODO(patrik): Use quickfix
+-- nnoremap <leader>qo :copen<CR>
+-- nnoremap <leader>qn :cnext<CR>
+-- nnoremap <leader>qp :cprev<CR>
+
+-- TODO(patrik): Change this because we should only use tags when LSP is
+-- not active
+--
+-- nnoremap <leader>ta :lua require('telescope.builtin').tags()<CR>
+-- nnoremap <leader>td <C-]>
+-- nnoremap <leader>tt <C-t>
+--
