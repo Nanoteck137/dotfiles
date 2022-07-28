@@ -1,6 +1,9 @@
 require("plugins")
 require("globals")
 
+-- TODO(patrik): Explore tabs inside nvim
+-- TODO(patrik): Explore quickfix list
+
 vim.g.tokyonight_style = "storm"
 vim.cmd[[colorscheme tokyonight]]
 vim.cmd[[highlight WinSeperator guifg=None]]
@@ -121,8 +124,81 @@ require('telescope').setup {
 
 require('telescope').load_extension('fzy_native')
 
+local cmp = require("cmp")
+local ls = require("luasnip")
+
+local has_words_before = function()
+  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+end
+
+cmp.setup {
+    mapping = {
+        -- Maybe switch to not using tab
+        ["<Tab>"] = cmp.mapping(function(fallback)
+          if cmp.visible() then
+            cmp.select_next_item()
+          elseif ls.expand_or_jumpable() then
+            ls.expand_or_jump()
+          elseif has_words_before() then
+            cmp.complete()
+          else
+            fallback()
+          end
+        end, { "i", "s" }),
+
+        ["<S-Tab>"] = cmp.mapping(function(fallback)
+          if cmp.visible() then
+            cmp.select_prev_item()
+          elseif ls.jumpable(-1) then
+            ls.jump(-1)
+          else
+            fallback()
+          end
+        end, { "i", "s" }),
+    },
+
+    sources = {
+        { name = "nvim_lua" },
+        { name = "nvim_lsp" },
+        { name = "path" },
+        { name = "luasnip" },
+        { name = "buffer", keyword_length = 5 },
+    },
+
+    snippet = {
+        expand = function(args)
+            ls.lsp_expand(args.body)
+        end
+    },
+
+    experimental = {
+        ghost_text = true,
+    },
+}
+
 require('lualine').setup {
   -- Using winbar is little buggy with lualine for now
 }
 
 require('Comment').setup {}
+
+vim.keymap.set({ "i", "s" }, "<c-k>", function()
+    if ls.expand_or_jumpable() then
+        ls.expand_or_jump()
+    end
+end, { silent = true })
+
+vim.keymap.set({ "i", "s" }, "<c-j>", function()
+    if ls.jumpable(-1) then
+        ls.jump(-1)
+    end
+end, { silent = true })
+
+vim.keymap.set({ "i", "s" }, "<c-l>", function()
+    if ls.choice_active() then
+        ls.change_choice(1)
+    end
+end)
+
+vim.keymap.set("n", "<leader><leader>s", "<cmd>source ~/.config/nvim/plugin/luasnip.lua<CR>");

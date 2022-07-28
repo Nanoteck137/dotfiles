@@ -25,21 +25,11 @@ nnoremap <leader>qp :cprev<CR>
 noremap <C-j> <M-}>
 noremap <C-k> <M-{>
 
-tnoremap <leader><Esc> <C-\><C-n>
 tnoremap <Esc><Esc> <C-\><C-n>
 
 " Move line(s) up and down
-inoremap <C-j> <Esc>:m .+1<CR>==gi
-inoremap <C-k> <Esc>:m .-2<CR>==gi
-
-function! TabOrComplete()
-  if col('.')>1 && strpart( getline('.'), col('.')-2, 3 ) =~ '^\w'
-    return "\<C-N>"
-  else
-    return "\<Tab>"
-  endif
-endfunction
-inoremap <Tab> <C-R>=TabOrComplete()<CR>
+" inoremap <C-j> <Esc>:m .+1<CR>==gi
+" inoremap <C-k> <Esc>:m .-2<CR>==gi
 
 " https://github.com/tjdevries/config_manager/blob/master/xdg_config/nvim/autoload/tj.vim
 function! SaveAndExec() abort
