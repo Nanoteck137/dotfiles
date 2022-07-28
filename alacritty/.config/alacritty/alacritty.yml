@@ -30,11 +30,12 @@ cursor:
 font:
   normal:
     # Needs to be powerline font if using zsh theme with powerline
-    family: Source Code Pro for Powerline
+    family: SauceCodePro Nerd Font
   # Font size
   size: 14
 
 # TokyoNight Alacritty Colors
+# https://github.com/folke/tokyonight.nvim/blob/main/extras/alacritty_tokyonight_storm.yml
 colors:
   # Default colors
   primary:
