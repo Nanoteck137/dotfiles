@@ -1,7 +1,6 @@
 require("plugins")
 require("globals")
 
--- TODO(patrik): Fix winbar i.e buffer pending saving
 -- TODO(patrik): Explore tabs inside nvim
 -- TODO(patrik): Explore quickfix list
 -- TODO(patrik): Explore focus
@@ -9,7 +8,7 @@ require("globals")
 vim.g.tokyonight_style = "storm"
 vim.cmd[[colorscheme tokyonight]]
 vim.cmd[[highlight WinSeperator guifg=None]]
-vim.cmd[[set winbar=%f]]
+vim.cmd[[set winbar=%=%f\ %m%=]]
 
 vim.opt.clipboard = "unnamedplus"
 vim.opt.syntax = "on"
