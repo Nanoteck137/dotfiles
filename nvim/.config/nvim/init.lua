@@ -7,7 +7,7 @@ require("globals")
 
 vim.g.tokyonight_style = "storm"
 vim.cmd[[colorscheme tokyonight]]
-vim.cmd[[highlight WinSeperator guifg=None]]
+vim.cmd[[highlight WinSeparator guifg=DarkGray]]
 vim.cmd[[set winbar=%=%f\ %m%=]]
 
 vim.opt.clipboard = "unnamedplus"
@@ -54,7 +54,6 @@ require('lspconfig').rust_analyzer.setup {
         vim.keymap.set('n', '<leader>r', vim.lsp.buf.rename, bufopts)
 
         vim.keymap.set('n', '<leader>vr', vim.lsp.buf.references, bufopts)
-
         vim.keymap.set('n', '<leader>vs', vim.lsp.buf.signature_help, bufopts)
 
         vim.keymap.set('n', '<leader>gt', vim.lsp.buf.type_definition, bufopts)
@@ -227,6 +226,10 @@ vim.keymap.set("n", "<leader>ps", function()
     tb.grep_string({ search = search })
 end)
 
+-- TODO(patrik):
+-- Telescope current_buffer_fuzzy_find
+-- Telescope command_history
+
 vim.keymap.set("n", "<leader>pd", tb.treesitter)
 vim.keymap.set("n", "<leader>pf", tb.find_files)
 vim.keymap.set("n", "<leader>pb", tb.buffers)
@@ -241,7 +244,6 @@ vim.keymap.set("n", "<leader>wh", "<C-w><C-h>")
 vim.keymap.set("n", "<leader>wp", "<C-w><C-p>")
 vim.keymap.set("n", "<leader>wra", close_all_windows_in_current_tab)
 
--- vim.keymap.set("n", "<leader>wt", "<C-^>")
 vim.keymap.set("n", "<leader>wsv", "<cmd>vsp<CR>")
 vim.keymap.set("n", "<leader>wsh", "<cmd>sp<CR>")
 
@@ -249,6 +251,13 @@ vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>")
 
 vim.keymap.set({ "n", "v" }, "<C-j>", "<M-}>")
 vim.keymap.set({ "n", "v" }, "<C-k>", "<M-{>")
+
+vim.keymap.set("n", "<leader>tt", "<cmd>tab split<CR>")
+vim.keymap.set("n", "<leader>tq", "<cmd>tabclose<CR>")
+vim.keymap.set("n", "<leader>tl", "<cmd>tabnext<CR>")
+vim.keymap.set("n", "<leader>th", "<cmd>tabprevious<CR>")
+vim.keymap.set("n", "<leader>tml", "<cmd>tabmove +1<CR>")
+vim.keymap.set("n", "<leader>tmh", "<cmd>tabmove -1<CR>")
 
 vim.keymap.set("n", "<leader>xx", save_and_exec)
 -- vim.keymap.set("n", "<leader>xs", "<cmd>source ~/.config/nvim/plugin/luasnip.lua<CR>");
@@ -258,10 +267,5 @@ vim.keymap.set("n", "<leader>xx", save_and_exec)
 -- nnoremap <leader>qn :cnext<CR>
 -- nnoremap <leader>qp :cprev<CR>
 
--- TODO(patrik): Change this because we should only use tags when LSP is
--- not active
---
--- nnoremap <leader>ta :lua require('telescope.builtin').tags()<CR>
--- nnoremap <leader>td <C-]>
--- nnoremap <leader>tt <C-t>
---
+vim.keymap.set('n', '<leader>gd', "<C-]>")
+vim.keymap.set('n', '<leader>vds', tb.tags)
