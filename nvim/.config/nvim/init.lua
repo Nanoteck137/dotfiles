@@ -263,9 +263,9 @@ vim.keymap.set("n", "<leader>xx", save_and_exec)
 -- vim.keymap.set("n", "<leader>xs", "<cmd>source ~/.config/nvim/plugin/luasnip.lua<CR>");
 
 -- TODO(patrik): Use quickfix
--- nnoremap <leader>qo :copen<CR>
--- nnoremap <leader>qn :cnext<CR>
--- nnoremap <leader>qp :cprev<CR>
+vim.keymap.set("n", "<leader>qq", "<cmd>copen<CR>")
+vim.keymap.set("n", "<leader>qn", "<cmd>cnext<CR>")
+vim.keymap.set("n", "<leader>qp", "<cmd>cprev<CR>")
 
 vim.keymap.set('n', '<leader>gd', "<C-]>")
 vim.keymap.set('n', '<leader>vds', tb.tags)
