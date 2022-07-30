@@ -23,7 +23,7 @@ font pango:DejaVu Sans Mono 8
 # https://wiki.archlinux.org/index.php/XDG_Autostart
 exec --no-startup-id dex --autostart --environment i3
 
-exec --no-startup-id feh --bg-scale ~/wallpaper.jpg
+exec --no-startup-id feh --bg-scale ~/i3_wallpaper.jpg
 exec --no-startup-id picom
 
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
