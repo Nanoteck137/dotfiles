@@ -41,65 +41,82 @@ vim.opt.swapfile = false
 vim.opt.backup = false
 
 vim.opt.updatetime = 400
+vim.opt.completeopt = { "menu", "menuone", "noselect" }
 
 vim.g.mapleader = " "
 
+function lsp_on_attach(client, bufnr)
+    local bufopts = { noremap=true, silent=true, buffer=bufnr }
+
+    vim.keymap.set('n', '<leader>r', vim.lsp.buf.rename, bufopts)
+    vim.keymap.set('n', '<leader>h', vim.lsp.buf.hover, bufopts)
+
+    vim.keymap.set('n', '<leader>vr', vim.lsp.buf.references, bufopts)
+    vim.keymap.set('n', '<leader>vs', vim.lsp.buf.signature_help, bufopts)
+    vim.keymap.set('n', '<leader>vd', require("telescope.builtin").diagnostics, bufopts)
+
+    vim.keymap.set('n', '<leader>gt', vim.lsp.buf.type_definition, bufopts)
+    vim.keymap.set('n', '<leader>gd', vim.lsp.buf.definition, bufopts)
+
+    -- vim.keymap.set('n', '<leader>vws', require("telescope.builtin").lsp_workspace_symbols, bufopts)
+    -- vim.keymap.set('n', '<leader>vds', require("telescope.builtin").lsp_document_symbols, bufopts)
+
+    vim.keymap.set('n', '<leader>n', vim.diagnostic.goto_next, bufopts)
+    vim.keymap.set('n', '<leader>p', vim.diagnostic.goto_prev, bufopts)
+
+    local group = vim.api.nvim_create_augroup("testing", { clear = false })
+
+    vim.api.nvim_clear_autocmds({
+        buffer = bufnr,
+        group = group,
+    })
+
+    vim.api.nvim_create_autocmd("BufWritePre", {
+        group = group,
+        pattern = "<buffer>",
+        callback = function()
+            vim.lsp.buf.format()
+        end,
+    })
+
+    vim.api.nvim_create_autocmd("CursorHold", {
+        buffer = bufnr,
+        group = group,
+        callback = vim.lsp.buf.document_highlight,
+    })
+
+    vim.api.nvim_create_autocmd("CursorMoved", {
+        buffer = bufnr,
+        group = group,
+        callback = vim.lsp.buf.clear_references,
+    })
+
+    vim.api.nvim_create_autocmd("CursorMovedI", {
+        buffer = bufnr,
+        group = group,
+        callback = vim.lsp.buf.clear_references,
+    })
+end
+
+-- Set up lspconfig.
+local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+
 require('lspconfig').rust_analyzer.setup {
-    on_attach = function(client, bufnr)
-        local bufopts = { noremap=true, silent=true, buffer=bufnr }
-        vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+    on_attach = lsp_on_attach,
+    capabilities = capabilities
+}
 
-        -- NOTE(patrik): Maybe? vim.keymap.set('n', '<leader>gi', vim.lsp.buf.implementation, bufopts)
+require('lspconfig').clangd.setup {
+    on_attach = lsp_on_attach,
+    capabilities = capabilities
+}
 
-        vim.keymap.set('n', '<leader>r', vim.lsp.buf.rename, bufopts)
-
-        vim.keymap.set('n', '<leader>vr', vim.lsp.buf.references, bufopts)
-        vim.keymap.set('n', '<leader>vs', vim.lsp.buf.signature_help, bufopts)
-
-        vim.keymap.set('n', '<leader>gt', vim.lsp.buf.type_definition, bufopts)
-        vim.keymap.set('n', '<leader>gd', vim.lsp.buf.definition, bufopts)
-
-        vim.keymap.set('n', '<leader>vws', require("telescope.builtin").lsp_workspace_symbols, bufopts)
-        vim.keymap.set('n', '<leader>vds', require("telescope.builtin").lsp_document_symbols, bufopts)
-
-        -- USE: format({options})
-
-        vim.keymap.set('n', '<leader>hs', vim.lsp.buf.document_highlight, bufopts)
-        vim.keymap.set('n', '<leader>hc', vim.lsp.buf.clear_references, bufopts)
-
-        local group = vim.api.nvim_create_augroup("testing", { clear = false })
-
-        vim.api.nvim_clear_autocmds({
-            buffer = bufnr,
-            group = group,
-        })
-
-        vim.api.nvim_create_autocmd("BufWritePre", {
-            group = group,
-            pattern = "<buffer>",
-            callback = function()
-                vim.lsp.buf.format()
-            end,
-        })
-
-        vim.api.nvim_create_autocmd("CursorHold", {
-            buffer = bufnr,
-            group = group,
-            callback = vim.lsp.buf.document_highlight,
-        })
-
-        vim.api.nvim_create_autocmd("CursorMoved", {
-            buffer = bufnr,
-            group = group,
-            callback = vim.lsp.buf.clear_references,
-        })
-
-        vim.api.nvim_create_autocmd("CursorMovedI", {
-            buffer = bufnr,
-            group = group,
-            callback = vim.lsp.buf.clear_references,
-        })
-    end
+require('lspconfig').gdscript.setup{
+    on_attach = on_attach,
+    capabilities = capabilities,
+    flags = {
+        debounce_text_changes = 150,
+    }
 }
 
 require('nvim-treesitter.configs').setup({
@@ -134,28 +151,49 @@ end
 
 cmp.setup {
     mapping = {
-        -- Maybe switch to not using tab
-        ["<Tab>"] = cmp.mapping(function(fallback)
-          if cmp.visible() then
-            cmp.select_next_item()
-          elseif ls.expand_or_jumpable() then
-            ls.expand_or_jump()
-          elseif has_words_before() then
-            cmp.complete()
-          else
-            fallback()
-          end
-        end, { "i", "s" }),
+        ["<C-n>"] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert },
+        ["<C-p>"] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert },
+        ["<C-d>"] = cmp.mapping.scroll_docs(-4),
+        ["<C-f>"] = cmp.mapping.scroll_docs(4),
+        ["<C-e>"] = cmp.mapping.abort(),
+        ["<c-y>"] = cmp.mapping(
+          cmp.mapping.confirm {
+            behavior = cmp.ConfirmBehavior.Insert,
+            select = true,
+          },
+          { "i", "c" }
+        ),
 
-        ["<S-Tab>"] = cmp.mapping(function(fallback)
-          if cmp.visible() then
-            cmp.select_prev_item()
-          elseif ls.jumpable(-1) then
-            ls.jump(-1)
-          else
-            fallback()
-          end
-        end, { "i", "s" }),
+        ["<c-space>"] = cmp.mapping {
+          i = cmp.mapping.complete(),
+          c = function(
+            _ --[[fallback]]
+          )
+            if cmp.visible() then
+              if not cmp.confirm { select = true } then
+                return
+              end
+            else
+              cmp.complete()
+            end
+          end,
+        },
+
+        -- ["<tab>"] = false,
+        ["<tab>"] = cmp.config.disable,
+
+        -- ["<tab>"] = cmp.mapping {
+        --   i = cmp.config.disable,
+        --   c = function(fallback)
+        --     fallback()
+        --   end,
+        -- },
+
+        -- Testing
+        ["<c-q>"] = cmp.mapping.confirm {
+          behavior = cmp.ConfirmBehavior.Replace,
+          select = true,
+        },
     },
 
     sources = {
@@ -230,6 +268,8 @@ end)
 -- Telescope current_buffer_fuzzy_find
 -- Telescope command_history
 
+vim.keymap.set("x", "<leader>pp", "\"_dP")
+
 vim.keymap.set("n", "<leader>pd", tb.treesitter)
 vim.keymap.set("n", "<leader>pf", tb.find_files)
 vim.keymap.set("n", "<leader>pb", tb.buffers)
@@ -249,8 +289,8 @@ vim.keymap.set("n", "<leader>wsh", "<cmd>sp<CR>")
 
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>")
 
-vim.keymap.set({ "n", "v" }, "<C-j>", "<M-}>")
-vim.keymap.set({ "n", "v" }, "<C-k>", "<M-{>")
+-- vim.keymap.set({ "n", "v" }, "<C-j>", "<M-}>")
+-- vim.keymap.set({ "n", "v" }, "<C-k>", "<M-{>")
 
 vim.keymap.set("n", "<leader>tt", "<cmd>tab split<CR>")
 vim.keymap.set("n", "<leader>tq", "<cmd>tabclose<CR>")
