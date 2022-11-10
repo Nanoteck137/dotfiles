@@ -1,14 +1,17 @@
+vim.notify = require("notify")
+
 require("plugins")
 require("globals")
 
 -- TODO(patrik): Explore tabs inside nvim
 -- TODO(patrik): Explore quickfix list
 -- TODO(patrik): Explore focus
+-- TODO(patrik): Add snippet for LICENCE
 
 vim.g.tokyonight_style = "storm"
-vim.cmd[[colorscheme tokyonight]]
-vim.cmd[[highlight WinSeparator guifg=DarkGray]]
-vim.cmd[[set winbar=%=%f\ %m%=]]
+vim.cmd [[colorscheme tokyonight]]
+vim.cmd [[highlight WinSeparator guifg=DarkGray]]
+vim.cmd [[set winbar=%=%f\ %m%=]]
 
 vim.opt.clipboard = "unnamedplus"
 vim.opt.syntax = "on"
@@ -43,10 +46,12 @@ vim.opt.backup = false
 vim.opt.updatetime = 400
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
 
+vim.opt.termguicolors = true
+
 vim.g.mapleader = " "
 
-function lsp_on_attach(client, bufnr)
-    local bufopts = { noremap=true, silent=true, buffer=bufnr }
+local function lsp_on_attach(client, bufnr)
+    local bufopts = { noremap = true, silent = true, buffer = bufnr }
 
     vim.keymap.set('n', '<leader>r', vim.lsp.buf.rename, bufopts)
     vim.keymap.set('n', '<leader>h', vim.lsp.buf.hover, bufopts)
@@ -99,7 +104,7 @@ function lsp_on_attach(client, bufnr)
 end
 
 -- Set up lspconfig.
-local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 require('lspconfig').rust_analyzer.setup {
     on_attach = lsp_on_attach,
@@ -111,13 +116,38 @@ require('lspconfig').clangd.setup {
     capabilities = capabilities
 }
 
-require('lspconfig').gdscript.setup{
-    on_attach = on_attach,
+require 'lspconfig'.sumneko_lua.setup {
+    on_attach = lsp_on_attach,
     capabilities = capabilities,
-    flags = {
-        debounce_text_changes = 150,
-    }
+    settings = {
+        Lua = {
+            runtime = {
+                -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+                version = 'LuaJIT',
+            },
+            diagnostics = {
+                -- Get the language server to recognize the `vim` global
+                globals = { 'vim' },
+            },
+            workspace = {
+                -- Make the server aware of Neovim runtime files
+                library = vim.api.nvim_get_runtime_file("", true),
+            },
+            -- Do not send telemetry data containing a randomized but unique identifier
+            telemetry = {
+                enable = false,
+            },
+        },
+    },
 }
+
+-- require('lspconfig').gdscript.setup{
+--     on_attach = on_attach,
+--     capabilities = capabilities,
+--     flags = {
+--         debounce_text_changes = 150,
+--     }
+-- }
 
 require('nvim-treesitter.configs').setup({
     highlight = {
@@ -140,13 +170,14 @@ require('telescope').setup {
 }
 
 require('telescope').load_extension('fzy_native')
+require('telescope').load_extension('sobble')
 
 local cmp = require("cmp")
 local ls = require("luasnip")
 
 local has_words_before = function()
-  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+    return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
 cmp.setup {
@@ -157,26 +188,26 @@ cmp.setup {
         ["<C-f>"] = cmp.mapping.scroll_docs(4),
         ["<C-e>"] = cmp.mapping.abort(),
         ["<c-y>"] = cmp.mapping(
-          cmp.mapping.confirm {
-            behavior = cmp.ConfirmBehavior.Insert,
-            select = true,
-          },
-          { "i", "c" }
+            cmp.mapping.confirm {
+                behavior = cmp.ConfirmBehavior.Insert,
+                select = true,
+            },
+            { "i", "c" }
         ),
 
         ["<c-space>"] = cmp.mapping {
-          i = cmp.mapping.complete(),
-          c = function(
+            i = cmp.mapping.complete(),
+            c = function(
             _ --[[fallback]]
-          )
-            if cmp.visible() then
-              if not cmp.confirm { select = true } then
-                return
-              end
-            else
-              cmp.complete()
-            end
-          end,
+            )
+                if cmp.visible() then
+                    if not cmp.confirm { select = true } then
+                        return
+                    end
+                else
+                    cmp.complete()
+                end
+            end,
         },
 
         -- ["<tab>"] = false,
@@ -191,8 +222,8 @@ cmp.setup {
 
         -- Testing
         ["<c-q>"] = cmp.mapping.confirm {
-          behavior = cmp.ConfirmBehavior.Replace,
-          select = true,
+            behavior = cmp.ConfirmBehavior.Replace,
+            select = true,
         },
     },
 
@@ -219,6 +250,12 @@ require('lualine').setup {}
 require('Comment').setup {}
 require("focus").setup {}
 
+require("dired").setup {
+    path_separator = "/",
+    show_banner = false,
+    show_hidden = true
+}
+
 vim.keymap.set({ "i", "s" }, "<c-n>", function()
     if ls.expand_or_jumpable() then
         ls.expand_or_jump()
@@ -240,7 +277,7 @@ end)
 
 local tb = require('telescope.builtin')
 
-function close_all_windows_in_current_tab()
+local function close_all_windows_in_current_tab()
     local wins = vim.api.nvim_tabpage_list_wins(0)
     local current_win = vim.api.nvim_get_current_win()
     for _, win in ipairs(wins) do
@@ -251,11 +288,11 @@ function close_all_windows_in_current_tab()
 end
 
 -- https://github.com/tjdevries/config_manager/blob/master/xdg_config/nvim/autoload/tj.vim
-function save_and_exec()
+local function save_and_exec()
     local type = vim.bo.filetype
     if type == "lua" or type == "vim" then
-        vim.cmd[[silent! write]]
-        vim.cmd[[source %]]
+        vim.cmd [[silent! write]]
+        vim.cmd [[source %]]
     end
 end
 
@@ -282,7 +319,7 @@ vim.keymap.set("n", "<leader>wk", "<C-w><C-k>")
 vim.keymap.set("n", "<leader>wl", "<C-w><C-l>")
 vim.keymap.set("n", "<leader>wh", "<C-w><C-h>")
 vim.keymap.set("n", "<leader>wp", "<C-w><C-p>")
-vim.keymap.set("n", "<leader>wra", close_all_windows_in_current_tab)
+vim.keymap.set("n", "<leader>wq", close_all_windows_in_current_tab)
 
 vim.keymap.set("n", "<leader>wsv", "<cmd>vsp<CR>")
 vim.keymap.set("n", "<leader>wsh", "<cmd>sp<CR>")

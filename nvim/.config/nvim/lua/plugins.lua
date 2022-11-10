@@ -35,4 +35,20 @@ return require('packer').startup(function()
 
     use 'rhysd/committia.vim'
     use 'beauwilliams/focus.nvim'
+
+    use({
+        "iamcco/markdown-preview.nvim",
+        run = function() vim.fn["mkdp#util#install"]() end,
+    })
+
+    use 'kyazdani42/nvim-web-devicons'
+
+    use {
+        "X3eRo0/dired.nvim",
+        requires = "MunifTanjim/nui.nvim",
+    }
+
+    use 'rcarriga/nvim-notify'
+
+    use "~/plugins/sobble.nvim"
 end)
