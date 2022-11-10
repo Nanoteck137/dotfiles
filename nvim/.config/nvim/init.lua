@@ -155,7 +155,9 @@ require('nvim-treesitter.configs').setup({
     }
 })
 
-require('telescope').setup {
+local telescope = require("telescope")
+
+telescope.setup {
     defaults = {
         file_sorter = require('telescope.sorters').get_fzy_sorter,
         prompt_prefix = ' > ',
@@ -169,16 +171,11 @@ require('telescope').setup {
     }
 }
 
-require('telescope').load_extension('fzy_native')
-require('telescope').load_extension('sobble')
+telescope.load_extension('fzy_native')
+telescope.load_extension('sobble')
 
 local cmp = require("cmp")
 local ls = require("luasnip")
-
-local has_words_before = function()
-    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-    return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-end
 
 cmp.setup {
     mapping = {
@@ -250,12 +247,6 @@ require('lualine').setup {}
 require('Comment').setup {}
 require("focus").setup {}
 
-require("dired").setup {
-    path_separator = "/",
-    show_banner = false,
-    show_hidden = true
-}
-
 vim.keymap.set({ "i", "s" }, "<c-n>", function()
     if ls.expand_or_jumpable() then
         ls.expand_or_jump()
@@ -310,6 +301,7 @@ vim.keymap.set("x", "<leader>pp", "\"_dP")
 vim.keymap.set("n", "<leader>pd", tb.treesitter)
 vim.keymap.set("n", "<leader>pf", tb.find_files)
 vim.keymap.set("n", "<leader>pb", tb.buffers)
+vim.keymap.set("n", "<leader>pp", telescope.extensions.sobble.sobble)
 
 vim.keymap.set("n", "<leader>hh", tb.help_tags)
 vim.keymap.set("n", "<leader>ho", tb.vim_options)
