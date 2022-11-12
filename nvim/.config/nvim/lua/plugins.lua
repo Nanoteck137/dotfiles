@@ -41,4 +41,5 @@ return require('packer').startup(function()
     }
 
     use "~/plugins/sobble.nvim"
+    use "~/plugins/scorbunny.nvim"
 end)

@@ -7,6 +7,14 @@ require("globals")
 -- TODO(patrik): Explore quickfix list
 -- TODO(patrik): Explore focus
 -- TODO(patrik): Add snippet for LICENCE
+-- TODO(patrik): Add when scorbunny cmd is done and the exit code == 0
+--               then exit the window
+-- TODO(patrik): Explore code folding
+--               https://alpha2phi.medium.com/neovim-for-beginners-code-folding-7574925412ea
+-- TODO(patrik): Explore
+--   https://github.com/glepnir/dashboard-nvim
+--   https://github.com/elihunter173/dirbuf.nvim
+--   https://github.com/nvim-tree/nvim-tree.lua
 
 vim.g.tokyonight_style = "storm"
 vim.cmd [[colorscheme tokyonight]]
@@ -247,6 +255,12 @@ require('lualine').setup {}
 require('Comment').setup {}
 require("focus").setup {}
 
+require("sobble").setup {
+    config_path = "~/projects.json"
+}
+
+require("scorbunny").setup {}
+
 vim.keymap.set({ "i", "s" }, "<c-n>", function()
     if ls.expand_or_jumpable() then
         ls.expand_or_jump()
@@ -338,3 +352,46 @@ vim.keymap.set("n", "<leader>qp", "<cmd>cprev<CR>")
 
 vim.keymap.set('n', '<leader>gd', "<C-]>")
 vim.keymap.set('n', '<leader>vds', tb.tags)
+
+local function get_cmd()
+    local override = vim.t.cmd_override;
+    if override then
+        return override
+    end
+
+    local proj = vim.t.sobble_current_project
+    if proj and proj.cmd then
+        return proj.cmd
+    end
+
+    return nil
+end
+
+local function override_cmd()
+    local old_cmd = get_cmd()
+    if not old_cmd then
+        old_cmd = ""
+    end
+
+    local cmd = vim.fn.input("Override Command: ", old_cmd);
+    if string.len(cmd) > 0 then
+        vim.t.cmd_override = cmd
+    end
+end
+
+local function remove_override()
+    vim.t.cmd_override = nil
+end
+
+local function run_cmd()
+    local cmd = get_cmd();
+    if cmd then
+        require("scorbunny").execute_cmd(cmd)
+    else
+        vim.notify("No cmd set", vim.log.levels.WARN)
+    end
+end
+
+vim.keymap.set('n', '<leader>cc', run_cmd)
+vim.keymap.set('n', '<leader>ca', override_cmd)
+vim.keymap.set('n', '<leader>cr', remove_override)
