@@ -394,4 +394,5 @@ end
 
 vim.keymap.set('n', '<leader>cc', run_cmd)
 vim.keymap.set('n', '<leader>ca', override_cmd)
+vim.keymap.set('n', '<leader>cw', require("scorbunny").open_window)
 vim.keymap.set('n', '<leader>cr', remove_override)
