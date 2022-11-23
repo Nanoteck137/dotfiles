@@ -1,7 +1,7 @@
-vim.notify = require("notify")
-
 require("plugins")
 require("globals")
+
+vim.notify = require("notify")
 
 -- TODO(patrik): Explore tabs inside nvim
 -- TODO(patrik): Explore quickfix list
