@@ -16,7 +16,16 @@ vim.notify = require("notify")
 --   https://github.com/elihunter173/dirbuf.nvim
 --   https://github.com/nvim-tree/nvim-tree.lua
 
-vim.g.tokyonight_style = "storm"
+require("tokyonight").setup({
+    style = "storm",
+    styles = {
+        comments = { italic = false },
+        keywords = { italic = false },
+        functions = { italic = false },
+        variables = { italic = false },
+    }
+})
+
 vim.cmd [[colorscheme tokyonight]]
 vim.cmd [[highlight WinSeparator guifg=DarkGray]]
 vim.cmd [[set winbar=%=%f\ %m%=]]
