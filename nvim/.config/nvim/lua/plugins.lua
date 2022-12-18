@@ -35,6 +35,8 @@ return require('packer').startup(function()
     use 'rhysd/committia.vim'
     use 'beauwilliams/focus.nvim'
 
+    use "ziglang/zig.vim"
+
     use {
         "iamcco/markdown-preview.nvim",
         run = function() vim.fn["mkdp#util#install"]() end,
@@ -42,4 +44,5 @@ return require('packer').startup(function()
 
     use "~/plugins/sobble.nvim"
     use "~/plugins/scorbunny.nvim"
+
 end)

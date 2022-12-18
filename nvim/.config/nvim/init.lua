@@ -57,8 +57,10 @@ vim.opt.completeopt = { "menu", "menuone", "noselect" }
 vim.opt.termguicolors = true
 
 vim.g.mapleader = " "
+vim.g.zig_fmt_autosave = 0
 
 local function lsp_on_attach(client, bufnr)
+    local cap = client.server_capabilities
     local bufopts = { noremap = true, silent = true, buffer = bufnr }
 
     vim.keymap.set('n', '<leader>r', vim.lsp.buf.rename, bufopts)
@@ -92,23 +94,25 @@ local function lsp_on_attach(client, bufnr)
         end,
     })
 
-    vim.api.nvim_create_autocmd("CursorHold", {
-        buffer = bufnr,
-        group = group,
-        callback = vim.lsp.buf.document_highlight,
-    })
+    if cap.document_highlight then
+        vim.api.nvim_create_autocmd("CursorHold", {
+            buffer = bufnr,
+            group = group,
+            callback = vim.lsp.buf.document_highlight,
+        })
 
-    vim.api.nvim_create_autocmd("CursorMoved", {
-        buffer = bufnr,
-        group = group,
-        callback = vim.lsp.buf.clear_references,
-    })
+        vim.api.nvim_create_autocmd("CursorMoved", {
+            buffer = bufnr,
+            group = group,
+            callback = vim.lsp.buf.clear_references,
+        })
 
-    vim.api.nvim_create_autocmd("CursorMovedI", {
-        buffer = bufnr,
-        group = group,
-        callback = vim.lsp.buf.clear_references,
-    })
+        vim.api.nvim_create_autocmd("CursorMovedI", {
+            buffer = bufnr,
+            group = group,
+            callback = vim.lsp.buf.clear_references,
+        })
+    end
 end
 
 -- Set up lspconfig.
@@ -116,7 +120,28 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protoc
 
 require('lspconfig').rust_analyzer.setup {
     on_attach = lsp_on_attach,
-    capabilities = capabilities
+    capabilities = capabilities,
+    settings = {
+        ["rust-analyzer"] = {
+            -- imports = {
+            --     granularity = {
+            --         group = "module",
+            --     },
+            --     prefix = "self",
+            -- },
+            -- cargo = {
+            --     buildScripts = {
+            --         enable = true,
+            --     },
+            -- },
+            -- procMacro = {
+            --     enable = true
+            -- },
+            checkOnSave = {
+                allTargets = false,
+            }
+        }
+    }
 }
 
 require('lspconfig').clangd.setup {
@@ -148,6 +173,22 @@ require 'lspconfig'.sumneko_lua.setup {
         },
     },
 }
+
+require 'lspconfig'.zls.setup {
+    on_attach = lsp_on_attach,
+    capabilities = capabilities
+}
+
+require 'lspconfig'.tailwindcss.setup {
+    on_attach = lsp_on_attach,
+    capabilities = capabilities
+}
+
+require 'lspconfig'.volar.setup {
+    on_attach = lsp_on_attach,
+    capabilities = capabilities
+}
+
 
 -- require('lspconfig').gdscript.setup{
 --     on_attach = on_attach,
@@ -259,7 +300,14 @@ require("sobble").setup {
     config_path = "~/projects.json"
 }
 
-require("scorbunny").setup {}
+local scorbunny = require("scorbunny");
+scorbunny.setup {
+    on_job_done = function()
+        if scorbunny.job.exit_code ~= 0 then
+            vim.notify("Job exited with code " .. scorbunny.job.exit_code, vim.log.levels.ERROR)
+        end
+    end
+}
 
 vim.keymap.set({ "i", "s" }, "<c-n>", function()
     if ls.expand_or_jumpable() then
@@ -395,4 +443,5 @@ end
 vim.keymap.set('n', '<leader>cc', run_cmd)
 vim.keymap.set('n', '<leader>ca', override_cmd)
 vim.keymap.set('n', '<leader>cw', require("scorbunny").open_window)
+vim.keymap.set('n', '<leader>cq', require("scorbunny").kill)
 vim.keymap.set('n', '<leader>cr', remove_override)
