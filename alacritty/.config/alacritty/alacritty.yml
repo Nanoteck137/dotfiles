@@ -32,7 +32,7 @@ font:
     # Needs to be powerline font if using zsh theme with powerline
     family: NotoSansMono Nerd Font
   # Font size
-  size: 14
+  size: 12
 
 # TokyoNight Alacritty Colors
 # https://github.com/folke/tokyonight.nvim/blob/main/extras/alacritty_tokyonight_storm.yml
