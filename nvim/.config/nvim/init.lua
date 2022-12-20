@@ -1,7 +1,18 @@
 require("plugins")
 require("globals")
 
-vim.notify = require("notify")
+-- NOTE(patrik): Simple fix for annoying messages
+local banned_messages = { "No information available" }
+vim.notify = function(msg, ...)
+	for _, banned in ipairs(banned_messages) do
+		if msg == banned then
+			return
+		end
+	end
+	require("notify")(msg, ...)
+end
+
+-- vim.notify = require("notify")
 
 -- TODO(patrik): Explore tabs inside nvim
 -- TODO(patrik): Explore quickfix list
@@ -16,19 +27,25 @@ vim.notify = require("notify")
 --   https://github.com/elihunter173/dirbuf.nvim
 --   https://github.com/nvim-tree/nvim-tree.lua
 
+-- TODO(patrik): Make all the Telescope dropdown
+-- TODO(patrik): Fix the null_ls formatting default inside lsp_on_attach
+
 require("tokyonight").setup({
-    style = "storm",
-    styles = {
-        comments = { italic = false },
-        keywords = { italic = false },
-        functions = { italic = false },
-        variables = { italic = false },
-    }
+	style = "storm",
+	styles = {
+		comments = { italic = false },
+		keywords = { italic = false },
+		functions = { italic = false },
+		variables = { italic = false },
+	},
 })
 
-vim.cmd [[colorscheme tokyonight]]
-vim.cmd [[highlight WinSeparator guifg=DarkGray]]
-vim.cmd [[set winbar=%=%f\ %m%=]]
+vim.cmd([[colorscheme tokyonight]])
+vim.cmd([[highlight WinSeparator guifg=DarkGray]])
+vim.cmd([[set winbar=%=%f\ %m%=]])
+
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
 
 vim.opt.clipboard = "unnamedplus"
 vim.opt.syntax = "on"
@@ -68,306 +85,177 @@ vim.opt.termguicolors = true
 vim.g.mapleader = " "
 vim.g.zig_fmt_autosave = 0
 
-local function lsp_on_attach(client, bufnr)
-    local cap = client.server_capabilities
-    local bufopts = { noremap = true, silent = true, buffer = bufnr }
+-- Import my LSP Config
+require("lsp")
 
-    vim.keymap.set('n', '<leader>r', vim.lsp.buf.rename, bufopts)
-    vim.keymap.set('n', '<leader>h', vim.lsp.buf.hover, bufopts)
+require("nvim-tree").setup()
 
-    vim.keymap.set('n', '<leader>vr', vim.lsp.buf.references, bufopts)
-    vim.keymap.set('n', '<leader>vs', vim.lsp.buf.signature_help, bufopts)
-    vim.keymap.set('n', '<leader>vd', require("telescope.builtin").diagnostics, bufopts)
-
-    vim.keymap.set('n', '<leader>gt', vim.lsp.buf.type_definition, bufopts)
-    vim.keymap.set('n', '<leader>gd', vim.lsp.buf.definition, bufopts)
-
-    -- vim.keymap.set('n', '<leader>vws', require("telescope.builtin").lsp_workspace_symbols, bufopts)
-    -- vim.keymap.set('n', '<leader>vds', require("telescope.builtin").lsp_document_symbols, bufopts)
-
-    vim.keymap.set('n', '<leader>n', vim.diagnostic.goto_next, bufopts)
-    vim.keymap.set('n', '<leader>p', vim.diagnostic.goto_prev, bufopts)
-
-    local group = vim.api.nvim_create_augroup("testing", { clear = false })
-
-    vim.api.nvim_clear_autocmds({
-        buffer = bufnr,
-        group = group,
-    })
-
-    vim.api.nvim_create_autocmd("BufWritePre", {
-        group = group,
-        pattern = "<buffer>",
-        callback = function()
-            vim.lsp.buf.format()
-        end,
-    })
-
-    if cap.document_highlight then
-        vim.api.nvim_create_autocmd("CursorHold", {
-            buffer = bufnr,
-            group = group,
-            callback = vim.lsp.buf.document_highlight,
-        })
-
-        vim.api.nvim_create_autocmd("CursorMoved", {
-            buffer = bufnr,
-            group = group,
-            callback = vim.lsp.buf.clear_references,
-        })
-
-        vim.api.nvim_create_autocmd("CursorMovedI", {
-            buffer = bufnr,
-            group = group,
-            callback = vim.lsp.buf.clear_references,
-        })
-    end
-end
-
--- Set up lspconfig.
-local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
-
-require('lspconfig').rust_analyzer.setup {
-    on_attach = lsp_on_attach,
-    capabilities = capabilities,
-    settings = {
-        ["rust-analyzer"] = {
-            -- imports = {
-            --     granularity = {
-            --         group = "module",
-            --     },
-            --     prefix = "self",
-            -- },
-            -- cargo = {
-            --     buildScripts = {
-            --         enable = true,
-            --     },
-            -- },
-            -- procMacro = {
-            --     enable = true
-            -- },
-            checkOnSave = {
-                allTargets = false,
-            }
-        }
-    }
-}
-
-require('lspconfig').clangd.setup {
-    on_attach = lsp_on_attach,
-    capabilities = capabilities
-}
-
-require 'lspconfig'.sumneko_lua.setup {
-    on_attach = lsp_on_attach,
-    capabilities = capabilities,
-    settings = {
-        Lua = {
-            runtime = {
-                -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-                version = 'LuaJIT',
-            },
-            diagnostics = {
-                -- Get the language server to recognize the `vim` global
-                globals = { 'vim' },
-            },
-            workspace = {
-                -- Make the server aware of Neovim runtime files
-                library = vim.api.nvim_get_runtime_file("", true),
-            },
-            -- Do not send telemetry data containing a randomized but unique identifier
-            telemetry = {
-                enable = false,
-            },
-        },
-    },
-}
-
-require 'lspconfig'.zls.setup {
-    on_attach = lsp_on_attach,
-    capabilities = capabilities
-}
-
-require 'lspconfig'.tailwindcss.setup {
-    on_attach = lsp_on_attach,
-    capabilities = capabilities
-}
-
-require 'lspconfig'.volar.setup {
-    on_attach = lsp_on_attach,
-    capabilities = capabilities
-}
-
-
--- require('lspconfig').gdscript.setup{
---     on_attach = on_attach,
---     capabilities = capabilities,
---     flags = {
---         debounce_text_changes = 150,
---     }
--- }
-
-require('nvim-treesitter.configs').setup({
-    highlight = {
-        enable = true
-    }
+require("nvim-treesitter.configs").setup({
+	highlight = {
+		enable = true,
+	},
 })
 
 local telescope = require("telescope")
 
-telescope.setup {
-    defaults = {
-        file_sorter = require('telescope.sorters').get_fzy_sorter,
-        prompt_prefix = ' > ',
-        color_devicons = true,
-    },
-    extensions = {
-        fzy_native = {
-            override_generic_sorter = false,
-            override_file_sorter = true,
-        }
-    }
-}
+telescope.setup({
+	defaults = {
+		file_sorter = require("telescope.sorters").get_fzy_sorter,
+		prompt_prefix = " > ",
+		color_devicons = true,
+	},
+	pickers = {
+		find_files = {
+			theme = "dropdown",
+			previewer = false,
+		},
+	},
+	extensions = {
+		fzy_native = {
+			override_generic_sorter = false,
+			override_file_sorter = true,
+		},
+	},
+})
 
-telescope.load_extension('fzy_native')
-telescope.load_extension('sobble')
+telescope.load_extension("fzy_native")
+telescope.load_extension("sobble")
 
 local cmp = require("cmp")
 local ls = require("luasnip")
 
-cmp.setup {
-    mapping = {
-        ["<C-n>"] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert },
-        ["<C-p>"] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert },
-        ["<C-d>"] = cmp.mapping.scroll_docs(-4),
-        ["<C-f>"] = cmp.mapping.scroll_docs(4),
-        ["<C-e>"] = cmp.mapping.abort(),
-        ["<c-y>"] = cmp.mapping(
-            cmp.mapping.confirm {
-                behavior = cmp.ConfirmBehavior.Insert,
-                select = true,
-            },
-            { "i", "c" }
-        ),
+cmp.setup({
+	mapping = {
+		["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
+		["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
+		["<C-d>"] = cmp.mapping.scroll_docs(-4),
+		["<C-f>"] = cmp.mapping.scroll_docs(4),
+		["<C-e>"] = cmp.mapping.abort(),
+		["<c-y>"] = cmp.mapping(
+			cmp.mapping.confirm({
+				behavior = cmp.ConfirmBehavior.Insert,
+				select = true,
+			}),
+			{ "i", "c" }
+		),
 
-        ["<c-space>"] = cmp.mapping {
-            i = cmp.mapping.complete(),
-            c = function(
-            _ --[[fallback]]
-            )
-                if cmp.visible() then
-                    if not cmp.confirm { select = true } then
-                        return
-                    end
-                else
-                    cmp.complete()
-                end
-            end,
-        },
+		["<c-space>"] = cmp.mapping({
+			i = cmp.mapping.complete(),
+			c = function(
+				_ --[[fallback]]
+			)
+				if cmp.visible() then
+					if not cmp.confirm({ select = true }) then
+						return
+					end
+				else
+					cmp.complete()
+				end
+			end,
+		}),
 
-        -- ["<tab>"] = false,
-        ["<tab>"] = cmp.config.disable,
+		-- ["<tab>"] = false,
+		["<tab>"] = cmp.config.disable,
 
-        -- ["<tab>"] = cmp.mapping {
-        --   i = cmp.config.disable,
-        --   c = function(fallback)
-        --     fallback()
-        --   end,
-        -- },
+		-- ["<tab>"] = cmp.mapping {
+		--   i = cmp.config.disable,
+		--   c = function(fallback)
+		--     fallback()
+		--   end,
+		-- },
 
-        -- Testing
-        ["<c-q>"] = cmp.mapping.confirm {
-            behavior = cmp.ConfirmBehavior.Replace,
-            select = true,
-        },
-    },
+		-- Testing
+		["<c-q>"] = cmp.mapping.confirm({
+			behavior = cmp.ConfirmBehavior.Replace,
+			select = true,
+		}),
+	},
 
-    sources = {
-        { name = "nvim_lua" },
-        { name = "nvim_lsp" },
-        { name = "path" },
-        { name = "luasnip" },
-        { name = "buffer", keyword_length = 5 },
-    },
+	sources = {
+		{ name = "nvim_lua" },
+		{ name = "nvim_lsp" },
+		{ name = "path" },
+		{ name = "luasnip" },
+		{ name = "buffer", keyword_length = 5 },
+	},
 
-    snippet = {
-        expand = function(args)
-            ls.lsp_expand(args.body)
-        end
-    },
+	snippet = {
+		expand = function(args)
+			ls.lsp_expand(args.body)
+		end,
+	},
 
-    experimental = {
-        ghost_text = true,
-    },
-}
+	experimental = {
+		ghost_text = true,
+	},
+})
 
-require('lualine').setup {}
-require('Comment').setup {}
-require("focus").setup {}
+require("lualine").setup({})
+require("Comment").setup({})
+require("focus").setup({})
 
-require("sobble").setup {
-    config_path = "~/projects.json"
-}
+require("sobble").setup({
+	config_path = "~/projects.json",
+})
 
-local scorbunny = require("scorbunny");
-scorbunny.setup {
-    on_job_done = function()
-        if scorbunny.job.exit_code ~= 0 then
-            vim.notify("Job exited with code " .. scorbunny.job.exit_code, vim.log.levels.ERROR)
-        end
-    end
-}
+local scorbunny = require("scorbunny")
+scorbunny.setup({
+	on_job_done = function()
+		if scorbunny.job.exit_code ~= 0 then
+			vim.notify("Job exited with code " .. scorbunny.job.exit_code, vim.log.levels.ERROR)
+		end
+	end,
+})
 
 vim.keymap.set({ "i", "s" }, "<c-n>", function()
-    if ls.expand_or_jumpable() then
-        ls.expand_or_jump()
-    end
+	if ls.expand_or_jumpable() then
+		ls.expand_or_jump()
+	end
 end, { silent = true })
 
 vim.keymap.set({ "i", "s" }, "<c-p>", function()
-    if ls.jumpable(-1) then
-        ls.jump(-1)
-    end
+	if ls.jumpable(-1) then
+		ls.jump(-1)
+	end
 end, { silent = true })
 
 vim.keymap.set({ "i", "s" }, "<c-l>", function()
-    if ls.choice_active() then
-        ls.change_choice(1)
-    end
+	if ls.choice_active() then
+		ls.change_choice(1)
+	end
 end)
 
-
-local tb = require('telescope.builtin')
+local tb = require("telescope.builtin")
 
 local function close_all_windows_in_current_tab()
-    local wins = vim.api.nvim_tabpage_list_wins(0)
-    local current_win = vim.api.nvim_get_current_win()
-    for _, win in ipairs(wins) do
-        if win ~= current_win then
-            vim.api.nvim_win_close(win, false)
-        end
-    end
+	local wins = vim.api.nvim_tabpage_list_wins(0)
+	local current_win = vim.api.nvim_get_current_win()
+	for _, win in ipairs(wins) do
+		if win ~= current_win then
+			vim.api.nvim_win_close(win, false)
+		end
+	end
 end
 
 -- https://github.com/tjdevries/config_manager/blob/master/xdg_config/nvim/autoload/tj.vim
 local function save_and_exec()
-    local type = vim.bo.filetype
-    if type == "lua" or type == "vim" then
-        vim.cmd [[silent! write]]
-        vim.cmd [[source %]]
-    end
+	local type = vim.bo.filetype
+	if type == "lua" or type == "vim" then
+		vim.cmd([[silent! write]])
+		vim.cmd([[source %]])
+	end
 end
 
 vim.keymap.set("n", "<leader>ps", function()
-    local search = vim.fn.input("Grep for: ");
-    tb.grep_string({ search = search })
+	local search = vim.fn.input("Grep for: ")
+	tb.grep_string({ search = search })
 end)
 
 -- TODO(patrik):
 -- Telescope current_buffer_fuzzy_find
 -- Telescope command_history
 
-vim.keymap.set("x", "<leader>pp", "\"_dP")
+vim.keymap.set("x", "<leader>pp", '"_dP')
 
 vim.keymap.set("n", "<leader>pd", tb.treesitter)
 vim.keymap.set("n", "<leader>pf", tb.find_files)
@@ -407,50 +295,50 @@ vim.keymap.set("n", "<leader>qq", "<cmd>copen<CR>")
 vim.keymap.set("n", "<leader>qn", "<cmd>cnext<CR>")
 vim.keymap.set("n", "<leader>qp", "<cmd>cprev<CR>")
 
-vim.keymap.set('n', '<leader>gd', "<C-]>")
-vim.keymap.set('n', '<leader>vds', tb.tags)
+vim.keymap.set("n", "<leader>gd", "<C-]>")
+vim.keymap.set("n", "<leader>vds", tb.tags)
 
 local function get_cmd()
-    local override = vim.t.cmd_override;
-    if override then
-        return override
-    end
+	local override = vim.t.cmd_override
+	if override then
+		return override
+	end
 
-    local proj = vim.t.sobble_current_project
-    if proj and proj.cmd then
-        return proj.cmd
-    end
+	local proj = vim.t.sobble_current_project
+	if proj and proj.cmd then
+		return proj.cmd
+	end
 
-    return nil
+	return nil
 end
 
 local function override_cmd()
-    local old_cmd = get_cmd()
-    if not old_cmd then
-        old_cmd = ""
-    end
+	local old_cmd = get_cmd()
+	if not old_cmd then
+		old_cmd = ""
+	end
 
-    local cmd = vim.fn.input("Override Command: ", old_cmd);
-    if string.len(cmd) > 0 then
-        vim.t.cmd_override = cmd
-    end
+	local cmd = vim.fn.input("Override Command: ", old_cmd)
+	if string.len(cmd) > 0 then
+		vim.t.cmd_override = cmd
+	end
 end
 
 local function remove_override()
-    vim.t.cmd_override = nil
+	vim.t.cmd_override = nil
 end
 
 local function run_cmd()
-    local cmd = get_cmd();
-    if cmd then
-        require("scorbunny").execute_cmd(cmd)
-    else
-        vim.notify("No cmd set", vim.log.levels.WARN)
-    end
+	local cmd = get_cmd()
+	if cmd then
+		require("scorbunny").execute_cmd(cmd)
+	else
+		vim.notify("No cmd set", vim.log.levels.WARN)
+	end
 end
 
-vim.keymap.set('n', '<leader>cc', run_cmd)
-vim.keymap.set('n', '<leader>ca', override_cmd)
-vim.keymap.set('n', '<leader>cw', require("scorbunny").open_window)
-vim.keymap.set('n', '<leader>cq', require("scorbunny").kill)
-vim.keymap.set('n', '<leader>cr', remove_override)
+vim.keymap.set("n", "<leader>cc", run_cmd)
+vim.keymap.set("n", "<leader>ca", override_cmd)
+vim.keymap.set("n", "<leader>cw", require("scorbunny").open_window)
+vim.keymap.set("n", "<leader>cq", require("scorbunny").kill)
+vim.keymap.set("n", "<leader>cr", remove_override)
