@@ -40,6 +40,7 @@ local function lsp_on_attach(client, bufnr)
 						local order = {
 							"rust_analyzer",
 							"clangd",
+							"dartls",
 
 							"null-ls",
 						}
@@ -102,6 +103,11 @@ require("lspconfig").rust_analyzer.setup({
 })
 
 require("lspconfig").clangd.setup({
+	on_attach = lsp_on_attach,
+	capabilities = capabilities,
+})
+
+require("lspconfig").dartls.setup({
 	on_attach = lsp_on_attach,
 	capabilities = capabilities,
 })
