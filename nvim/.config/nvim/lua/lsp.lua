@@ -11,6 +11,8 @@ local function lsp_add_keymaps(bufnr)
 	vim.keymap.set("n", "<leader>gt", vim.lsp.buf.type_definition, bufopts)
 	vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, bufopts)
 
+	vim.keymap.set("n", "<leader>.", vim.lsp.buf.code_action, bufopts)
+
 	-- vim.keymap.set('n', '<leader>vws', require("telescope.builtin").lsp_workspace_symbols, bufopts)
 	-- vim.keymap.set('n', '<leader>vds', require("telescope.builtin").lsp_document_symbols, bufopts)
 
