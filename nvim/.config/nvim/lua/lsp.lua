@@ -1,5 +1,4 @@
-local function lsp_on_attach(client, bufnr)
-	local cap = client.server_capabilities
+local function lsp_add_keymaps(bufnr)
 	local bufopts = { noremap = true, silent = true, buffer = bufnr }
 
 	vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, bufopts)
@@ -17,28 +16,56 @@ local function lsp_on_attach(client, bufnr)
 
 	vim.keymap.set("n", "<leader>n", vim.diagnostic.goto_next, bufopts)
 	vim.keymap.set("n", "<leader>p", vim.diagnostic.goto_prev, bufopts)
+end
 
-	local group = vim.api.nvim_create_augroup("testing", { clear = false })
+local function lsp_on_attach(client, bufnr)
+	local cap = client.server_capabilities
 
-	vim.api.nvim_clear_autocmds({
-		buffer = bufnr,
-		group = group,
-	})
+	lsp_add_keymaps(bufnr)
 
-	vim.api.nvim_create_autocmd("BufWritePre", {
-		group = group,
-		buffer = bufnr,
-		callback = function()
-			vim.lsp.buf.format({
-				filter = function(c)
-					return c.name == "null-ls"
-				end,
-				bufnr = bufnr,
-			})
-		end,
-	})
+	if client.supports_method("textDocument/formatting") then
+		local group = vim.api.nvim_create_augroup("auto-formatting", { clear = false })
+
+		vim.api.nvim_clear_autocmds({
+			buffer = bufnr,
+			group = group,
+		})
+
+		vim.api.nvim_create_autocmd("BufWritePre", {
+			group = group,
+			buffer = bufnr,
+			callback = function()
+				vim.lsp.buf.format({
+					filter = function(c)
+						local order = {
+							"rust_analyzer",
+							"clangd",
+
+							"null-ls",
+						}
+
+						for _, value in ipairs(order) do
+							if c.name == value then
+								return true
+							end
+						end
+
+						return false
+					end,
+					bufnr = bufnr,
+				})
+			end,
+		})
+	end
 
 	if cap.document_highlight then
+		local group = vim.api.nvim_create_augroup("highlight", { clear = false })
+
+		vim.api.nvim_clear_autocmds({
+			buffer = bufnr,
+			group = group,
+		})
+
 		vim.api.nvim_create_autocmd("CursorHold", {
 			buffer = bufnr,
 			group = group,
@@ -61,17 +88,6 @@ end
 
 -- Set up lspconfig.
 local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
-
-local null_ls = require("null-ls")
-
-null_ls.setup({
-	sources = {
-		null_ls.builtins.formatting.stylua,
-		null_ls.builtins.formatting.prettier,
-		null_ls.builtins.diagnostics.eslint,
-		null_ls.builtins.code_actions.eslint,
-	},
-})
 
 require("lspconfig").rust_analyzer.setup({
 	on_attach = lsp_on_attach,
@@ -115,29 +131,36 @@ require("lspconfig").sumneko_lua.setup({
 	},
 })
 
-require("lspconfig").zls.setup({
-	on_attach = lsp_on_attach,
-	capabilities = capabilities,
-})
+-- require("lspconfig").zls.setup({
+-- 	on_attach = lsp_on_attach,
+-- 	capabilities = capabilities,
+-- })
 
 require("lspconfig").tailwindcss.setup({
 	on_attach = lsp_on_attach,
 	capabilities = capabilities,
 })
 
--- require 'lspconfig'.eslint.setup {
--- }
+require("lspconfig").emmet_ls.setup({
+	on_attach = lsp_on_attach,
+	capabilities = capabilities,
+	filetypes = {
+		"html",
+		"typescriptreact",
+		"javascriptreact",
+		"css",
+		"sass",
+		"scss",
+		"less",
+		"eruby",
+		"vue",
+		"svelte",
+	},
+})
 
 require("lspconfig").volar.setup({
 	on_attach = lsp_on_attach,
 	capabilities = capabilities,
-	settings = {
-		volar = {
-			formatting = {
-				printWidth = 50,
-			},
-		},
-	},
 })
 
 require("lspconfig").tsserver.setup({})
@@ -150,3 +173,36 @@ require("lspconfig").svelte.setup({})
 --         debounce_text_changes = 150,
 --     }
 -- }
+
+local null_ls = require("null-ls")
+
+null_ls.setup({
+	sources = {
+		null_ls.builtins.formatting.stylua,
+		null_ls.builtins.formatting.prettier.with({
+			filetypes = {
+				"svelte",
+				"javascript",
+				"javascriptreact",
+				"typescript",
+				"typescriptreact",
+				"vue",
+				"css",
+				"scss",
+				"less",
+				"html",
+				"json",
+				"jsonc",
+				"yaml",
+				"markdown",
+				"markdown.mdx",
+				"graphql",
+				"handlebars",
+			},
+		}),
+
+		null_ls.builtins.diagnostics.eslint,
+		null_ls.builtins.code_actions.eslint,
+	},
+	on_attach = lsp_on_attach,
+})
