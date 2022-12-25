@@ -89,6 +89,15 @@ local function lsp_on_attach(client, bufnr)
 	end
 end
 
+require("mason").setup()
+require("mason-lspconfig").setup({
+	ensure_installed = {
+		"sumneko_lua",
+		"rust_analyzer",
+	},
+	automatic_installation = true,
+})
+
 -- Set up lspconfig.
 local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
@@ -171,8 +180,20 @@ require("lspconfig").volar.setup({
 	capabilities = capabilities,
 })
 
-require("lspconfig").tsserver.setup({})
-require("lspconfig").svelte.setup({})
+require("lspconfig").tsserver.setup({
+	on_attach = lsp_on_attach,
+	capabilities = capabilities,
+})
+
+require("lspconfig").svelte.setup({
+	on_attach = lsp_on_attach,
+	capabilities = capabilities,
+})
+
+require("lspconfig").nimls.setup({
+	on_attach = lsp_on_attach,
+	capabilities = capabilities,
+})
 
 -- require('lspconfig').gdscript.setup{
 --     on_attach = on_attach,
@@ -209,8 +230,8 @@ null_ls.setup({
 			},
 		}),
 
-		null_ls.builtins.diagnostics.eslint,
-		null_ls.builtins.code_actions.eslint,
+		null_ls.builtins.diagnostics.eslint_d,
+		null_ls.builtins.code_actions.eslint_d,
 	},
 	on_attach = lsp_on_attach,
 })

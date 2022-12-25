@@ -1,60 +1,88 @@
-vim.cmd([[packadd packer.nvim]])
+local ensure_packer = function()
+	local fn = vim.fn
+	local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
+	if fn.empty(fn.glob(install_path)) > 0 then
+		fn.system({ "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path })
+		vim.cmd([[packadd packer.nvim]])
+		return true
+	end
+	return false
+end
+
+local packer_bootstrap = ensure_packer()
 
 return require("packer").startup(function()
 	-- Packer can manage itself
 	use("wbthomason/packer.nvim")
 
-	use("joshdick/onedark.vim")
+	-- My theme
 	use("folke/tokyonight.nvim")
 
+	-- Plenary
+	use("nvim-lua/plenary.nvim")
+
+	-- Treesitter
 	use("nvim-treesitter/nvim-treesitter")
 
-	use("nvim-lua/popup.nvim")
-	use("nvim-lua/plenary.nvim")
-	use("nvim-telescope/telescope.nvim")
-	use("nvim-telescope/telescope-fzy-native.nvim")
-
-	use("hrsh7th/cmp-buffer")
-	use("hrsh7th/cmp-path")
-	use("hrsh7th/cmp-nvim-lua")
-	use("hrsh7th/cmp-nvim-lsp")
-	use("hrsh7th/nvim-cmp")
-
-	use("saadparwaiz1/cmp_luasnip")
-	use("L3MON4D3/LuaSnip")
-
-	use("rcarriga/nvim-notify")
-
-	use("neovim/nvim-lspconfig")
-
-	use("kyazdani42/nvim-web-devicons")
-	use("nvim-lualine/lualine.nvim")
-
-	use("numToStr/Comment.nvim")
-
-	use("rhysd/committia.vim")
-	use("beauwilliams/focus.nvim")
-
-	use("ziglang/zig.vim")
-
+	-- Telescope
 	use({
-		"iamcco/markdown-preview.nvim",
-		run = function()
-			vim.fn["mkdp#util#install"]()
-		end,
+		"nvim-telescope/telescope.nvim",
+		"nvim-telescope/telescope-fzy-native.nvim",
 	})
 
-	use("tpope/vim-sleuth")
-	use("jose-elias-alvarez/null-ls.nvim")
+	-- LSP
+	use({
+		"neovim/nvim-lspconfig",
+		"jose-elias-alvarez/null-ls.nvim",
+		"williamboman/mason.nvim",
+		"williamboman/mason-lspconfig.nvim",
+	})
 
+	-- Autocompletion
+	use({
+		"hrsh7th/cmp-buffer",
+		"hrsh7th/cmp-path",
+		"hrsh7th/cmp-nvim-lua",
+		"hrsh7th/cmp-nvim-lsp",
+		"hrsh7th/nvim-cmp",
+	})
+
+	-- Snippets
+	use({
+		"saadparwaiz1/cmp_luasnip",
+		"L3MON4D3/LuaSnip",
+	})
+
+	-- Editor stuff
+	use({
+		"rcarriga/nvim-notify",
+		"kyazdani42/nvim-web-devicons",
+		"nvim-lualine/lualine.nvim",
+		"numToStr/Comment.nvim",
+		"rhysd/committia.vim",
+		"beauwilliams/focus.nvim",
+		"tpope/vim-sleuth",
+		"nvim-lua/popup.nvim",
+	})
+
+	-- NVIM Tree
 	use({
 		"nvim-tree/nvim-tree.lua",
-		requires = {
-			"nvim-tree/nvim-web-devicons", -- optional, for file icons
-		},
-		tag = "nightly", -- optional, updated every week. (see issue #1193)
+		tag = "nightly",
 	})
 
-	use("~/plugins/sobble.nvim")
-	use("~/plugins/scorbunny.nvim")
+	-- Languages
+	use({
+		"alaviss/nim.nvim",
+	})
+
+	-- My Custom Plugins
+	use({
+		"~/plugins/sobble.nvim",
+		"~/plugins/scorbunny.nvim",
+	})
+
+	if packer_bootstrap then
+		require("packer").sync()
+	end
 end)
