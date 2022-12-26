@@ -14,6 +14,9 @@ end
 
 -- vim.notify = require("notify")
 
+-- NOTE(patrik): Great resource
+-- https://github.com/nvim-lua/kickstart.nvim
+
 -- TODO(patrik): Explore tabs inside nvim
 -- TODO(patrik): Explore quickfix list
 -- TODO(patrik): Explore focus
@@ -26,6 +29,10 @@ end
 --   https://github.com/glepnir/dashboard-nvim
 --   https://github.com/elihunter173/dirbuf.nvim
 --   https://github.com/nvim-tree/nvim-tree.lua
+--   https://github.com/kosayoda/nvim-lightbulb
+--
+--   When sobble changes project we should have a callback so we can
+--   update nvimtree
 
 -- TODO(patrik): Make all the Telescope dropdown
 -- TODO(patrik): Fix the null_ls formatting default inside lsp_on_attach
@@ -55,6 +62,10 @@ vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 vim.opt.smartindent = true
+vim.opt.breakindent = true
+
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
 
 vim.opt.relativenumber = true
 vim.opt.number = true
@@ -83,12 +94,24 @@ vim.opt.completeopt = { "menu", "menuone", "noselect" }
 vim.opt.termguicolors = true
 
 vim.g.mapleader = " "
-vim.g.zig_fmt_autosave = 0
+
+local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
+vim.api.nvim_create_autocmd("TextYankPost", {
+	callback = function()
+		vim.highlight.on_yank({ timeout = 250 })
+	end,
+	group = highlight_group,
+	pattern = "*",
+})
+
+-- NOTE(patrik): Must be before LSP
+require("neodev").setup({})
 
 -- Import my LSP Config
 require("lsp")
 
 require("nvim-tree").setup()
+require("fidget").setup({})
 
 require("nvim-treesitter.configs").setup({
 	highlight = {
@@ -255,12 +278,17 @@ end)
 -- Telescope current_buffer_fuzzy_find
 -- Telescope command_history
 
-vim.keymap.set("x", "<leader>pp", '"_dP')
+-- Wot
+-- vim.keymap.set("x", "<leader>pp", '"_dP')
 
 vim.keymap.set("n", "<leader>pd", tb.treesitter)
 vim.keymap.set("n", "<leader>pf", tb.find_files)
 vim.keymap.set("n", "<leader>pb", tb.buffers)
 vim.keymap.set("n", "<leader>pp", telescope.extensions.sobble.sobble)
+
+vim.keymap.set("n", "<leader>bb", "<cmd>NvimTreeToggle<CR>")
+vim.keymap.set("n", "<leader>br", "<cmd>NvimTreeRefresh<CR>")
+vim.keymap.set("n", "<leader>bc", "<cmd>NvimTreeCollapse<CR>")
 
 vim.keymap.set("n", "<leader>hh", tb.help_tags)
 vim.keymap.set("n", "<leader>ho", tb.vim_options)

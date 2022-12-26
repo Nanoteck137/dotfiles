@@ -22,7 +22,12 @@ return require("packer").startup(function()
 	use("nvim-lua/plenary.nvim")
 
 	-- Treesitter
-	use("nvim-treesitter/nvim-treesitter")
+	use({
+		"nvim-treesitter/nvim-treesitter",
+		run = function()
+			pcall(require("nvim-treesitter.install").update({ with_sync = true }))
+		end,
+	})
 
 	-- Telescope
 	use({
@@ -63,6 +68,14 @@ return require("packer").startup(function()
 		"beauwilliams/focus.nvim",
 		"tpope/vim-sleuth",
 		"nvim-lua/popup.nvim",
+		"j-hui/fidget.nvim",
+
+		"folke/neodev.nvim",
+	})
+
+	use({
+		"weilbith/nvim-code-action-menu",
+		cmd = "CodeActionMenu",
 	})
 
 	-- NVIM Tree
