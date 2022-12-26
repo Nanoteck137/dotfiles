@@ -26,10 +26,12 @@ end
 -- TODO(patrik): Explore code folding
 --               https://alpha2phi.medium.com/neovim-for-beginners-code-folding-7574925412ea
 -- TODO(patrik): Explore
---   https://github.com/glepnir/dashboard-nvim
---   https://github.com/elihunter173/dirbuf.nvim
---   https://github.com/nvim-tree/nvim-tree.lua
 --   https://github.com/kosayoda/nvim-lightbulb
+--	 https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+--	 https://github.com/tpope/vim-fugitive
+--   https://github.com/tpope/vim-rhubarb
+--   https://github.com/lewis6991/gitsigns.nvim
+--	 https://github.com/lukas-reineke/indent-blankline.nvim
 --
 --   When sobble changes project we should have a callback so we can
 --   update nvimtree

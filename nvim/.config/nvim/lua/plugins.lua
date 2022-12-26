@@ -41,6 +41,8 @@ return require("packer").startup(function()
 		"jose-elias-alvarez/null-ls.nvim",
 		"williamboman/mason.nvim",
 		"williamboman/mason-lspconfig.nvim",
+
+		"folke/neodev.nvim",
 	})
 
 	-- Autocompletion
@@ -69,8 +71,7 @@ return require("packer").startup(function()
 		"tpope/vim-sleuth",
 		"nvim-lua/popup.nvim",
 		"j-hui/fidget.nvim",
-
-		"folke/neodev.nvim",
+		"glepnir/dashboard-nvim",
 	})
 
 	use({
