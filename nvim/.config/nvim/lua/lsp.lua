@@ -118,9 +118,19 @@ require("lspconfig").clangd.setup({
 	capabilities = capabilities,
 })
 
-require("lspconfig").dartls.setup({
-	on_attach = lsp_on_attach,
-	capabilities = capabilities,
+-- require("lspconfig").dartls.setup({
+-- 	on_attach = lsp_on_attach,
+-- 	capabilities = capabilities,
+-- })
+
+require("flutter-tools").setup({
+	lsp = {
+		on_attach = lsp_on_attach,
+		capabilities = capabilities,
+		settings = {
+			enableSnippets = true,
+		},
+	},
 })
 
 require("lspconfig").sumneko_lua.setup({

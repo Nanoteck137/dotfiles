@@ -71,7 +71,7 @@ return require("packer").startup(function()
 		"tpope/vim-sleuth",
 		"nvim-lua/popup.nvim",
 		"j-hui/fidget.nvim",
-		"glepnir/dashboard-nvim",
+		-- "glepnir/dashboard-nvim",
 	})
 
 	use({
@@ -88,6 +88,7 @@ return require("packer").startup(function()
 	-- Languages
 	use({
 		"alaviss/nim.nvim",
+		"akinsho/flutter-tools.nvim",
 	})
 
 	-- My Custom Plugins

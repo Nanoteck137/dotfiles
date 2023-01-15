@@ -32,12 +32,15 @@ end
 --   https://github.com/tpope/vim-rhubarb
 --   https://github.com/lewis6991/gitsigns.nvim
 --	 https://github.com/lukas-reineke/indent-blankline.nvim
---
---   When sobble changes project we should have a callback so we can
---   update nvimtree
+
+-- TODO(patrik): When sobble changes project we should have a callback so we can
+--				 update nvimtree
 
 -- TODO(patrik): Make all the Telescope dropdown
 -- TODO(patrik): Fix the null_ls formatting default inside lsp_on_attach
+-- TODO(patrik): Make a tool to handle projects.json
+-- TODO(patrik): Inside sobble create subprojects of a projects
+--				 So we can load subproejcts into tabs
 
 require("tokyonight").setup({
 	style = "storm",
@@ -165,7 +168,7 @@ cmp.setup({
 		),
 
 		["<c-space>"] = cmp.mapping({
-			i = cmp.mapping.complete(),
+			i = cmp.mapping.complete({}),
 			c = function(
 				_ --[[fallback]]
 			)
@@ -197,10 +200,10 @@ cmp.setup({
 	},
 
 	sources = {
+		{ name = "luasnip" },
 		{ name = "nvim_lua" },
 		{ name = "nvim_lsp" },
 		{ name = "path" },
-		{ name = "luasnip" },
 		{ name = "buffer", keyword_length = 5 },
 	},
 
