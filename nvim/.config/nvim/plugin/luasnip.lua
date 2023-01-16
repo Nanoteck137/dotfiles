@@ -1,4 +1,4 @@
-local ls = require("luasnip")
+local ls = require "luasnip"
 
 local s = ls.snippet
 local i = ls.insert_node
@@ -8,12 +8,13 @@ local sn = ls.snippet_node
 local fmt = require("luasnip.extras.fmt").fmt
 
 ls.config.set_config {
-    histroy = true,
+  histroy = true,
 
-    updateevents = "TextChanged,TextChangedI",
+  updateevents = "TextChanged,TextChangedI",
 }
 
 -- TODO(patrik): Add snippet for functions
+-- stylua: ignore start
 ls.add_snippets("rust", {
     s("for", fmt([[
         for {} in {} {{
@@ -84,11 +85,15 @@ ls.add_snippets("rust", {
 
 ls.add_snippets("toml", {
     s("rust", fmt([[
-        max_width = 79
-        reorder_imports = false
-        binop_separator = "Back"
-        format_strings = true
-        hex_literal_case = "Lower"
+unstable_features = true
+max_width = 79
+reorder_imports = true
+binop_separator = "Back"
+format_strings = true
+hex_literal_case = "Lower"
+imports_granularity = "Module"
+group_imports = "StdExternalCrate"
     ]], {}))
 })
 
+-- stylua: ignore end
