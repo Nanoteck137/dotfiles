@@ -5,9 +5,7 @@ require "globals"
 local banned_messages = { "No information available" }
 vim.notify = function(msg, ...)
   for _, banned in ipairs(banned_messages) do
-    if msg == banned then
-      return
-    end
+    if msg == banned then return end
   end
   require "notify"(msg, ...)
 end
@@ -103,9 +101,7 @@ vim.g.mapleader = " "
 
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
 vim.api.nvim_create_autocmd("TextYankPost", {
-  callback = function()
-    vim.highlight.on_yank { timeout = 250 }
-  end,
+  callback = function() vim.highlight.on_yank { timeout = 250 } end,
   group = highlight_group,
   pattern = "*",
 })
@@ -174,9 +170,7 @@ cmp.setup {
         _ --[[fallback]]
       )
         if cmp.visible() then
-          if not cmp.confirm { select = true } then
-            return
-          end
+          if not cmp.confirm { select = true } then return end
         else
           cmp.complete()
         end
@@ -201,6 +195,7 @@ cmp.setup {
   },
 
   sources = {
+    { name = "nvim_lsp_signature_help" },
     { name = "luasnip" },
     { name = "nvim_lua" },
     { name = "nvim_lsp" },
@@ -209,9 +204,7 @@ cmp.setup {
   },
 
   snippet = {
-    expand = function(args)
-      ls.lsp_expand(args.body)
-    end,
+    expand = function(args) ls.lsp_expand(args.body) end,
   },
 
   experimental = {
@@ -237,21 +230,15 @@ scorbunny.setup {
 }
 
 vim.keymap.set({ "i", "s" }, "<c-n>", function()
-  if ls.expand_or_jumpable() then
-    ls.expand_or_jump()
-  end
+  if ls.expand_or_jumpable() then ls.expand_or_jump() end
 end, { silent = true })
 
 vim.keymap.set({ "i", "s" }, "<c-p>", function()
-  if ls.jumpable(-1) then
-    ls.jump(-1)
-  end
+  if ls.jumpable(-1) then ls.jump(-1) end
 end, { silent = true })
 
 vim.keymap.set({ "i", "s" }, "<c-l>", function()
-  if ls.choice_active() then
-    ls.change_choice(1)
-  end
+  if ls.choice_active() then ls.change_choice(1) end
 end)
 
 local tb = require "telescope.builtin"
@@ -260,9 +247,7 @@ local function close_all_windows_in_current_tab()
   local wins = vim.api.nvim_tabpage_list_wins(0)
   local current_win = vim.api.nvim_get_current_win()
   for _, win in ipairs(wins) do
-    if win ~= current_win then
-      vim.api.nvim_win_close(win, false)
-    end
+    if win ~= current_win then vim.api.nvim_win_close(win, false) end
   end
 end
 
@@ -334,33 +319,23 @@ vim.keymap.set("n", "<leader>vds", tb.tags)
 
 local function get_cmd()
   local override = vim.t.cmd_override
-  if override then
-    return override
-  end
+  if override then return override end
 
   local proj = vim.t.sobble_current_project
-  if proj and proj.cmd then
-    return proj.cmd
-  end
+  if proj and proj.cmd then return proj.cmd end
 
   return nil
 end
 
 local function override_cmd()
   local old_cmd = get_cmd()
-  if not old_cmd then
-    old_cmd = ""
-  end
+  if not old_cmd then old_cmd = "" end
 
   local cmd = vim.fn.input("Override Command: ", old_cmd)
-  if string.len(cmd) > 0 then
-    vim.t.cmd_override = cmd
-  end
+  if string.len(cmd) > 0 then vim.t.cmd_override = cmd end
 end
 
-local function remove_override()
-  vim.t.cmd_override = nil
-end
+local function remove_override() vim.t.cmd_override = nil end
 
 local function run_cmd()
   local cmd = get_cmd()
