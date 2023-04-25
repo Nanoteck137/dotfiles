@@ -24,15 +24,19 @@ end
 -- TODO(patrik): Explore code folding
 --               https://alpha2phi.medium.com/neovim-for-beginners-code-folding-7574925412ea
 -- TODO(patrik): Explore
---   https://github.com/kosayoda/nvim-lightbulb
---	 https://github.com/nvim-treesitter/nvim-treesitter-textobjects
---	 https://github.com/tpope/vim-fugitive
---   https://github.com/tpope/vim-rhubarb
---   https://github.com/lewis6991/gitsigns.nvim
---	 https://github.com/lukas-reineke/indent-blankline.nvim
+--  https://github.com/kosayoda/nvim-lightbulb
+--  https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+--  https://github.com/tpope/vim-fugitive
+--  https://github.com/tpope/vim-rhubarb
+--  https://github.com/lewis6991/gitsigns.nvim
+--  https://github.com/lukas-reineke/indent-blankline.nvim
+--
+--  https://github.com/folke/todo-comments.nvim
+--  https://github.com/folke/trouble.nvim
+--  https://github.com/folke/noice.nvim
 
 -- TODO(patrik): When sobble changes project we should have a callback so we can
---				 update nvimtree
+--		 update nvimtree
 
 -- TODO(patrik): Make all the Telescope dropdown
 -- TODO(patrik): Fix the null_ls formatting default inside lsp_on_attach
@@ -40,6 +44,7 @@ end
 -- TODO(patrik): Inside sobble create subprojects of a projects
 --				 So we can load subproejcts into tabs
 -- TODO(patrik): Create a tool to handle projects.json
+-- TODO(patirk): Test scorbunny with multiple tabs
 
 require("tokyonight").setup {
   style = "storm",
@@ -351,3 +356,9 @@ vim.keymap.set("n", "<leader>ca", override_cmd)
 vim.keymap.set("n", "<leader>cw", require("scorbunny").open_window)
 vim.keymap.set("n", "<leader>cq", require("scorbunny").kill)
 vim.keymap.set("n", "<leader>cr", remove_override)
+
+function test()
+  print(vim.api.nvim_get_current_tabpage())
+  vim.cmd "tabnew"
+  print(vim.api.nvim_get_current_tabpage())
+end

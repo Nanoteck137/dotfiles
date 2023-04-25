@@ -114,6 +114,10 @@ require("lspconfig").rust_analyzer.setup {
 require("lspconfig").clangd.setup {
   on_attach = lsp_on_attach,
   capabilities = capabilities,
+  cmd = {
+    "clangd",
+    "--query-driver=/opt/homebrew/bin/arm-none-eabi-gcc,/opt/homebrew/bin/arm-none-eabi-g++",
+  },
 }
 
 -- require("lspconfig").dartls.setup({
