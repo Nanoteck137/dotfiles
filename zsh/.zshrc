@@ -12,4 +12,4 @@ source $ZSH/oh-my-zsh.sh
 alias vim="nvim"
 export EDITOR="nvim"
 
-neofetch
+# neofetch
