@@ -85,4 +85,4 @@ shell:
 
 # Startup directory, unset or None for home directory
 working_directory: None
-alt_send_esc: false
+# alt_send_esc: false
