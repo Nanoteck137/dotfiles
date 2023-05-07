@@ -12,6 +12,8 @@ source $ZSH/oh-my-zsh.sh
 alias vim="nvim"
 export EDITOR="nvim"
 
+alias lg="lazygit"
+
 echo -ne '\e[1 q'
 
 # neofetch
