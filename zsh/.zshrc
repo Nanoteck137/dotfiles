@@ -12,4 +12,6 @@ source $ZSH/oh-my-zsh.sh
 alias vim="nvim"
 export EDITOR="nvim"
 
+echo -ne '\e[1 q'
+
 # neofetch
