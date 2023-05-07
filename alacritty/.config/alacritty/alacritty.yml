@@ -30,7 +30,8 @@ cursor:
 font:
   normal:
     # Needs to be powerline font if using zsh theme with powerline
-    family: NotoSansMono Nerd Font
+    family: NotoMono Nerd Font
+    # family: SauceCodePro Nerd Font
   # Font size
   size: 12
 
