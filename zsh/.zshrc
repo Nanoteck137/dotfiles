@@ -14,6 +14,6 @@ export EDITOR="nvim"
 
 alias lg="lazygit"
 
-echo -ne '\e[1 q'
+echo -ne '\e[2 q'
 
 # neofetch
