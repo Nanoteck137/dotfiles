@@ -192,6 +192,10 @@ awful.screen.connect_for_each_screen(function(s)
 		{ -- Right widgets
 			layout = wibox.layout.fixed.horizontal,
 			wibox.widget.systray(),
+			wibox.widget({
+				forced_width = 10,
+				layout = wibox.layout.fixed.horizontal,
+			}),
 			clock_widget,
 			wibox.widget({
 				forced_width = 10,
