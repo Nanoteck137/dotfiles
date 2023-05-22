@@ -16,4 +16,7 @@ alias lg="lazygit"
 
 echo -ne '\e[2 q'
 
-# neofetch
+if command -v neofetch &> /dev/null
+then
+  neofetch
+fi
