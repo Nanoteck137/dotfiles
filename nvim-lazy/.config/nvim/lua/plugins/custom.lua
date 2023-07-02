@@ -14,7 +14,9 @@ return {
   },
   {
     dir = "~/plugins/scorbunny.nvim",
-    lazy = false,
+    keys = {
+      { "<leader>tt", function() end, desc = "Test" },
+    },
   },
   {
     dir = "~/plugins/pignite.nvim",
@@ -25,6 +27,13 @@ return {
           require("pignite").pick_project()
         end,
         desc = "Pick Project",
+      },
+      {
+        "<leader>ml",
+        function()
+          require("pignite").open_recent_project()
+        end,
+        desc = "Open recent project",
       },
     },
   },
