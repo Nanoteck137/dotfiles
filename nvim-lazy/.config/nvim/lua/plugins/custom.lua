@@ -1,8 +1,7 @@
 return {
-  "telescope.nvim",
   {
     dir = "~/plugins/sobble.nvim",
-    dependencies = { "nvim-lua/plenary.nvim" },
+    dependencies = { "telescope.nvim", "nvim-lua/plenary.nvim" },
     keys = {
       { "<leader>fp", "<cmd>Telescope sobble<cr>", desc = "Sobble" },
     },
@@ -19,6 +18,14 @@ return {
   },
   {
     dir = "~/plugins/pignite.nvim",
-    lazy = false,
+    keys = {
+      {
+        "<leader>mm",
+        function()
+          require("pignite").pick_project()
+        end,
+        desc = "Pick Project",
+      },
+    },
   },
 }
