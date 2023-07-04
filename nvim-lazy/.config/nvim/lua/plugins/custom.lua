@@ -7,7 +7,7 @@ return {
     },
     config = function()
       require("sobble").setup({
-        config_path = "~/projects.json",
+        config_path = "~/projects/projects.json",
       })
       require("telescope").load_extension("sobble")
     end,
