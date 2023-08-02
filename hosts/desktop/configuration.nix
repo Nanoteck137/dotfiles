@@ -12,30 +12,14 @@
 
   nixpkgs.overlays = [ inputs.neovim-nightly-overlay.overlay ];
 
-  # nixpkgs.overlays = [
-   # (import (builtins.fetchTarball {
-   #   url = "https://github.com/nix-community/neovim-nightly-overlay/archive/master.tar.gz";
-   # }))
-  # ];
-
-  # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "nanoteck137-nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Enable networking
+  networking.hostName = "nanoteck137-nixos";
   networking.networkmanager.enable = true;
 
-  # Set your time zone.
   time.timeZone = "Europe/Stockholm";
 
-  # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
 
   i18n.extraLocaleSettings = {
@@ -58,7 +42,6 @@
 
     displayManager.lightdm.enable = true;
     desktopManager.gnome.enable = true;
-    desktopManager.xterm.enable = true;
   };
 
   # Configure console keymap
@@ -78,42 +61,33 @@
     nvidiaSettings = true;
   };
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.nanoteck137 = {
     isNormalUser = true;
     description = "nanoteck137";
+    initialPassword = "password";
     extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [];
     shell = pkgs.zsh;
   };
 
   environment.shells = [pkgs.zsh];
 
-  # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
   environment.systemPackages = with pkgs; [
     git
     neofetch
     lazygit
     tmux
+    firefox
+  ];
+
+  fonts.packages = with pkgs; [
+    (nerdfonts.override { fonts = [ "Noto" ]; })
   ];
 
   programs.zsh = {
     enable = true;
   };
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
