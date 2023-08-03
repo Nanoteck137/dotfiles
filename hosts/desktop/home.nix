@@ -74,12 +74,12 @@
     '';
   };
   
-  xdg.configFile.awesome.source = ./awesome;
-  xdg.configFile.rofi.source = ./rofi;
-  xdg.configFile.nvim.source = ./newnvim;
+  xdg.configFile.awesome.source = ../../configs/awesome;
+  xdg.configFile.rofi.source = ../../configs/rofi;
+  xdg.configFile.nvim.source = ../../configs/newnvim;
   # xdg.configFile.picom.source = ./picom/.config/picom;
 
-  home.file."wallpaper.png".source = ./wallpaper.png;
+  home.file."wallpaper.png".source = ../../wallpaper.png;
 
   services.picom = {
     enable = true;

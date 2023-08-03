@@ -28,7 +28,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.nanoteck137 = import ./home.nix;
+            home-manager.users.nanoteck137 = import ./hosts/desktop/home.nix;
           }
         ];
       };
@@ -42,7 +42,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.nanoteck137 = import ./homemacos.nix;
+            home-manager.users.nanoteck137 = import ./hosts/macos/home.nix;
           }
         ];
       };

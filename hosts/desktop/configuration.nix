@@ -48,6 +48,12 @@
     windowManager.awesome.enable = true;
   };
 
+  services.xrdp = { 
+    enable = true;
+    defaultWindowManager = "awesome";
+    openFirewall = true;
+  };
+
   # Configure console keymap
   console.keyMap = "sv-latin1";
 
