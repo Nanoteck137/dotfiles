@@ -525,5 +525,5 @@ client.connect_signal("unfocus", function(c)
 end)
 -- }}}
 
-awful.spawn.with_shell("picom")
-awful.spawn.with_shell("~/.fehbg")
+-- awful.spawn.with_shell("picom")
+awful.spawn.with_shell("feh --bg-center ~/wallpaper.png --no-fehbg")

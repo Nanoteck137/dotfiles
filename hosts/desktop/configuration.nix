@@ -10,7 +10,10 @@
       ./hardware-configuration.nix
     ];
 
-  nixpkgs.overlays = [ inputs.neovim-nightly-overlay.overlay ];
+  nixpkgs.overlays = [ 
+    inputs.neovim-nightly-overlay.overlay 
+    inputs.nixneovimplugins.overlays.default
+  ];
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -41,7 +44,8 @@
     xkbVariant = "nodeadkeys";
 
     displayManager.lightdm.enable = true;
-    desktopManager.gnome.enable = true;
+    # desktopManager.gnome.enable = true;
+    windowManager.awesome.enable = true;
   };
 
   # Configure console keymap
@@ -61,11 +65,18 @@
     nvidiaSettings = true;
   };
 
+  sound.enable = true;
+  hardware.pulseaudio.enable = true;
+  nixpkgs.config.pulseaudio = true;
+
+  virtualisation.libvirtd.enable = true;
+  programs.dconf.enable = true;
+
   users.users.nanoteck137 = {
     isNormalUser = true;
     description = "nanoteck137";
     initialPassword = "password";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "audio" "libvirtd" ];
     shell = pkgs.zsh;
   };
 
@@ -79,7 +90,20 @@
     lazygit
     tmux
     firefox
+    virt-manager
+    cifs-utils
+    file
   ];
+
+  fileSystems."/mnt/isos" = {
+      device = "//10.28.28.2/isos";
+      fsType = "cifs";
+      options = let
+        automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
+        user = "uid=1000,gid=100";
+
+      in ["${automount_opts},${user},credentials=/etc/nixos/smb-secrets"];
+  };
 
   fonts.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "Noto" ]; })

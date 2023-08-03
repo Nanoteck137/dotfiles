@@ -1,12 +1,13 @@
-{config, pkgs, ...}: {
+{config, pkgs, inputs, ...}: {
   home.username = "nanoteck137";
   home.homeDirectory = "/home/nanoteck137";
   home.packages = with pkgs; [
     htop
     gh
+    rofi
     _1password-gui
   ];
-  
+
   programs.home-manager.enable = true;
   
   programs.kitty = {
@@ -16,6 +17,9 @@
       name = "NotoMono Nerd Font";
       package = pkgs.nerdfonts;
     };
+
+    shellIntegration.enableZshIntegration = true;
+    shellIntegration.mode = "no-cursor";
 
     extraConfig = ''
       ## name: Tokyo Night Storm
@@ -65,12 +69,29 @@
       # extended colors
       color16 #ff9e64
       color17 #db4b4b
+
+      cursor_shape block
     '';
   };
+  
+  xdg.configFile.awesome.source = ./awesome/.config/awesome;
+  xdg.configFile.rofi.source = ./rofi/.config/rofi;
+  xdg.configFile.nvim.source = ./newnvim;
+  # xdg.configFile.picom.source = ./picom/.config/picom;
 
-  # home.file."test".text = ''
-    # This is a test for fun
-  # '';
+  home.file."wallpaper.png".source = ./wallpaper.png;
+
+  services.picom = {
+    enable = true;
+    opacityRules = [
+      "100:fullscreen"
+      "95:!fullscreen"
+    ];
+  };
+
+  programs.feh = {
+    enable = true;
+  };
 
   programs.git = {
       enable = true;
@@ -101,7 +122,42 @@
     defaultEditor = true;
     vimAlias = true;
     viAlias = true;
+  
+    extraPackages = with pkgs; [
+      ripgrep
+      fd
+      xclip
+    ];
+
+    plugins = with pkgs; [
+      vimPlugins.tokyonight-nvim
+
+      vimPlugins.nvim-treesitter.withAllGrammars
+      vimPlugins.telescope-nvim
+      vimPlugins.vim-sleuth
+      vimPlugins.telescope-fzy-native-nvim
+      vimPlugins.nvim-web-devicons
+      vimPlugins.nui-nvim
+      vimPlugins.lualine-nvim
+
+      vimPlugins.nvim-comment
+      vimPlugins.todo-comments-nvim
+      vimPlugins.trouble-nvim
+
+      vimPlugins.nvim-cmp
+      vimPlugins.cmp-buffer
+      vimPlugins.cmp-path
+
+      vimExtraPlugins.neo-tree-nvim
+    ];
+  };
+
+  dconf.settings = {
+    "org/virt-manager/virt-manager/connections" = {
+      autoconnect = ["qemu:///system"];
+      uris = ["qemu:///system"];
+    };
   };
 
   home.stateVersion = "23.05";
-};
+}
