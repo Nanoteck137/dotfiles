@@ -75,7 +75,7 @@
   };
   
   xdg.configFile.awesome.source = ./awesome;
-  xdg.configFile.rofi.source = ./rofi/.config/rofi;
+  xdg.configFile.rofi.source = ./rofi;
   xdg.configFile.nvim.source = ./newnvim;
   # xdg.configFile.picom.source = ./picom/.config/picom;
 
