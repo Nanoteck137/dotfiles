@@ -170,6 +170,8 @@ end)
 vim.keymap.set("n", "<leader>-", "<C-W>s");
 vim.keymap.set("n", "<leader>|", "<C-W>v");
 
+vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>")
+
 
 local group = vim.api.nvim_create_augroup("gup", {
   clear = true
