@@ -6,10 +6,16 @@
     gh
     rofi
     _1password-gui
+    any-nix-shell
   ];
 
   programs.home-manager.enable = true;
   
+  programs.exa = {
+    enable = true;
+    enableAliases = true;
+  };
+
   programs.kitty = {
     enable = true;
 
@@ -115,6 +121,10 @@
     shellAliases = {
       "lg" = "${pkgs.lazygit}/bin/lazygit";
     };
+
+    initExtra = ''
+      any-nix-shell zsh --info-right | source /dev/stdin
+    '';
   };
 
   programs.neovim = {
