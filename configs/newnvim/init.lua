@@ -120,7 +120,7 @@ cmp.setup {
     -- { name = "nvim_lsp_signature_help" },
     -- { name = "luasnip" },
     -- { name = "nvim_lua" },
-    -- { name = "nvim_lsp" },
+    { name = "nvim_lsp" },
     { name = "path" },
     { name = "buffer", keyword_length = 3 },
   },
@@ -185,3 +185,50 @@ vim.api.nvim_create_autocmd({"BufEnter", "BufWinEnter"}, {
     -- print(string.format('event fired: %s', vim.inspect(ev)))
   end
 })
+
+local function lsp_add_keymaps(bufnr)
+  local bufopts = { noremap = true, silent = true, buffer = bufnr }
+
+  vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, bufopts)
+
+  vim.keymap.set("n", "<leader>,", vim.lsp.buf.hover, bufopts)
+  vim.keymap.set("n", "<leader>.", vim.lsp.buf.code_action, bufopts)
+
+  vim.keymap.set("n", "<leader>vr", vim.lsp.buf.references, bufopts)
+  vim.keymap.set("n", "<leader>vs", vim.lsp.buf.signature_help, bufopts)
+  vim.keymap.set("n", "<leader>vd", require("telescope.builtin").diagnostics, bufopts)
+
+  vim.keymap.set("n", "<leader>gt", vim.lsp.buf.type_definition, bufopts)
+  vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, bufopts)
+
+  -- vim.keymap.set('n', '<leader>vws', require("telescope.builtin").lsp_workspace_symbols, bufopts)
+  -- vim.keymap.set('n', '<leader>vds', require("telescope.builtin").lsp_document_symbols, bufopts)
+
+  vim.keymap.set("n", "<leader>n", vim.diagnostic.goto_next, bufopts)
+  vim.keymap.set("n", "<leader>p", vim.diagnostic.goto_prev, bufopts)
+end
+
+local function lsp_on_attach(client, bufnr)
+  local cap = client.server_capabilities
+
+  lsp_add_keymaps(bufnr)
+end
+
+local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
+
+require("lspconfig").rust_analyzer.setup {
+  on_attach = lsp_on_attach,
+  capabilities = capabilities,
+  settings = {
+    ["rust-analyzer"] = {
+      checkOnSave = {
+        allTargets = false,
+      },
+    },
+  },
+}
+
+require('lspconfig').tsserver.setup{
+  on_attach = lsp_on_attach,
+  capabilities = capabilities,
+}

@@ -5,8 +5,10 @@
     htop
     gh
     rofi
-    _1password-gui
     any-nix-shell
+    adapta-gtk-theme
+    lxappearance
+    discord
   ];
 
   programs.home-manager.enable = true;
@@ -157,6 +159,9 @@
       vimPlugins.nvim-cmp
       vimPlugins.cmp-buffer
       vimPlugins.cmp-path
+      vimPlugins.cmp-nvim-lsp
+
+      vimPlugins.nvim-lspconfig
 
       vimExtraPlugins.neo-tree-nvim
     ];

@@ -99,6 +99,7 @@
     virt-manager
     cifs-utils
     file
+    mullvad-vpn
   ];
 
   fileSystems."/mnt/isos" = {
@@ -111,13 +112,28 @@
       in ["${automount_opts},${user},credentials=/etc/nixos/smb-secrets"];
   };
 
+  fileSystems."/mnt/media" = {
+      device = "//10.28.28.2/media";
+      fsType = "cifs";
+      options = let
+        automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
+        user = "uid=1000,gid=100";
+
+      in ["${automount_opts},${user},credentials=/etc/nixos/smb-secrets"];
+  };
+
   fonts.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "Noto" ]; })
   ];
 
+  services.mullvad-vpn.enable = true;
+
   programs.zsh = {
     enable = true;
   };
+
+  programs._1password.enable = true;
+  programs._1password-gui.enable = true;
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
