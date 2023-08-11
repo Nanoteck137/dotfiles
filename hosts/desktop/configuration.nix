@@ -135,11 +135,16 @@
   programs._1password.enable = true;
   programs._1password-gui.enable = true;
 
+  # networking.extraHosts = ''
+  #   10.28.28.2  lelserver
+  #   10.28.28.2  test.lelserver
+  # '';
+
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
 
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
+  networking.firewall.allowedTCPPorts = [ 5173 8090 ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;

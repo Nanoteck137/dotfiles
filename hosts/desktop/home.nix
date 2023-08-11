@@ -1,4 +1,9 @@
 {config, pkgs, inputs, ...}: {
+  nixpkgs.overlays = [
+    (final: prev: {
+    })
+  ];
+
   home.username = "nanoteck137";
   home.homeDirectory = "/home/nanoteck137";
   home.packages = with pkgs; [
@@ -9,10 +14,16 @@
     adapta-gtk-theme
     lxappearance
     discord
+    pocketbase
+    drawio
   ];
 
   programs.home-manager.enable = true;
   
+  programs.vscode = {
+    enable = true;
+  };
+
   programs.exa = {
     enable = true;
     enableAliases = true;
@@ -93,7 +104,7 @@
     enable = true;
     opacityRules = [
       "100:fullscreen"
-      "95:!fullscreen"
+      "100:!fullscreen"
     ];
   };
 
@@ -161,7 +172,11 @@
       vimPlugins.cmp-path
       vimPlugins.cmp-nvim-lsp
 
+      vimPlugins.null-ls-nvim
+      vimPlugins.luasnip
+
       vimPlugins.nvim-lspconfig
+      vimPlugins.nvim-surround
 
       vimExtraPlugins.neo-tree-nvim
     ];

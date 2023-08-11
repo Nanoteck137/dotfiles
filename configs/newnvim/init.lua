@@ -80,6 +80,7 @@ telescope.setup {
 telescope.load_extension "fzy_native"
 
 local cmp = require "cmp"
+local ls = require "luasnip"
 
 cmp.setup {
   mapping = {
@@ -88,7 +89,7 @@ cmp.setup {
     ["<C-d>"] = cmp.mapping.scroll_docs(-4),
     ["<C-f>"] = cmp.mapping.scroll_docs(4),
     ["<C-e>"] = cmp.mapping.abort(),
-    ["<C-Enter>"] = cmp.mapping(
+    ["<C-y>"] = cmp.mapping(
       cmp.mapping.confirm {
         behavior = cmp.ConfirmBehavior.Insert,
         select = true,
@@ -117,9 +118,9 @@ cmp.setup {
   },
 
   sources = {
-    -- { name = "nvim_lsp_signature_help" },
-    -- { name = "luasnip" },
-    -- { name = "nvim_lua" },
+    { name = "nvim_lsp_signature_help" },
+    { name = "luasnip" },
+    { name = "nvim_lua" },
     { name = "nvim_lsp" },
     { name = "path" },
     { name = "buffer", keyword_length = 3 },
@@ -169,6 +170,10 @@ end)
 
 vim.keymap.set("n", "<leader>-", "<C-W>s");
 vim.keymap.set("n", "<leader>|", "<C-W>v");
+vim.keymap.set("n", "<C-h>", "<C-w>h");
+vim.keymap.set("n", "<C-j>", "<C-w>j");
+vim.keymap.set("n", "<C-k>", "<C-w>k");
+vim.keymap.set("n", "<C-l>", "<C-w>l");
 
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>")
 
@@ -189,23 +194,17 @@ vim.api.nvim_create_autocmd({"BufEnter", "BufWinEnter"}, {
 local function lsp_add_keymaps(bufnr)
   local bufopts = { noremap = true, silent = true, buffer = bufnr }
 
-  vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, bufopts)
+  vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
+  vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
 
-  vim.keymap.set("n", "<leader>,", vim.lsp.buf.hover, bufopts)
-  vim.keymap.set("n", "<leader>.", vim.lsp.buf.code_action, bufopts)
+  vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, bufopts)
+  vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, bufopts)
+  vim.keymap.set("n", "<leader>cf", vim.lsp.buf.format, bufopts)
+  vim.keymap.set("v", "f", vim.lsp.buf.format, bufopts)
 
   vim.keymap.set("n", "<leader>vr", vim.lsp.buf.references, bufopts)
   vim.keymap.set("n", "<leader>vs", vim.lsp.buf.signature_help, bufopts)
   vim.keymap.set("n", "<leader>vd", require("telescope.builtin").diagnostics, bufopts)
-
-  vim.keymap.set("n", "<leader>gt", vim.lsp.buf.type_definition, bufopts)
-  vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, bufopts)
-
-  -- vim.keymap.set('n', '<leader>vws', require("telescope.builtin").lsp_workspace_symbols, bufopts)
-  -- vim.keymap.set('n', '<leader>vds', require("telescope.builtin").lsp_document_symbols, bufopts)
-
-  vim.keymap.set("n", "<leader>n", vim.diagnostic.goto_next, bufopts)
-  vim.keymap.set("n", "<leader>p", vim.diagnostic.goto_prev, bufopts)
 end
 
 local function lsp_on_attach(client, bufnr)
@@ -232,3 +231,38 @@ require('lspconfig').tsserver.setup{
   on_attach = lsp_on_attach,
   capabilities = capabilities,
 }
+
+local null_ls = require("null-ls")
+
+null_ls.setup({
+  sources = {
+    null_ls.builtins.formatting.prettier
+  },
+})
+
+local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
+vim.api.nvim_create_autocmd("TextYankPost", {
+  callback = function() vim.highlight.on_yank { timeout = 250 } end,
+  group = highlight_group,
+  pattern = "*",
+})
+
+local s = ls.snippet
+local fmt = require("luasnip.extras.fmt").fmt
+
+-- stylua: ignore
+ls.add_snippets("toml", {
+  s("rust", fmt([[
+  unstable_features = true
+  max_width = 79
+  reorder_imports = true
+  binop_separator = "Back"
+  format_strings = true
+  hex_literal_case = "Lower"
+  imports_granularity = "Module"
+  group_imports = "StdExternalCrate"
+  ]], {}))
+})
+
+require("nvim-surround").setup({
+})
