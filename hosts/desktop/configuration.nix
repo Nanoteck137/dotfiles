@@ -84,6 +84,10 @@
     initialPassword = "password";
     extraGroups = [ "networkmanager" "wheel" "audio" "libvirtd" ];
     shell = pkgs.zsh;
+
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIIiL5jrSUxzAttiABU5jI7JhNuKsAdpkH6nm9k6LbjG nanoteck137"
+    ];
   };
 
   environment.shells = [pkgs.zsh];
@@ -141,7 +145,9 @@
   # '';
 
   # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+  services.openssh = {
+    enable = true;
+  };
 
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [ 5173 8090 ];
