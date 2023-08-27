@@ -18,7 +18,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "nanoteck137-nixos";
+  networking.hostName = "krokorok";
   networking.networkmanager.enable = true;
 
   time.timeZone = "Europe/Stockholm";

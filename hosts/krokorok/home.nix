@@ -10,7 +10,6 @@
     htop
     gh
     rofi
-    any-nix-shell
     adapta-gtk-theme
     lxappearance
     discord
@@ -18,6 +17,8 @@
     drawio
     pavucontrol
     bespokesynth-with-vst2
+
+    any-nix-shell
   ];
 
   programs.home-manager.enable = true;

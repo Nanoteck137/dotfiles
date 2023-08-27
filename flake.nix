@@ -19,34 +19,48 @@
   outputs = { self, nixpkgs, nix-darwin, home-manager, ... }@inputs: 
     let 
     in {
-      nixosConfigurations.desktop = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.krokorok = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = { inherit inputs; };
         modules = [ 
-          ./hosts/desktop/configuration.nix 
+          ./hosts/krokorok/configuration.nix 
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.nanoteck137 = import ./hosts/desktop/home.nix;
+            home-manager.users.nanoteck137 = import ./hosts/krokorok/home.nix;
           }
         ];
       };
 
-      darwinConfigurations.macos = nix-darwin.lib.darwinSystem {
-        # system = "aarch64-darwin";
+      nixosConfigurations.pichu = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
+        modules = [ 
+          ./hosts/pichu/configuration.nix 
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.nanoteck137 = import ./hosts/pichu/home.nix;
+          }
+        ];
+      };
+
+      darwinConfigurations.zorua = nix-darwin.lib.darwinSystem {
+        system = "aarch64-darwin";
         specialArgs = { inherit self inputs; };
         modules = [ 
-          ./hosts/macos/configuration.nix 
+          ./hosts/zorua/configuration.nix
           home-manager.darwinModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.nanoteck137 = import ./hosts/macos/home.nix;
+            home-manager.users.nanoteck137 = import ./hosts/zorua/home.nix;
           }
         ];
       };
 
-      darwinPackages = self.darwinConfigurations.nanoteck137.pkgs;
+      darwinPackages = self.darwinConfigurations.zorua.pkgs;
     };
 }

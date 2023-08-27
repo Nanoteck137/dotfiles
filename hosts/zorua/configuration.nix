@@ -1,10 +1,9 @@
 { self, pkgs, inputs, ... }: {
   nixpkgs.overlays = [ inputs.nixneovimplugins.overlays.default ];
 
-  environment.systemPackages =
-    [
-      pkgs.vim
-    ];
+  environment.systemPackages = [
+    pkgs.vim
+  ];
 
   nixpkgs.config.allowUnfree = true;
 
@@ -12,13 +11,10 @@
 
   services.nix-daemon.enable = true;
 
-  nix.settings.experimental-features = "nix-command flakes";
-
   programs.zsh.enable = true;  # default shell on catalina
 
   system.configurationRevision = self.rev or self.dirtyRev or null;
-
+  nix.settings.experimental-features = "nix-command flakes";
   system.stateVersion = 4;
-
   nixpkgs.hostPlatform = "aarch64-darwin";
 }
