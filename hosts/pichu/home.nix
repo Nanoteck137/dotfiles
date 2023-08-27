@@ -4,6 +4,11 @@
     ../common/home/tmux.nix
   ];
 
+  nixpkgs.overlays = [ 
+    inputs.neovim-nightly-overlay.overlay 
+    inputs.nixneovimplugins.overlays.default
+  ];
+
   home.username = "nanoteck137";
   home.homeDirectory = "/home/nanoteck137";
   home.packages = with pkgs; [
