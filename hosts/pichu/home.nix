@@ -3,6 +3,7 @@
     ../common/home/nvim.nix
     ../common/home/tmux.nix
     ../common/home/zsh.nix
+    ../common/home/git.nix
   ];
 
   nixpkgs.overlays = [ 
@@ -19,21 +20,11 @@
 
   programs.home-manager.enable = true;
 
-  programs.gh = {
-    enable = true;
-    gitCredentialHelper.enable = true;
-  };
-
   programs.exa = {
     enable = true;
     enableAliases = true;
   };
 
-  programs.git = {
-      enable = true;
-      userName  = "Patrik M. Rosenström";
-      userEmail = "patrik.millvik@gmail.com";
-  };
 
   home.stateVersion = "23.05";
 }
