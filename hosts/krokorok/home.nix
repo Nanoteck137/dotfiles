@@ -16,9 +16,7 @@
     lxappearance
     discord
     pocketbase
-    drawio
     pavucontrol
-    bespokesynth-with-vst2
   ];
 
   programs.home-manager.enable = true;
