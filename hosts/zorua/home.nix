@@ -6,18 +6,13 @@
     ../common/home/nvim.nix
     ../common/home/zsh.nix
     ../common/home/git.nix
+    ../common/home/misc.nix
   ];
 
   home.username = "nanoteck137";
   home.packages = with pkgs; [
     vscode
-    any-nix-shell
   ];
-
-  programs.exa = {
-    enable = true;
-    enableAliases = true;
-  };
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 

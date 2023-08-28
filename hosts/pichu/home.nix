@@ -4,6 +4,7 @@
     ../common/home/tmux.nix
     ../common/home/zsh.nix
     ../common/home/git.nix
+    ../common/home/misc.nix
   ];
 
   nixpkgs.overlays = [ 
@@ -13,18 +14,9 @@
 
   home.username = "nanoteck137";
   home.homeDirectory = "/home/nanoteck137";
-  home.packages = with pkgs; [
-    htop
-    any-nix-shell
-  ];
+  home.packages = with pkgs; [];
 
   programs.home-manager.enable = true;
-
-  programs.exa = {
-    enable = true;
-    enableAliases = true;
-  };
-
 
   home.stateVersion = "23.05";
 }
