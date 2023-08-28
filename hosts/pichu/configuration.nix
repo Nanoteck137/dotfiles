@@ -1,10 +1,11 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running `nixos-help`).
-
 { config, pkgs, inputs, ... }:
+let
+  sewaddle = inputs.sewaddle.packages.x86_64-linux.default.overrideAttrs (finalAttrs: previousAttrs: {
+    VITE_TEST = "https://backend.sewaddle.net";
+  });
 
-{
+  swadloon = inputs.swadloon.packages.x86_64-linux.default;
+in {
   imports = [ 
     ./hardware-configuration.nix
     ../common/common.nix
@@ -35,12 +36,55 @@
 
   environment.systemPackages = with pkgs; [
     neovim 
+    swadloon
   ];
 
   services.openssh = {
     enable = true;
     settings.PasswordAuthentication = false;
     settings.KbdInteractiveAuthentication = false;
+  };
+
+  services.caddy = {
+    enable = true;
+    virtualHosts."sewaddle.net" = {
+      extraConfig = ''
+        tls /etc/nixos/certs/sewaddle.net+1.pem /etc/nixos/certs/sewaddle.net+1-key.pem
+        file_server {
+          root ${sewaddle}
+        }
+      '';
+    };
+    virtualHosts."backend.sewaddle.net" = {
+      extraConfig = ''
+        tls /etc/nixos/certs/sewaddle.net+1.pem /etc/nixos/certs/sewaddle.net+1-key.pem
+        reverse_proxy {
+          to http://10.28.28.5:8090
+        }
+      '';
+    };
+    virtualHosts."ntfy.services.net" = {
+      extraConfig = ''
+        tls /etc/nixos/certs/services.net+1.pem /etc/nixos/certs/services.net+1-key.pem
+        reverse_proxy :8080
+
+        @httpget {
+            protocol http
+            method GET
+            path_regexp ^/([-_a-z0-9]{0,64}$|docs/|static/)
+        }
+        redir @httpget https://{host}{uri}
+      '';
+    };
+  };
+
+  services.ntfy-sh = { 
+    enable = true; 
+    settings = {
+      base-url = "https://ntfy.services.net";
+      listen-http = ":8080";
+      upstream-base-url = "https://ntfy.sh";
+    };
   };
 
   # Open ports in the firewall.
