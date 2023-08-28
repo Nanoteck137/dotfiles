@@ -4,6 +4,8 @@
     ../common/home/kitty.nix
     ../common/home/tmux.nix
     ../common/home/nvim.nix
+    ../common/home/zsh.nix
+    ../common/home/git.nix
   ];
 
   home.username = "nanoteck137";
@@ -11,24 +13,6 @@
     vscode
     any-nix-shell
   ];
-
-  programs.zsh = {
-    enable = true;
-
-    oh-my-zsh = {
-      enable = true;
-      theme = "af-magic";
-    };
-
-    shellAliases = {
-      "lg" = "${pkgs.lazygit}/bin/lazygit";
-    };
-
-    initExtra = ''
-      eval "$(/opt/homebrew/bin/brew shellenv)"
-      any-nix-shell zsh --info-right | source /dev/stdin
-    '';
-  };
 
   programs.exa = {
     enable = true;
