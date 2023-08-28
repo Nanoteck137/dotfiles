@@ -13,11 +13,15 @@
   home.homeDirectory = "/home/nanoteck137";
   home.packages = with pkgs; [
     htop
-    gh
     any-nix-shell
   ];
 
   programs.home-manager.enable = true;
+
+  programs.gh = {
+    enable = true;
+    gitCredentialHelper.enable = true;
+  };
 
   programs.exa = {
     enable = true;
