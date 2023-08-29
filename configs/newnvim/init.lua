@@ -232,6 +232,11 @@ require('lspconfig').tsserver.setup{
   capabilities = capabilities,
 }
 
+require('lspconfig').gopls.setup{
+  on_attach = lsp_on_attach,
+  capabilities = capabilities,
+}
+
 local null_ls = require("null-ls")
 
 null_ls.setup({
