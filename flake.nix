@@ -15,11 +15,16 @@
 
     nixneovimplugins.url = "github:jooooscha/nixpkgs-vim-extra-plugins";
 
+    # Server Stuff
+
     sewaddle.url = "github:nanoteck137/sewaddle";
     sewaddle.inputs.nixpkgs.follows = "nixpkgs";
 
     swadloon.url = "github:nanoteck137/swadloon";
     swadloon.inputs.nixpkgs.follows = "nixpkgs";
+
+    haunter.url = "github:nanoteck137/haunter";
+    haunter.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = { self, nixpkgs, nix-darwin, home-manager, ... }@inputs: 

@@ -5,6 +5,8 @@ let
   });
 
   swadloon = inputs.swadloon.packages.x86_64-linux.default;
+
+  haunter = inputs.swadloon.packages.x86_64-linux.default;
 in {
   imports = [ 
     ./hardware-configuration.nix
@@ -37,6 +39,7 @@ in {
   environment.systemPackages = with pkgs; [
     neovim 
     swadloon
+    haunter
   ];
 
   services.openssh = {
