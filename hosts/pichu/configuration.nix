@@ -98,28 +98,40 @@ in {
     };
   };
 
-  system.activationScripts.sewaddleBackend = ''
-    mkdir -p /var/log/backends
-    mkdir -p /var/lib/backends/sewaddle
-  '';
-
-  systemd.services.sewaddleBackend = {
+  systemd.services.sewaddle = {
     enable = true;
-    description = "pocketbase";
+    description = "Sewaddle Pocketbase Backend";
 
     serviceConfig = {
       Type           = "simple";
-      User           = "root";
-      Group          = "root";
+      User           = "sewaddle";
+      Group          = "sewaddle";
       LimitNOFILE    = 4096;
       Restart        = "always";
       RestartSec     = "5s";
-      StandardOutput = "append:/var/log/backends/sewaddle.log";
-      StandardError  = "append:/var/log/backends/sewaddle.log";
-      ExecStart      = "${haunter}/bin/haunter serve --dir /var/lib/backends/sewaddle/pb_data";
+      ReadWriteDirectories = "/var/lib/sewaddle";
+      StateDirectory = [ "sewaddle" ];
+      LogsDirectory = [ "sewaddle" ];
+      ExecStart      = "${haunter}/bin/haunter serve --dir /var/lib/sewaddle/pb_data";
+
+      NoNewPrivileges = true;
+      PrivateDevices = true;
+      ProtectHome = true;
     };
 
     wantedBy = ["multi-user.target"];
+  };
+
+  users.users = {
+    sewaddle = {
+      isSystemUser = true;
+      group = "sewaddle";
+      home = "/var/lib/sewaddle/";
+    };
+  };
+
+  users.groups = {
+    sewaddle = {};
   };
 
   services.minio = {
