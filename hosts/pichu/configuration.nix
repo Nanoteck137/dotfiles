@@ -7,6 +7,7 @@ let
   swadloon = inputs.swadloon.packages.x86_64-linux.default;
 
   haunter = inputs.haunter.packages.x86_64-linux.default;
+  boldore = inputs.boldore.packages.x86_64-linux.default;
 in {
   imports = [ 
     ./hardware-configuration.nix
@@ -21,8 +22,17 @@ in {
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  boot.zfs.extraPools = [ "bloc" ];
+
+  boot.supportedFilesystems = [ "zfs" ];
+  boot.zfs.forceImportRoot = false;
+  networking.hostId = "ac2a5676";
+
   networking.hostName = "pichu"; 
   networking.networkmanager.enable = true;
+
+  services.zfs.autoScrub.enable = true;
+  services.zfs.trim.enable = true;
 
   users.users.nanoteck137 = {
     isNormalUser = true;
@@ -38,7 +48,11 @@ in {
 
   environment.systemPackages = with pkgs; [
     swadloon
+    boldore
+    zfs
   ];
+
+  services.mullvad-vpn.enable = true;
 
   services.openssh = {
     enable = true;
@@ -48,20 +62,25 @@ in {
 
   services.caddy = {
     enable = true;
+
     virtualHosts."sewaddle.net" = {
       extraConfig = ''
         tls /etc/nixos/certs/sewaddle.net+1.pem /etc/nixos/certs/sewaddle.net+1-key.pem
-        file_server {
-          root ${sewaddle}
+        handle {
+          root * ${sewaddle}
+          try_files {path} /index.html
+          file_server
         }
       '';
     };
+
     virtualHosts."backend.sewaddle.net" = {
       extraConfig = ''
         tls /etc/nixos/certs/sewaddle.net+1.pem /etc/nixos/certs/sewaddle.net+1-key.pem
         reverse_proxy http://localhost:8090
       '';
     };
+
     virtualHosts."ntfy.services.net" = {
       extraConfig = ''
         tls /etc/nixos/certs/services.net+1.pem /etc/nixos/certs/services.net+1-key.pem
@@ -75,12 +94,14 @@ in {
         redir @httpget https://{host}{uri}
       '';
     };
+
     virtualHosts."minioweb.services.net" = {
       extraConfig = ''
         tls /etc/nixos/certs/services.net+1.pem /etc/nixos/certs/services.net+1-key.pem
         reverse_proxy :9001
       '';
     };
+
     virtualHosts."stor.services.net" = {
       extraConfig = ''
         tls /etc/nixos/certs/services.net+1.pem /etc/nixos/certs/services.net+1-key.pem
@@ -137,7 +158,7 @@ in {
   services.minio = {
     enable = true;
     region = "sv-1";
-    # dataDir = "";
+    dataDir = ["/mnt/bloc/minio"];
     # rootCredentialsFile = "";
   };
 
@@ -190,6 +211,48 @@ in {
   system.stateVersion = "23.05"; # Did you read the comment?
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+  services.samba-wsdd.enable = true; # make shares visible for windows 10 clients
+  networking.firewall.allowedTCPPorts = [
+    5357 # wsdd
+  ];
+  networking.firewall.allowedUDPPorts = [
+    3702 # wsdd
+  ];
+
+  services.samba = {
+    enable = true;
+    securityType = "user";
+    openFirewall = true;
+
+    extraConfig = ''
+      workgroup = WORKGROUP
+      server string = pichu
+      netbios name = pichu
+      security = user 
+      #use sendfile = yes
+      #max protocol = smb2
+      # note: localhost is the ipv6 localhost ::1
+      # hosts allow = 192.168.0. 127.0.0.1 localhost
+      # hosts deny = 0.0.0.0/0
+      guest account = nobody
+      map to guest = bad user
+    '';
+
+    shares = {
+      public = {
+        path = "/mnt/bloc/test";
+        browseable = "yes";
+        "read only" = "no";
+        # "public" = "yes";
+        "writeable" = "no";
+        "write list" = "nanoteck137";
+        "read list" = "";
+        # "force user" = "nanoteck137";
+        # "force group" = "users";
+      };
+    };
+  };
 
 }
 

@@ -25,6 +25,9 @@
 
     haunter.url = "github:nanoteck137/haunter";
     haunter.inputs.nixpkgs.follows = "nixpkgs";
+
+    boldore.url = "github:nanoteck137/boldore";
+    boldore.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = { self, nixpkgs, nix-darwin, home-manager, ... }@inputs: 
