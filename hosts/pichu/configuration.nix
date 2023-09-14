@@ -1,10 +1,11 @@
 { config, pkgs, inputs, ... }:
 let
   sewaddle = inputs.sewaddle.packages.x86_64-linux.default.overrideAttrs (finalAttrs: previousAttrs: {
-    VITE_TEST = "https://backend.sewaddle.net";
+    VITE_POCKETBASE_BASE_URL = "https://sewaddle.net";
   });
 
-  swadloon = inputs.swadloon.packages.x86_64-linux.default;
+  budew = inputs.swadloon.packages.x86_64-linux.budew;
+  sunkern = inputs.swadloon.packages.x86_64-linux.sunkern;
 
   haunter = inputs.haunter.packages.x86_64-linux.default;
   boldore = inputs.boldore.packages.x86_64-linux.default;
@@ -47,10 +48,21 @@ in {
   };
 
   environment.systemPackages = with pkgs; [
-    swadloon
+    budew
+    sunkern
     boldore
     zfs
   ];
+
+  fileSystems."/mnt/media" = {
+      device = "//10.28.28.2/media";
+      fsType = "cifs";
+      options = let
+        automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
+        user = "uid=1000,gid=100";
+
+      in ["${automount_opts},${user},credentials=/etc/nixos/smb-secrets"];
+  };
 
   services.mullvad-vpn.enable = true;
 
@@ -66,18 +78,21 @@ in {
     virtualHosts."sewaddle.net" = {
       extraConfig = ''
         tls /etc/nixos/certs/sewaddle.net+1.pem /etc/nixos/certs/sewaddle.net+1-key.pem
+
+        handle /api/* {
+          reverse_proxy http://localhost:8090
+        }
+
+        handle_path /admin/* {
+          rewrite /* /_/{uri}
+          reverse_proxy http://localhost:8090
+        }
+
         handle {
           root * ${sewaddle}
           try_files {path} /index.html
           file_server
         }
-      '';
-    };
-
-    virtualHosts."backend.sewaddle.net" = {
-      extraConfig = ''
-        tls /etc/nixos/certs/sewaddle.net+1.pem /etc/nixos/certs/sewaddle.net+1-key.pem
-        reverse_proxy http://localhost:8090
       '';
     };
 
