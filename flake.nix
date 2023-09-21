@@ -61,6 +61,20 @@
         ];
       };
 
+      nixosConfigurations.raichu = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
+        modules = [ 
+          ./hosts/raichu/configuration.nix 
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.nanoteck137 = import ./hosts/raichu/home.nix;
+          }
+        ];
+      };
+
       darwinConfigurations.zorua = nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         specialArgs = { inherit self inputs; };
