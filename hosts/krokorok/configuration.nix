@@ -40,9 +40,17 @@
     nvidiaSettings = true;
   };
 
+  # hardware.pulseaudio.enable = true;
+  # nixpkgs.config.pulseaudio = true;
+
   sound.enable = true;
-  hardware.pulseaudio.enable = true;
-  nixpkgs.config.pulseaudio = true;
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+  };
 
   virtualisation.libvirtd.enable = true;
   programs.dconf.enable = true;
@@ -82,6 +90,16 @@
 
       in ["${automount_opts},${user},credentials=/etc/nixos/smb-secrets"];
   };
+  
+  fileSystems."/mnt/storage" = {
+      device = "//10.28.28.2/storage";
+      fsType = "cifs";
+      options = let
+        automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
+        user = "uid=1000,gid=100";
+
+      in ["${automount_opts},${user},credentials=/etc/nixos/smb-secrets"];
+  };
 
   fileSystems."/mnt/media" = {
       device = "//10.28.28.2/media";
@@ -102,10 +120,9 @@
   programs._1password.enable = true;
   programs._1password-gui.enable = true;
 
-  # networking.extraHosts = ''
-  #   10.28.28.2  lelserver
-  #   10.28.28.2  test.lelserver
-  # '';
+  networking.extraHosts = ''
+    10.28.28.9  sewaddle.net
+  '';
 
   # Enable the OpenSSH daemon.
   services.openssh = {
