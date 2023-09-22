@@ -9,8 +9,8 @@
     inputs.nixneovimplugins.overlays.default
   ];
 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.grub.enable = true;
+  boot.loader.grub.device = "/dev/disk/by-id/ata-Samsung_SSD_850_EVO_250GB_S2R6NX0J900485J";
 
   networking.hostName = "raichu";
   networking.networkmanager.enable = true;
