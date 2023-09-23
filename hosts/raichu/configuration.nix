@@ -1,4 +1,9 @@
-{ config, lib, pkgs, inputs, ... }: {
+{ config, lib, pkgs, inputs, ... }: 
+let
+  sewaddle = inputs.sewaddle.packages.x86_64-linux.default.overrideAttrs (finalAttrs: previousAttrs: {
+    VITE_POCKETBASE_BASE_URL = "";
+  });
+in {
   imports = [ 
     ./hardware-configuration.nix
     ../common/common.nix
@@ -25,6 +30,16 @@
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIIiL5jrSUxzAttiABU5jI7JhNuKsAdpkH6nm9k6LbjG nanoteck137"
     ];
+  };
+
+  services.caddy = {
+    enable = true;
+
+    virtualHosts."patrikmillvik.duckdns.org" = {
+      extraConfig = ''
+        file_server ${sewaddle}
+      '';
+    };
   };
 
   services.openssh.enable = true;
