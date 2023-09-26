@@ -16,6 +16,10 @@
   networking.hostName = "krokorok";
   networking.networkmanager.enable = true;
 
+  boot.supportedFilesystems = [ "zfs" ];
+  boot.zfs.forceImportRoot = false;
+  networking.hostId = "d8817982";
+
   # Configure keymap in X11
   services.xserver = {
     enable = true;
@@ -120,10 +124,6 @@
   programs._1password.enable = true;
   programs._1password-gui.enable = true;
 
-  networking.extraHosts = ''
-    10.28.28.9  sewaddle.net
-  '';
-
   # Enable the OpenSSH daemon.
   services.openssh = {
     enable = true;
@@ -144,5 +144,4 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.05"; # Did you read the comment?
-
 }
