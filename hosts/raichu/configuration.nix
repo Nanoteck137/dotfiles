@@ -157,7 +157,10 @@ in {
     };
   };
 
-  services.samba-wsdd.enable = true; # make shares visible for windows 10 clients
+  services.samba-wsdd = {
+    enable = true; 
+    openFirewall = true;
+  };
 
   services.jellyfin = {
     enable = true;
@@ -165,8 +168,8 @@ in {
   };
 
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 80 443 5357 ];
-  networking.firewall.allowedUDPPorts = [ 3702 ];
+  networking.firewall.allowedTCPPorts = [ 80 443 ];
+  networking.firewall.allowedUDPPorts = [ ];
   networking.firewall.allowPing = true;
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
