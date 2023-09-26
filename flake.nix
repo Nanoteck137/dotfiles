@@ -28,6 +28,9 @@
 
     boldore.url = "github:nanoteck137/boldore";
     boldore.inputs.nixpkgs.follows = "nixpkgs";
+
+    customcaddy.url = "github:nanoteck137/customcaddy";
+    customcaddy.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = { self, nixpkgs, nix-darwin, home-manager, ... }@inputs: 
