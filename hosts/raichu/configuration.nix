@@ -9,6 +9,7 @@ in {
   imports = [ 
     ./hardware-configuration.nix
     ../common/common.nix
+    ../sewaddle.nix
   ];
 
   nixpkgs.overlays = [ 
@@ -55,9 +56,49 @@ in {
         file_server
       '';
     };
+
+    virtualHosts."test.patrikmillvik.duckdns.org" = {
+      extraConfig = ''
+        tls {
+          dns duckdns ${secrets.duckDnsToken}
+        }
+
+        reverse_proxy :8090
+      '';
+    };
   };
 
   services.openssh.enable = true;
+
+  services.home-assistant = {
+    enable = true;
+    openFirewall = true;
+    package = (pkgs.home-assistant.override {
+      extraComponents = [
+        "default_config"
+        "met"
+        "esphome"
+        "mobile_app"
+        "feedreader"
+        "smhi"
+      ];
+    });
+    config = {
+      homeassistant = {
+        name = "Home";
+        unit_system = "metric";
+        time_zone = "UTC";
+      };
+      frontend = {
+        themes = "!include_dir_merge_named themes";
+      };
+      http = {};
+      feedreader = {
+        urls = [ "https://myanimelist.net/rss.php?type=rw&u=Nanoteck137" ];
+      };
+      mobile_app = {};
+    };
+  };
 
   # virtualisation.oci-containers.containers = {
   #    nginxproxymanager = {
@@ -73,8 +114,23 @@ in {
 
   virtualisation.docker.enable = true;
 
+  services.guacamole-server.enable = true;
+
+  virtualisation.libvirtd.enable = true;
+  programs.dconf = {
+    enable = true;
+
+    # settings = {
+    #   "org/virt-manager/virt-manager/connections" = {
+    #     autoconnect = ["qemu:///system"];
+    #     uris = ["qemu:///system"];
+    #   };
+    # };
+  };
+
   environment.systemPackages = with pkgs; [
     samba
+    virt-manager
   ];
 
   services.samba = {
@@ -167,9 +223,29 @@ in {
     openFirewall = true;
   };
 
+  services.nginx = {
+    enable = true;
+    additionalModules = [ pkgs.nginxModules.rtmp ];
+
+    appendConfig = ''
+      rtmp {
+        server {
+          listen 1935;
+
+          application stream  {
+            live on;
+            record off;
+            meta copy;
+          }
+        }
+      }
+
+    '';
+  };
+
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 80 443 ];
-  networking.firewall.allowedUDPPorts = [ ];
+  networking.firewall.allowedTCPPorts = [ 80 443 1935 4822 ];
+  networking.firewall.allowedUDPPorts = [  ];
   networking.firewall.allowPing = true;
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
