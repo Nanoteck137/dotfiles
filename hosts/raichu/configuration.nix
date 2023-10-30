@@ -4,6 +4,8 @@ let
     VITE_POCKETBASE_BASE_URL = "";
   });
 
+  budew = inputs.swadloon.packages.x86_64-linux.budew;
+
   secrets = builtins.fromJSON (builtins.readFile /etc/nixos/secrets.json);
 in {
   imports = [ 
@@ -51,9 +53,20 @@ in {
           dns duckdns ${secrets.duckDnsToken}
         }
 
-        root * ${sewaddle}
-        try_files {path} /index.html
-        file_server
+        handle /api/* {
+          reverse_proxy http://localhost:8090
+        }
+
+        handle_path /admin/* {
+          rewrite /* /_/{uri}
+          reverse_proxy http://localhost:8090
+        }
+
+        handle {
+          root * ${sewaddle}
+          try_files {path} /index.html
+          file_server
+        }
       '';
     };
 
@@ -131,6 +144,7 @@ in {
   environment.systemPackages = with pkgs; [
     samba
     virt-manager
+    budew
   ];
 
   services.samba = {
@@ -243,9 +257,47 @@ in {
     '';
   };
 
+  systemd.services.rustdesk = {
+    enable = true;
+    description = "RustDesk (hbbs)";
+
+    wantedBy = ["multi-user.target"];
+
+    serviceConfig = {
+      Type           = "simple";
+      User           = "rustdesk";
+      Group          = "rustdesk";
+      Restart        = "always";
+      RestartSec     = "5s";
+      StateDirectory = [ "rustdesk" ];
+      WorkingDirectory = "/var/lib/rustdesk";
+      # ExecStart      = "${pkgs.rustdesk-server}/bin/hbbs -r 10.28.28.2";
+
+      NoNewPrivileges = true;
+      PrivateDevices = true;
+      ProtectHome = false;
+    };
+    script = ''
+      ${pkgs.rustdesk-server}/bin/hbbs -r 10.28.28.2
+      ${pkgs.rustdesk-server}/bin/hbbr
+    '';
+  };
+
+  users.users = {
+    rustdesk = {
+      isSystemUser = true;
+      group = "rustdesk";
+      home = "/var/lib/rustdesk";
+    };
+  };
+
+  users.groups = {
+    rustdesk = {};
+  };
+
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 80 443 1935 4822 ];
-  networking.firewall.allowedUDPPorts = [  ];
+  networking.firewall.allowedTCPPorts = [ 80 443 1935 4822 21115 21116 21117 21118 21119 ];
+  networking.firewall.allowedUDPPorts = [ 21116 ];
   networking.firewall.allowPing = true;
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
