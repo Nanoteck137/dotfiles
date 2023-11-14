@@ -61,6 +61,9 @@
       color17 #db4b4b
 
       cursor_shape block
+
+      map alt+left send_text all \x1b\x62
+      map alt+right send_text all \x1b\x66
     '';
   }; 
 }

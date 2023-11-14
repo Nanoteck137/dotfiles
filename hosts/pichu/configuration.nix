@@ -1,7 +1,6 @@
 { config, pkgs, inputs, ... }:
 let
   sewaddle = inputs.sewaddle.packages.x86_64-linux.default.overrideAttrs (finalAttrs: previousAttrs: {
-    VITE_POCKETBASE_BASE_URL = "https://sewaddle.net";
   });
 
   budew = inputs.swadloon.packages.x86_64-linux.budew;

@@ -19,6 +19,8 @@
     initExtra = if pkgs.stdenv.isDarwin then ''
       eval "$(/opt/homebrew/bin/brew shellenv)"
       any-nix-shell zsh --info-right | source /dev/stdin
+
+      export PATH=~/.npm-global/bin:$PATH
     '' 
     else ''
       any-nix-shell zsh --info-right | source /dev/stdin

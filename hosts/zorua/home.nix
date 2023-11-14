@@ -14,6 +14,10 @@
     vscode
   ];
 
+  home.file.".npmrc".text = ''
+    prefix=/Users/nanoteck137/.npm-global
+  '';
+
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   programs.home-manager.enable = true;

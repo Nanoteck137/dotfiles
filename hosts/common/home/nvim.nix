@@ -7,10 +7,12 @@
     defaultEditor = true;
     vimAlias = true;
     viAlias = true;
+
     extraPackages = with pkgs; [
       ripgrep
       fd
       xclip
+      nodejs
     ];
 
     plugins = with pkgs; [
@@ -32,6 +34,7 @@
       vimPlugins.cmp-buffer
       vimPlugins.cmp-path
       vimPlugins.cmp-nvim-lsp
+      vimPlugins.mason-nvim
 
       vimPlugins.null-ls-nvim
       vimPlugins.luasnip
@@ -40,6 +43,7 @@
       vimPlugins.nvim-surround
 
       vimExtraPlugins.neo-tree-nvim
+      vimExtraPlugins.Comment-nvim
     ];
   };
 }

@@ -97,7 +97,7 @@ cmp.setup {
       { "i", "c" }
     ),
 
-    ["<C-space>"] = cmp.mapping {
+    ["<C-e>"] = cmp.mapping {
       i = cmp.mapping.complete {},
       c = function(
         _ --[[fallback]]
@@ -118,10 +118,10 @@ cmp.setup {
   },
 
   sources = {
-    { name = "nvim_lsp_signature_help" },
-    { name = "luasnip" },
-    { name = "nvim_lua" },
     { name = "nvim_lsp" },
+    { name = "luasnip" },
+    { name = "nvim_lsp_signature_help" },
+    { name = "nvim_lua" },
     { name = "path" },
     { name = "buffer", keyword_length = 3 },
   },
@@ -135,8 +135,11 @@ cmp.setup {
   },
 }
 
+require("mason").setup()
+
 require("lualine").setup {}
-require("nvim_comment").setup {}
+-- require("nvim_comment").setup {}
+require('Comment').setup()
 require("todo-comments").setup {
   highlight = {
     before = "", -- "fg" or "bg" or empty
@@ -213,7 +216,8 @@ local function lsp_on_attach(client, bufnr)
   lsp_add_keymaps(bufnr)
 end
 
-local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
+-- local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 require("lspconfig").rust_analyzer.setup {
   on_attach = lsp_on_attach,
@@ -233,6 +237,21 @@ require('lspconfig').tsserver.setup{
 }
 
 require('lspconfig').gopls.setup{
+  on_attach = lsp_on_attach,
+  capabilities = capabilities,
+}
+
+require('lspconfig').svelte.setup{
+  on_attach = lsp_on_attach,
+  capabilities = capabilities,
+}
+
+require'lspconfig'.emmet_language_server.setup{
+  on_attach = lsp_on_attach,
+  capabilities = capabilities,
+}
+
+require'lspconfig'.tailwindcss.setup{
   on_attach = lsp_on_attach,
   capabilities = capabilities,
 }
