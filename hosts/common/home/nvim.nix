@@ -13,6 +13,7 @@
       fd
       xclip
       nodejs
+      lazygit
     ];
 
     plugins = with pkgs; [
@@ -41,6 +42,8 @@
 
       vimPlugins.nvim-lspconfig
       vimPlugins.nvim-surround
+
+      vimPlugins.harpoon
 
       vimExtraPlugins.neo-tree-nvim
       vimExtraPlugins.Comment-nvim

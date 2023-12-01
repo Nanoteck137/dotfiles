@@ -109,12 +109,6 @@ cmp.setup {
         end
       end,
     },
-
-    -- Testing
-    ["<C-q>"] = cmp.mapping.confirm {
-      behavior = cmp.ConfirmBehavior.Replace,
-      select = true,
-    },
   },
 
   sources = {
@@ -165,11 +159,16 @@ require("todo-comments").setup {
 require("trouble").setup {}
 
 vim.keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<CR>")
+vim.keymap.set("n", "<leader>fa", require("harpoon.mark").add_file)
+vim.keymap.set("n", "<leader>fs", require("harpoon.ui").toggle_quick_menu)
+vim.keymap.set("n", "<leader>fn", require("harpoon.ui").nav_next)
+vim.keymap.set("n", "<leader>fp", require("harpoon.ui").nav_prev)
+
 vim.keymap.set("n", "<leader>bb", "<cmd>Telescope buffers<CR>")
 vim.keymap.set("n", "<leader>hh", "<cmd>Telescope help_tags<CR>")
-vim.keymap.set("n", "<leader>e", function() 
-  require("neo-tree.command").execute({ toggle = true, dir = vim.loop.cwd() })
-end)
+-- vim.keymap.set("n", "<leader>e", function() 
+--   require("neo-tree.command").execute({ toggle = true, dir = vim.loop.cwd() })
+-- end)
 
 vim.keymap.set("n", "<leader>-", "<C-W>s");
 vim.keymap.set("n", "<leader>|", "<C-W>v");
@@ -217,7 +216,17 @@ local function lsp_on_attach(client, bufnr)
 end
 
 -- local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
+-- local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+local updated_capabilities = vim.lsp.protocol.make_client_capabilities()
+updated_capabilities.textDocument.completion.completionItem.snippetSupport = true
+updated_capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = false
+
+-- Completion configuration
+vim.tbl_deep_extend("force", updated_capabilities, require("cmp_nvim_lsp").default_capabilities())
+updated_capabilities.textDocument.completion.completionItem.insertReplaceSupport = false
+
+capabilities = updated_capabilities;
 
 require("lspconfig").rust_analyzer.setup {
   on_attach = lsp_on_attach,
@@ -246,12 +255,17 @@ require('lspconfig').svelte.setup{
   capabilities = capabilities,
 }
 
-require'lspconfig'.emmet_language_server.setup{
+require('lspconfig').emmet_language_server.setup{
   on_attach = lsp_on_attach,
   capabilities = capabilities,
 }
 
-require'lspconfig'.tailwindcss.setup{
+require('lspconfig').tailwindcss.setup{
+  on_attach = lsp_on_attach,
+  capabilities = capabilities,
+}
+
+require('lspconfig').gopls.setup{
   on_attach = lsp_on_attach,
   capabilities = capabilities,
 }
