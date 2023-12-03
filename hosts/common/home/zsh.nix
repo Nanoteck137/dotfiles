@@ -15,6 +15,7 @@
     shellAliases = {
       "lg" = "${pkgs.lazygit}/bin/lazygit";
       "nvim-dev" = "NVIM_APPNAME=nvim-dev nvim";
+      "dev-shell" = "nix develop --command zsh";
     };
 
     initExtra = if pkgs.stdenv.isDarwin then ''
