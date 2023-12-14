@@ -23,6 +23,7 @@
       any-nix-shell zsh --info-right | source /dev/stdin
 
       export PATH=~/.npm-global/bin:$PATH
+      export PATH=~/opt/flutter/bin:$PATH
     '' 
     else ''
       any-nix-shell zsh --info-right | source /dev/stdin
