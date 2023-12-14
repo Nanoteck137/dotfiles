@@ -24,5 +24,6 @@
 
   environment.systemPackages = with pkgs; [
     neovim 
+    file
   ];
 }

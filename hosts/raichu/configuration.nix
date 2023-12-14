@@ -25,7 +25,7 @@ in {
   networking.hostName = "raichu";
   networking.networkmanager.enable = true;
 
-  boot.supportedFilesystems = [ "zfs" ];
+  boot.supportedFilesystems = [ "zfs" "xfs" ];
   boot.zfs.forceImportRoot = false;
   networking.hostId = "4efb303f";
 
@@ -42,6 +42,8 @@ in {
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIIiL5jrSUxzAttiABU5jI7JhNuKsAdpkH6nm9k6LbjG nanoteck137"
     ];
   };
+
+  services.mullvad-vpn.enable = true;
 
   services.caddy = {
     package = inputs.customcaddy.packages.x86_64-linux.default;
@@ -70,13 +72,91 @@ in {
       '';
     };
 
+    virtualHosts."dbadmin.patrikmillvik.duckdns.org" = {
+      extraConfig = ''
+        tls {
+          dns duckdns ${secrets.duckDnsToken}
+        }
+
+        reverse_proxy :8081
+      '';
+    };
+
     virtualHosts."test.patrikmillvik.duckdns.org" = {
       extraConfig = ''
         tls {
           dns duckdns ${secrets.duckDnsToken}
         }
 
-        reverse_proxy :8090
+        reverse_proxy :8080
+      '';
+    };
+
+    virtualHosts."test2.patrikmillvik.duckdns.org" = {
+      extraConfig = ''
+        tls {
+          dns duckdns ${secrets.duckDnsToken}
+        }
+
+        reverse_proxy :8080
+      '';
+    };
+
+    virtualHosts."portainer.patrikmillvik.duckdns.org" = {
+      extraConfig = ''
+        tls {
+          dns duckdns ${secrets.duckDnsToken}
+        }
+
+        reverse_proxy :9443 {
+          transport http {
+            tls_insecure_skip_verify
+          }
+        }
+      '';
+    };
+
+    virtualHosts."reg.patrikmillvik.duckdns.org" = {
+      extraConfig = ''
+        tls {
+          dns duckdns ${secrets.duckDnsToken}
+        }
+
+        reverse_proxy /v2/* http://localhost:1337 {
+          header_up X-Forwarded-Proto "https"
+        }
+
+        reverse_proxy :1337
+      '';
+    };
+
+    virtualHosts."dev.sewaddle.patrikmillvik.duckdns.org" = {
+      extraConfig = ''
+        tls {
+          dns duckdns ${secrets.duckDnsToken}
+        }
+
+        reverse_proxy :3000
+      '';
+    };
+
+    virtualHosts."sewaddle.patrikmillvik.duckdns.org" = {
+      extraConfig = ''
+        tls {
+          dns duckdns ${secrets.duckDnsToken}
+        }
+
+        reverse_proxy :3050
+      '';
+    };
+
+    virtualHosts."navidrome.patrikmillvik.duckdns.org" = {
+      extraConfig = ''
+        tls {
+          dns duckdns ${secrets.duckDnsToken}
+        }
+
+        reverse_proxy :4533
       '';
     };
   };
@@ -113,6 +193,11 @@ in {
     };
   };
 
+  services.jenkins = {
+    enable = true;
+    extraGroups = ["docker"];
+  };
+
   # virtualisation.oci-containers.containers = {
   #    nginxproxymanager = {
   #      image = "jc21/nginx-proxy-manager:latest";
@@ -125,7 +210,14 @@ in {
   #    };
   # };
 
-  virtualisation.docker.enable = true;
+  virtualisation.docker = {
+    enable = true;
+    storageDriver = "overlay2";
+
+    daemon.settings = {
+      data-root = "/mnt/fastboi/docker";
+    };
+  };
 
   services.guacamole-server.enable = true;
 
@@ -145,6 +237,8 @@ in {
     samba
     virt-manager
     budew
+    docker-compose
+    rclone
   ];
 
   services.samba = {
@@ -224,6 +318,30 @@ in {
         "force group" = "users";
         "writeable" = "yes";
       };
+
+      manga = {
+        path = "/mnt/fastboi/manga";
+        browseable = "yes";
+        "read only" = "no";
+        "guest ok" = "no";
+        "create mask" = "0644";
+        "directory mask" = "0755";
+        "force user" = "nanoteck137";
+        "force group" = "users";
+        "writeable" = "yes";
+      };
+
+      music = {
+        path = "/mnt/fastboi/music";
+        browseable = "yes";
+        "read only" = "no";
+        "guest ok" = "no";
+        "create mask" = "0644";
+        "directory mask" = "0755";
+        "force user" = "nanoteck137";
+        "force group" = "users";
+        "writeable" = "yes";
+      };
     };
   };
 
@@ -235,6 +353,15 @@ in {
   services.jellyfin = {
     enable = true;
     openFirewall = true;
+  };
+
+  services.navidrome = {
+    enable = true;
+    settings = {
+      Address = "127.0.0.1";
+      Port = 4533;
+      MusicFolder = "/mnt/tank/media/music";
+    };
   };
 
   services.nginx = {
@@ -253,7 +380,6 @@ in {
           }
         }
       }
-
     '';
   };
 
@@ -296,11 +422,11 @@ in {
   };
 
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 80 443 1935 4822 21115 21116 21117 21118 21119 ];
-  networking.firewall.allowedUDPPorts = [ 21116 ];
-  networking.firewall.allowPing = true;
+  # networking.firewall.allowedTCPPorts = [ 80 443 1935 4822 21115 21116 21117 21118 21119 ] ++ [ 9443 8080 8081 ];
+  # networking.firewall.allowedUDPPorts = [ 21116 ];
+  # networking.firewall.allowPing = true;
   # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  networking.firewall.enable = false;
 
   system.stateVersion = "23.11";
   nix.settings.experimental-features = [ "nix-command" "flakes" ];

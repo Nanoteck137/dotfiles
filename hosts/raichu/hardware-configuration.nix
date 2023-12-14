@@ -13,6 +13,11 @@
     fsType = "ext4";
   };
 
+  fileSystems."/mnt/fastboi" = { 
+    device = "/dev/disk/by-label/fastboi";
+    fsType = "xfs";
+  };
+
   swapDevices = [ 
     { device = "/dev/disk/by-label/swap"; }
   ];
