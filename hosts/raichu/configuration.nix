@@ -425,6 +425,11 @@ in {
     rustdesk = {};
   };
 
+  services.cockpit = {
+    enable = true;
+    openFirewall = true;
+  };
+
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ 80 443 1935 4822 21115 21116 21117 21118 21119 ] ++ [ 9443 8080 8081 ];
   # networking.firewall.allowedUDPPorts = [ 21116 ];
