@@ -115,6 +115,16 @@
       in ["${automount_opts},${user},credentials=/etc/nixos/smb-secrets"];
   };
 
+  fileSystems."/mnt/temp" = {
+      device = "//10.28.28.2/temp";
+      fsType = "cifs";
+      options = let
+        automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
+        user = "uid=1000,gid=100";
+
+      in ["${automount_opts},${user},credentials=/etc/nixos/smb-secrets"];
+  };
+
   fonts.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "Noto" ]; })
   ];
