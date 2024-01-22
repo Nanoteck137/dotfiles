@@ -48,29 +48,29 @@ in {
   services.caddy = {
     package = inputs.customcaddy.packages.x86_64-linux.default;
     enable = true;
-  
-    virtualHosts."patrikmillvik.duckdns.org" = {
-      extraConfig = ''
-        tls {
-          dns duckdns ${secrets.duckDnsToken}
-        }
 
-        handle /api/* {
-          reverse_proxy http://localhost:8090
-        }
-
-        handle_path /admin/* {
-          rewrite /* /_/{uri}
-          reverse_proxy http://localhost:8090
-        }
-
-        handle {
-          root * ${sewaddle}
-          try_files {path} /index.html
-          file_server
-        }
-      '';
-    };
+    # virtualHosts."patrikmillvik.duckdns.org" = {
+    #   extraConfig = ''
+    #     tls {
+    #       dns duckdns ${secrets.duckDnsToken}
+    #     }
+    #
+    #     handle /api/* {
+    #       reverse_proxy http://localhost:8090
+    #     }
+    #
+    #     handle_path /admin/* {
+    #       rewrite /* /_/{uri}
+    #       reverse_proxy http://localhost:8090
+    #     }
+    #
+    #     handle {
+    #       root * ${sewaddle}
+    #       try_files {path} /index.html
+    #       file_server
+    #     }
+    #   '';
+    # };
 
     virtualHosts."dbadmin.patrikmillvik.duckdns.org" = {
       extraConfig = ''
@@ -88,7 +88,7 @@ in {
           dns duckdns ${secrets.duckDnsToken}
         }
 
-        reverse_proxy :8080
+        reverse_proxy :3000
       '';
     };
 
@@ -163,40 +163,40 @@ in {
 
   services.openssh.enable = true;
 
-  services.home-assistant = {
-    enable = true;
-    openFirewall = true;
-    package = (pkgs.home-assistant.override {
-      extraComponents = [
-        "default_config"
-        "met"
-        "esphome"
-        "mobile_app"
-        "feedreader"
-        "smhi"
-      ];
-    });
-    config = {
-      homeassistant = {
-        name = "Home";
-        unit_system = "metric";
-        time_zone = "UTC";
-      };
-      frontend = {
-        themes = "!include_dir_merge_named themes";
-      };
-      http = {};
-      feedreader = {
-        urls = [ "https://myanimelist.net/rss.php?type=rw&u=Nanoteck137" ];
-      };
-      mobile_app = {};
-    };
-  };
+  # services.home-assistant = {
+  #   enable = true;
+  #   openFirewall = true;
+  #   package = (pkgs.home-assistant.override {
+  #     extraComponents = [
+  #       "default_config"
+  #       "met"
+  #       "esphome"
+  #       "mobile_app"
+  #       "feedreader"
+  #       "smhi"
+  #     ];
+  #   });
+  #   config = {
+  #     homeassistant = {
+  #       name = "Home";
+  #       unit_system = "metric";
+  #       time_zone = "UTC";
+  #     };
+  #     frontend = {
+  #       themes = "!include_dir_merge_named themes";
+  #     };
+  #     http = {};
+  #     feedreader = {
+  #       urls = [ "https://myanimelist.net/rss.php?type=rw&u=Nanoteck137" ];
+  #     };
+  #     mobile_app = {};
+  #   };
+  # };
 
-  services.jenkins = {
-    enable = true;
-    extraGroups = ["docker"];
-  };
+  # services.jenkins = {
+  #   enable = true;
+  #   extraGroups = ["docker"];
+  # };
 
   # virtualisation.oci-containers.containers = {
   #    nginxproxymanager = {
@@ -217,6 +217,10 @@ in {
     daemon.settings = {
       data-root = "/mnt/fastboi/docker";
     };
+  };
+
+  virtualisation.podman = {
+    enable = true;
   };
 
   services.guacamole-server.enable = true;

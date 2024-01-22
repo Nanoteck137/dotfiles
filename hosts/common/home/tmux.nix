@@ -11,8 +11,8 @@
     keyMode = "vi";
 
     extraConfig = ''
-      set-option -sa terminal-overrides ",alacritty:Tc"
-      set-option -sa terminal-features ',alacritty:RGB'
+      set-option -sa terminal-overrides ",*:Tc"
+      set-option -sa terminal-features ',*:RGB'
       set -g default-terminal "screen-256color"
 
       is_vim="ps -o state= -o comm= -t '#{pane_tty}' | grep -iqE '^[^TXZ ]+ +(\\S+\\/)?g?\.?(view|n?vim?x?)(-wrapped)?(diff)?$'"

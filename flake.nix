@@ -15,6 +15,9 @@
 
     nixneovimplugins.url = "github:jooooscha/nixpkgs-vim-extra-plugins";
 
+    nvim-config.url = "github:nanoteck137/nvim-config";
+    nvim-config.flake = false;
+
     # Server Stuff
 
     sewaddle.url = "github:nanoteck137/sewaddle";
@@ -30,7 +33,7 @@
     boldore.inputs.nixpkgs.follows = "nixpkgs";
 
     customcaddy.url = "github:nanoteck137/customcaddy";
-    customcaddy.inputs.nixpkgs.follows = "nixpkgs";
+    # customcaddy.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = { self, nixpkgs, nix-darwin, home-manager, ... }@inputs: 
@@ -73,6 +76,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = { inherit inputs; };
             home-manager.users.nanoteck137 = import ./hosts/raichu/home.nix;
           }
         ];
