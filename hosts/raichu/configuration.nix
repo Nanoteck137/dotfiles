@@ -425,9 +425,12 @@ in {
     rustdesk = {};
   };
 
-  services.cockpit = {
+  services.vsftpd = {
     enable = true;
-    openFirewall = true;
+    userlist = ["nanoteck137"];
+    userlistEnable = true;
+    localUsers = true;
+    writeEnable = true;
   };
 
   # Open ports in the firewall.
