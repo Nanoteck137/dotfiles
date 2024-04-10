@@ -159,6 +159,16 @@ in {
         reverse_proxy :4533
       '';
     };
+
+    virtualHosts."memos.patrikmillvik.duckdns.org" = {
+      extraConfig = ''
+        tls {
+          dns duckdns ${secrets.duckDnsToken}
+        }
+
+        reverse_proxy :5230
+      '';
+    };
   };
 
   services.openssh.enable = true;
