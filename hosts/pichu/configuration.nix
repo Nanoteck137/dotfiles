@@ -8,6 +8,8 @@ let
   #
   # haunter = inputs.haunter.packages.x86_64-linux.default;
   # boldore = inputs.boldore.packages.x86_64-linux.default;
+
+  sewaddle = inputs.sewaddle.packages.x86_64-linux.default;
 in {
   imports = [ 
     ./hardware-configuration.nix
@@ -55,6 +57,23 @@ in {
     enable = true;
     settings.PasswordAuthentication = false;
     settings.KbdInteractiveAuthentication = false;
+  };
+  
+  systemd.services.sewaddle = {
+    description = "Sewaddle Backend";
+
+    wantedBy = ["multi-user.target"];
+
+    serviceConfig = {
+      DynamicUser = "yes";
+      Restart        = "always";
+      RestartSec     = "5s";
+      ExecStart      = "${sewaddle}/bin/sewaddle serve";
+
+      NoNewPrivileges = true;
+      PrivateDevices = true;
+      ProtectHome = false;
+    };
   };
 
   # services.caddy = {
