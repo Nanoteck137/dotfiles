@@ -688,11 +688,11 @@
         "pyrin": "pyrin"
       },
       "locked": {
-        "lastModified": 1713908364,
-        "narHash": "sha256-H7xofqOoCb+xtNbI1MqZfm0iDOZsIhwsdE/ZhTUI0Lo=",
+        "lastModified": 1714391166,
+        "narHash": "sha256-xXl6gIwe2IZgJOKQgFARgyrbOqoJ1V/xOyxZIjW3hwo=",
         "owner": "nanoteck137",
         "repo": "sewaddle",
-        "rev": "26176cc7826cbc5b08966510ae16895af2c1b2a6",
+        "rev": "603108209fdefbb859a6b041036488460e7857fc",
         "type": "github"
       },
       "original": {
