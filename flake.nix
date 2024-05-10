@@ -34,6 +34,9 @@
 
     customcaddy.url = "github:nanoteck137/customcaddy";
     # customcaddy.inputs.nixpkgs.follows = "nixpkgs";
+
+    sewaddlenew.url = "github:nanoteck137/sewaddle";
+    sewaddlenew.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = { self, nixpkgs, nix-darwin, home-manager, ... }@inputs: 

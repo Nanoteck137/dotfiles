@@ -1,6 +1,7 @@
 { config, pkgs, inputs, ... }:
 {
   imports = [ 
+    inputs.sewaddlenew.nixosModules.x86_64-linux.default
     ./hardware-configuration.nix
     ../common/common.nix
   ];
@@ -60,6 +61,11 @@
   programs.dconf.enable = true;
 
   virtualisation.docker.enable = true;
+
+  services.sewaddle = {
+    enable = true;
+    library = "/mnt/media/manga";
+  };
 
   users.users.nanoteck137 = {
     isNormalUser = true;
@@ -132,7 +138,7 @@
   };
 
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 5173 8090 ];
+  networking.firewall.allowedTCPPorts = [ 5173 8090 3000 ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
