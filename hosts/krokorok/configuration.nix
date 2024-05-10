@@ -67,6 +67,47 @@
     library = "/mnt/media/manga";
   };
 
+  systemd.services.memos = {
+    description = "memos";
+    wantedBy = [ "multi-user.target" ];
+
+    serviceConfig = {
+      User = "memos";
+      Group = "memos";
+
+      StateDirectory = "memos";
+
+      ExecStart = "${pkgs.memos}/bin/memos -d '/var/lib/memos' -m 'prod'";
+
+      Restart = "on-failure";
+      RestartSec = "5s";
+
+      ProtectHome = true;
+      ProtectHostname = true;
+      ProtectKernelLogs = true;
+      ProtectKernelModules = true;
+      ProtectKernelTunables = true;
+      ProtectProc = "invisible";
+      ProtectSystem = "strict";
+      RestrictAddressFamilies = [ "AF_INET" "AF_INET6" "AF_UNIX" ];
+      RestrictNamespaces = true;
+      RestrictRealtime = true;
+      RestrictSUIDSGID = true;
+    };
+  };
+
+  users.users = {
+    memos = {
+      group = "memos";
+      isSystemUser = true;
+    };
+  };
+
+  users.groups = {
+    memos = {};
+  };
+
+
   users.users.nanoteck137 = {
     isNormalUser = true;
     description = "nanoteck137";
@@ -138,7 +179,7 @@
   };
 
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 5173 8090 3000 ];
+  networking.firewall.allowedTCPPorts = [ 5173 8090 3000 8081 ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
