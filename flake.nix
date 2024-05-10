@@ -37,6 +37,9 @@
 
     sewaddlenew.url = "github:nanoteck137/sewaddle";
     sewaddlenew.inputs.nixpkgs.follows = "nixpkgs";
+
+    sewaddle-web.url = "github:nanoteck137/sewaddle-web";
+    sewaddle-web.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = { self, nixpkgs, nix-darwin, home-manager, ... }@inputs: 

@@ -139,6 +139,24 @@
         "systems": "systems_10"
       },
       "locked": {
+        "lastModified": 1705309234,
+        "narHash": "sha256-uNRRNRKmJyCRC/8y1RqBkqWBLM034y4qN7EprSdmgyA=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "1ef2e671c3b0c19053962c07dbda38332dcebf26",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "flake-utils_11": {
+      "inputs": {
+        "systems": "systems_11"
+      },
+      "locked": {
         "lastModified": 1709126324,
         "narHash": "sha256-q6EQdSeUZOG26WelxqkmR7kArjgWCdw5sfJVHPH/7j8=",
         "owner": "numtide",
@@ -152,9 +170,9 @@
         "type": "github"
       }
     },
-    "flake-utils_11": {
+    "flake-utils_12": {
       "inputs": {
-        "systems": "systems_11"
+        "systems": "systems_12"
       },
       "locked": {
         "lastModified": 1689068808,
@@ -170,9 +188,9 @@
         "type": "github"
       }
     },
-    "flake-utils_12": {
+    "flake-utils_13": {
       "inputs": {
-        "systems": "systems_12"
+        "systems": "systems_13"
       },
       "locked": {
         "lastModified": 1681202837,
@@ -319,16 +337,37 @@
         "systems": "systems_9"
       },
       "locked": {
-        "lastModified": 1705309234,
-        "narHash": "sha256-uNRRNRKmJyCRC/8y1RqBkqWBLM034y4qN7EprSdmgyA=",
+        "lastModified": 1710146030,
+        "narHash": "sha256-SZ5L6eA7HJ/nmkzGG7/ISclqe6oZdOZTNoesiInkXPQ=",
         "owner": "numtide",
         "repo": "flake-utils",
-        "rev": "1ef2e671c3b0c19053962c07dbda38332dcebf26",
+        "rev": "b1d9ab70662946ef0850d488da1c9019f3a9752a",
         "type": "github"
       },
       "original": {
         "owner": "numtide",
         "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "gitignore": {
+      "inputs": {
+        "nixpkgs": [
+          "sewaddle-web",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1709087332,
+        "narHash": "sha256-HG2cCnktfHsKV0s4XW83gU3F57gaTljL9KNSuG6bnQs=",
+        "owner": "hercules-ci",
+        "repo": "gitignore.nix",
+        "rev": "637db329424fd7e46cf4185293b9cc8c88c95394",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hercules-ci",
+        "repo": "gitignore.nix",
         "type": "github"
       }
     },
@@ -680,7 +719,7 @@
     },
     "pyrin_2": {
       "inputs": {
-        "flake-utils": "flake-utils_10",
+        "flake-utils": "flake-utils_11",
         "nixpkgs": "nixpkgs_6"
       },
       "locked": {
@@ -709,6 +748,7 @@
         "nixpkgs": "nixpkgs_4",
         "nvim-config": "nvim-config",
         "sewaddle": "sewaddle",
+        "sewaddle-web": "sewaddle-web",
         "sewaddlenew": "sewaddlenew",
         "swadloon": "swadloon"
       }
@@ -734,7 +774,7 @@
     },
     "rust-overlay_2": {
       "inputs": {
-        "flake-utils": "flake-utils_12",
+        "flake-utils": "flake-utils_13",
         "nixpkgs": "nixpkgs_7"
       },
       "locked": {
@@ -774,20 +814,42 @@
         "type": "github"
       }
     },
-    "sewaddlenew": {
+    "sewaddle-web": {
       "inputs": {
         "flake-utils": "flake-utils_9",
+        "gitignore": "gitignore",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1715348902,
+        "narHash": "sha256-E/ZeGdGWbiboiBYvOF04McD450N9CiriPxwtjBi360s=",
+        "owner": "nanoteck137",
+        "repo": "sewaddle-web",
+        "rev": "d51fb0c7b2b703e20e443c7396b05dfdf8681d07",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nanoteck137",
+        "repo": "sewaddle-web",
+        "type": "github"
+      }
+    },
+    "sewaddlenew": {
+      "inputs": {
+        "flake-utils": "flake-utils_10",
         "nixpkgs": [
           "nixpkgs"
         ],
         "pyrin": "pyrin_2"
       },
       "locked": {
-        "lastModified": 1715341347,
-        "narHash": "sha256-8LMrf4VyB+KSwgjqMLHAO5sQMjwVxIyMfFJQcuy2oSo=",
+        "lastModified": 1715343925,
+        "narHash": "sha256-RsoOWL6Hd8IprVW2+6afg9OyOBMiA5+vTwuQIGhboE8=",
         "owner": "nanoteck137",
         "repo": "sewaddle",
-        "rev": "8f3cbe6adc81a68cf4fd0ea8db6c7c5a51d7515e",
+        "rev": "c3c147e1858533583579f0c110df305167912cd6",
         "type": "github"
       },
       "original": {
@@ -798,7 +860,7 @@
     },
     "swadloon": {
       "inputs": {
-        "flake-utils": "flake-utils_11",
+        "flake-utils": "flake-utils_12",
         "nixpkgs": [
           "nixpkgs"
         ],
@@ -864,6 +926,21 @@
       }
     },
     "systems_12": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    },
+    "systems_13": {
       "locked": {
         "lastModified": 1681028828,
         "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",

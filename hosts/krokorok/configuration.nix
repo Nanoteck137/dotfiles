@@ -1,7 +1,9 @@
 { config, pkgs, inputs, ... }:
-{
+let
+  secrets = builtins.fromJSON (builtins.readFile /etc/nixos/secrets.json);
+in {
   imports = [ 
-    inputs.sewaddlenew.nixosModules.x86_64-linux.default
+    inputs.sewaddlenew.nixosModules.default
     ./hardware-configuration.nix
     ../common/common.nix
   ];
@@ -181,18 +183,80 @@
   };
 
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 5173 8090 3000 8081 ];
+  networking.firewall.allowedTCPPorts = [ 80 443 5173 8090 3000 8081 ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
-  nix.settings.experimental-features = ["nix-command" "flakes"];
 
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.05"; # Did you read the comment?
+  services.caddy = {
+    package = inputs.customcaddy.packages.x86_64-linux.default;
+    enable = true;
+
+    # virtualHosts."patrikmillvik.duckdns.org" = {
+    #   extraConfig = ''
+    #     tls {
+    #       dns duckdns ${secrets.duckDnsToken}
+    #     }
+    #
+    #     handle /api/* {
+    #       reverse_proxy http://localhost:8090
+    #     }
+    #
+    #     handle_path /admin/* {
+    #       rewrite /* /_/{uri}
+    #       reverse_proxy http://localhost:8090
+    #     }
+    #
+    #     handle {
+    #       root * ${sewaddle}
+    #       try_files {path} /index.html
+    #       file_server
+    #     }
+    #   '';
+    # };
+
+    # virtualHosts."reg.patrikmillvik.duckdns.org" = {
+    #   extraConfig = ''
+    #     tls {
+    #       dns duckdns ${secrets.duckDnsToken}
+    #     }
+    #
+    #     reverse_proxy /v2/* http://localhost:1337 {
+    #       header_up X-Forwarded-Proto "https"
+    #     }
+    #
+    #     reverse_proxy :1337
+    #   '';
+    # };
+
+    virtualHosts."sewaddle.patrikmillvik.duckdns.org" = {
+      extraConfig = ''
+        tls {
+          dns duckdns ${secrets.duckDnsToken}
+        }
+
+        handle /api/* {
+          reverse_proxy :3000
+        }
+
+        handle /chapters/* {
+          reverse_proxy :3000
+        }
+
+        handle /images/* {
+          reverse_proxy :3000
+        }
+
+        handle {
+          root * ${inputs.sewaddle-web.packages.x86_64-linux.default}
+          try_files {path} /index.html
+          file_server
+        }
+      '';
+    };
+  };
+
+  nix.settings.experimental-features = ["nix-command" "flakes"];
+  system.stateVersion = "23.05"; 
 }
