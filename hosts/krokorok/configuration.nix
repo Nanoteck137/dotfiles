@@ -26,9 +26,10 @@ in {
   # Configure keymap in X11
   services.xserver = {
     enable = true;
-    # TODO(patrik): Fix this
-    layout = "se";
-    xkbVariant = "nodeadkeys";
+    xkb = {
+      layout = "se";
+      variant = "nodeadkeys";
+    };
 
     displayManager.lightdm.enable = true;
     windowManager.awesome.enable = true;
