@@ -194,43 +194,6 @@ in {
     package = inputs.customcaddy.packages.x86_64-linux.default;
     enable = true;
 
-    # virtualHosts."patrikmillvik.duckdns.org" = {
-    #   extraConfig = ''
-    #     tls {
-    #       dns duckdns ${secrets.duckDnsToken}
-    #     }
-    #
-    #     handle /api/* {
-    #       reverse_proxy http://localhost:8090
-    #     }
-    #
-    #     handle_path /admin/* {
-    #       rewrite /* /_/{uri}
-    #       reverse_proxy http://localhost:8090
-    #     }
-    #
-    #     handle {
-    #       root * ${sewaddle}
-    #       try_files {path} /index.html
-    #       file_server
-    #     }
-    #   '';
-    # };
-
-    # virtualHosts."reg.patrikmillvik.duckdns.org" = {
-    #   extraConfig = ''
-    #     tls {
-    #       dns duckdns ${secrets.duckDnsToken}
-    #     }
-    #
-    #     reverse_proxy /v2/* http://localhost:1337 {
-    #       header_up X-Forwarded-Proto "https"
-    #     }
-    #
-    #     reverse_proxy :1337
-    #   '';
-    # };
-
     virtualHosts."sewaddle.patrikmillvik.duckdns.org" = {
       extraConfig = ''
         tls {
