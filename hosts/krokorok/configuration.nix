@@ -256,6 +256,16 @@ in {
         }
       '';
     };
+
+    virtualHosts."memos.patrikmillvik.duckdns.org" = {
+      extraConfig = ''
+        tls {
+          dns duckdns ${secrets.duckDnsToken}
+        }
+
+        reverse_proxy :8081
+      '';
+    };
   };
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
