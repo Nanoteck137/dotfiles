@@ -845,15 +845,16 @@
         "pyrin": "pyrin_2"
       },
       "locked": {
-        "lastModified": 1715343925,
-        "narHash": "sha256-RsoOWL6Hd8IprVW2+6afg9OyOBMiA5+vTwuQIGhboE8=",
+        "lastModified": 1715443497,
+        "narHash": "sha256-LKIEtJXJQICBWn9JQPhasGIpSfvNM1wqfjq3Tj+Vhw8=",
         "owner": "nanoteck137",
         "repo": "sewaddle",
-        "rev": "c3c147e1858533583579f0c110df305167912cd6",
+        "rev": "0e49affd73f5c0dc5917fa29f789dcb680f657df",
         "type": "github"
       },
       "original": {
         "owner": "nanoteck137",
+        "ref": "v0.2.0",
         "repo": "sewaddle",
         "type": "github"
       }
