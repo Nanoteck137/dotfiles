@@ -66,7 +66,19 @@ in {
     ];
   };
 
-  environment.systemPackages = with pkgs; [];
+  nixpkgs.config.allowUnfree = true;
+
+  environment.systemPackages = with pkgs; [
+    git
+    neofetch
+    lazygit
+    tmux
+    firefox
+    virt-manager
+    cifs-utils
+    file
+    mullvad-vpn
+  ];
 
   fileSystems."/mnt/raichu-media" = {
       device = "//10.28.28.2/media";
