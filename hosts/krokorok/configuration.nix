@@ -71,6 +71,9 @@ in {
     library = "/mnt/media/manga";
   };
 
+  services.jellyfin.enable = true;
+  services.jellyfin.openFirewall = true;
+
   # TODO(patrik): Move this
   systemd.services.memos = {
     description = "memos";
@@ -184,7 +187,7 @@ in {
   };
 
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 80 443 5173 8090 ];
+  networking.firewall.allowedTCPPorts = [ 80 443 5173 8090 24800 ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
