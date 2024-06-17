@@ -40,6 +40,12 @@
 
     sewaddle-web.url = "github:nanoteck137/sewaddle-web";
     sewaddle-web.inputs.nixpkgs.follows = "nixpkgs";
+
+    dwebble.url = "github:nanoteck137/dwebble";
+    dwebble.inputs.nixpkgs.follows = "nixpkgs";
+    
+    dwebble-frontend.url = "github:nanoteck137/dwebble-frontend";
+    dwebble-frontend.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = { self, nixpkgs, nix-darwin, home-manager, ... }@inputs: 

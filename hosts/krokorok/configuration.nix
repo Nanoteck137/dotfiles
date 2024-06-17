@@ -4,6 +4,7 @@ let
 in {
   imports = [ 
     inputs.sewaddlenew.nixosModules.default
+    inputs.dwebble.nixosModules.default
     ./hardware-configuration.nix
     ../common/common.nix
   ];
@@ -22,6 +23,11 @@ in {
   boot.supportedFilesystems = [ "zfs" ];
   boot.zfs.forceImportRoot = false;
   networking.hostId = "d8817982";
+
+  fileSystems."/mnt/fastboi" = { 
+    device = "/dev/disk/by-label/fastboi";
+    fsType = "xfs";
+  };
 
   # Configure keymap in X11
   services.xserver = {
@@ -69,6 +75,11 @@ in {
   services.sewaddle = {
     enable = true;
     library = "/mnt/media/manga";
+  };
+
+  services.dwebble = {
+    enable = true;
+    library = "/mnt/fastboi/media/music/Testing";
   };
 
   services.jellyfin.enable = true;
@@ -204,19 +215,45 @@ in {
         }
 
         handle /api/* {
-          reverse_proxy :3000
+          reverse_proxy :${toString config.services.sewaddle.port}
         }
 
         handle /chapters/* {
-          reverse_proxy :3000
+          reverse_proxy :${toString config.services.sewaddle.port}
         }
 
         handle /images/* {
-          reverse_proxy :3000
+          reverse_proxy :${toString config.services.sewaddle.port}
         }
 
         handle {
           root * ${inputs.sewaddle-web.packages.x86_64-linux.default}
+          try_files {path} /index.html
+          file_server
+        }
+      '';
+    };
+
+    virtualHosts."dwebble.patrikmillvik.duckdns.org" = {
+      extraConfig = ''
+        tls {
+          dns duckdns ${secrets.duckDnsToken}
+        }
+
+        handle /api/* {
+          reverse_proxy :${toString config.services.dwebble.port}
+        }
+
+        handle /tracks/* {
+          reverse_proxy :${toString config.services.dwebble.port}
+        }
+
+        handle /images/* {
+          reverse_proxy :${toString config.services.dwebble.port}
+        }
+
+        handle {
+          root * ${inputs.dwebble-frontend.packages.x86_64-linux.default}
           try_files {path} /index.html
           file_server
         }
@@ -232,6 +269,81 @@ in {
         reverse_proxy :8081
       '';
     };
+  };
+
+  services.samba = {
+    enable = true;
+    securityType = "user";
+    openFirewall = true;
+
+    extraConfig = ''
+      workgroup = WORKGROUP
+      server string = raichu
+      netbios name = raichu
+      security = user 
+      #use sendfile = yes
+      #max protocol = smb2
+      # note: localhost is the ipv6 localhost ::1
+      # hosts allow = 192.168.0. 127.0.0.1 localhost
+      # hosts deny = 0.0.0.0/0
+      guest account = nobody
+      map to guest = bad user
+    '';
+
+    shares = {
+      isos = {
+        path = "/mnt/fastboi/isos";
+        browseable = "yes";
+        "read only" = "no";
+        "guest ok" = "no";
+        "create mask" = "0644";
+        "directory mask" = "0755";
+        "force user" = "nanoteck137";
+        "force group" = "users";
+        "writeable" = "yes";
+      };
+
+      media = {
+        path = "/mnt/fastboi/media";
+        browseable = "yes";
+        "read only" = "no";
+        "guest ok" = "no";
+        "create mask" = "0644";
+        "directory mask" = "0755";
+        "force user" = "nanoteck137";
+        "force group" = "users";
+        "writeable" = "yes";
+      };
+
+      storage = {
+        path = "/mnt/fastboi/storage";
+        browseable = "yes";
+        "read only" = "no";
+        "guest ok" = "no";
+        "create mask" = "0644";
+        "directory mask" = "0755";
+        "force user" = "nanoteck137";
+        "force group" = "users";
+        "writeable" = "yes";
+      };
+
+      # temp = {
+      #   path = "/mnt/tank/temp";
+      #   browseable = "yes";
+      #   "read only" = "no";
+      #   "guest ok" = "no";
+      #   "create mask" = "0644";
+      #   "directory mask" = "0755";
+      #   "force user" = "nanoteck137";
+      #   "force group" = "users";
+      #   "writeable" = "yes";
+      # };
+    };
+  };
+
+  services.samba-wsdd = {
+    enable = true; 
+    openFirewall = true;
   };
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
