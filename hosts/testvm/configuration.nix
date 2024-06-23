@@ -16,6 +16,11 @@
   networking.hostName = "testvm";
   networking.networkmanager.enable = true;
 
+  fileSystems."/mnt/media" = { 
+    device = "media";
+    fsType = "9p";
+  };
+
   users.users.nanoteck137 = {
     isNormalUser = true;
     description = "nanoteck137";
