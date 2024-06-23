@@ -120,7 +120,7 @@ in {
     };
   };
 
-  networking.firewall.allowedTCPPorts = [ 80 7550 3000 ];
+  networking.firewall.allowedTCPPorts = [ 443 7550 3000 ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
