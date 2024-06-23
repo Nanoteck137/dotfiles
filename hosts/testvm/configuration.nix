@@ -1,5 +1,7 @@
 { config, pkgs, inputs, ... }:
-{
+let
+  secrets = builtins.fromJSON (builtins.readFile /etc/nixos/secrets.json);
+in {
   imports = [ 
     inputs.sewaddlenew.nixosModules.default
     inputs.dwebble.nixosModules.default
@@ -61,7 +63,64 @@
     library = "/mnt/media/music";
   };
 
-  networking.firewall.allowedTCPPorts = [ 7550 3000 ];
+  services.caddy = {
+    package = inputs.customcaddy.packages.x86_64-linux.default;
+    enable = true;
+
+    virtualHosts."sewaddle.patrikmillvik.duckdns.org" = {
+      extraConfig = ''
+        tls {
+          dns duckdns ${secrets.duckDnsToken}
+        }
+
+        handle /api/* {
+          reverse_proxy :${toString config.services.sewaddle.port}
+        }
+
+        handle /chapters/* {
+          reverse_proxy :${toString config.services.sewaddle.port}
+        }
+
+        handle /images/* {
+          reverse_proxy :${toString config.services.sewaddle.port}
+        }
+
+        handle {
+          root * ${inputs.sewaddle-web.packages.x86_64-linux.default}
+          try_files {path} /index.html
+          file_server
+        }
+      '';
+    };
+
+    virtualHosts."dwebble.patrikmillvik.duckdns.org" = {
+      extraConfig = ''
+        tls {
+          dns duckdns ${secrets.duckDnsToken}
+        }
+
+        handle /api/* {
+          reverse_proxy :${toString config.services.dwebble.port}
+        }
+
+        handle /tracks/* {
+          reverse_proxy :${toString config.services.dwebble.port}
+        }
+
+        handle /images/* {
+          reverse_proxy :${toString config.services.dwebble.port}
+        }
+
+        handle {
+          root * ${inputs.dwebble-frontend.packages.x86_64-linux.default}
+          try_files {path} /index.html
+          file_server
+        }
+      '';
+    };
+  };
+
+  networking.firewall.allowedTCPPorts = [ 80 7550 3000 ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
