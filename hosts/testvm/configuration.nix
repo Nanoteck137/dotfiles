@@ -1,6 +1,8 @@
 { config, pkgs, inputs, ... }:
 {
   imports = [ 
+    inputs.sewaddlenew.nixosModules.default
+    inputs.dwebble.nixosModules.default
     ./hardware-configuration.nix
     ../common/common.nix
   ];
@@ -49,7 +51,17 @@
     enable = true;
   };
 
-  networking.firewall.allowedTCPPorts = [];
+  services.sewaddle = {
+    enable = true;
+    library = "/mnt/media/manga";
+  };
+
+  services.dwebble = {
+    enable = true;
+    library = "/mnt/media/music";
+  };
+
+  networking.firewall.allowedTCPPorts = [ 7550 3000 ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
