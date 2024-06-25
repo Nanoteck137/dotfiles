@@ -41,11 +41,14 @@
     sewaddle-web.url = "github:nanoteck137/sewaddle-web";
     sewaddle-web.inputs.nixpkgs.follows = "nixpkgs";
 
-    dwebble.url = "github:nanoteck137/dwebble";
+    dwebble.url = "github:nanoteck137/dwebble/v0.11.2";
     dwebble.inputs.nixpkgs.follows = "nixpkgs";
     
     dwebble-frontend.url = "github:nanoteck137/dwebble-frontend";
     dwebble-frontend.inputs.nixpkgs.follows = "nixpkgs";
+
+    crustle.url = "github:nanoteck137/crustle";
+    crustle.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = { self, nixpkgs, nix-darwin, home-manager, ... }@inputs: 
@@ -53,14 +56,14 @@
     in {
       nixosConfigurations.krokorok = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = { inherit inputs; };
+        specialArgs = { inherit self inputs; };
         modules = [ 
           ./hosts/krokorok/configuration.nix 
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = { inherit inputs; };
+            home-manager.extraSpecialArgs = { inherit self inputs; };
             home-manager.users.nanoteck137 = import ./hosts/krokorok/home.nix;
           }
         ];

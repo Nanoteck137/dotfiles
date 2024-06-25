@@ -1,5 +1,6 @@
 { config, pkgs, inputs, ... }:
 let
+  user = "nanoteck137";
   secrets = builtins.fromJSON (builtins.readFile /etc/nixos/secrets.json);
 in {
   imports = [ 
@@ -20,9 +21,9 @@ in {
   networking.hostName = "krokorok";
   networking.networkmanager.enable = true;
 
-  boot.supportedFilesystems = [ "zfs" ];
-  boot.zfs.forceImportRoot = false;
-  networking.hostId = "d8817982";
+  # boot.supportedFilesystems = [ "zfs" ];
+  # boot.zfs.forceImportRoot = false;
+  # networking.hostId = "d8817982";
 
   fileSystems."/mnt/fastboi" = { 
     device = "/dev/disk/by-label/fastboi";
@@ -37,7 +38,10 @@ in {
       variant = "nodeadkeys";
     };
 
-    displayManager.lightdm.enable = true;
+    displayManager.lightdm = {
+      enable = true;
+      # greeters.slick.enable = true;
+    };
     windowManager.awesome.enable = true;
   };
 
@@ -72,60 +76,59 @@ in {
 
   virtualisation.docker.enable = true;
 
-  services.sewaddle = {
-    enable = true;
-    library = "/mnt/media/manga";
-  };
+  # services.sewaddle = {
+  #   enable = true;
+  #   library = "/mnt/media/manga";
+  # };
+  #
+  # services.dwebble = {
+  #   enable = true;
+  #   library = "/mnt/fastboi/media/music/Testing";
+  # };
 
-  services.dwebble = {
-    enable = true;
-    library = "/mnt/fastboi/media/music/Testing";
-  };
-
-  services.jellyfin.enable = true;
-  services.jellyfin.openFirewall = true;
+  # services.jellyfin.enable = true;
+  # services.jellyfin.openFirewall = true;
 
   # TODO(patrik): Move this
-  systemd.services.memos = {
-    description = "memos";
-    wantedBy = [ "multi-user.target" ];
-
-    serviceConfig = {
-      User = "memos";
-      Group = "memos";
-
-      StateDirectory = "memos";
-
-      ExecStart = "${pkgs.memos}/bin/memos -d '/var/lib/memos' -m 'prod'";
-
-      Restart = "on-failure";
-      RestartSec = "5s";
-
-      ProtectHome = true;
-      ProtectHostname = true;
-      ProtectKernelLogs = true;
-      ProtectKernelModules = true;
-      ProtectKernelTunables = true;
-      ProtectProc = "invisible";
-      ProtectSystem = "strict";
-      RestrictAddressFamilies = [ "AF_INET" "AF_INET6" "AF_UNIX" ];
-      RestrictNamespaces = true;
-      RestrictRealtime = true;
-      RestrictSUIDSGID = true;
-    };
-  };
-
-  users.users = {
-    memos = {
-      group = "memos";
-      isSystemUser = true;
-    };
-  };
-
-  users.groups = {
-    memos = {};
-  };
-
+  # systemd.services.memos = {
+  #   description = "memos";
+  #   wantedBy = [ "multi-user.target" ];
+  #
+  #   serviceConfig = {
+  #     User = "memos";
+  #     Group = "memos";
+  #
+  #     StateDirectory = "memos";
+  #
+  #     ExecStart = "${pkgs.memos}/bin/memos -d '/var/lib/memos' -m 'prod'";
+  #
+  #     Restart = "on-failure";
+  #     RestartSec = "5s";
+  #
+  #     ProtectHome = true;
+  #     ProtectHostname = true;
+  #     ProtectKernelLogs = true;
+  #     ProtectKernelModules = true;
+  #     ProtectKernelTunables = true;
+  #     ProtectProc = "invisible";
+  #     ProtectSystem = "strict";
+  #     RestrictAddressFamilies = [ "AF_INET" "AF_INET6" "AF_UNIX" ];
+  #     RestrictNamespaces = true;
+  #     RestrictRealtime = true;
+  #     RestrictSUIDSGID = true;
+  #   };
+  # };
+  #
+  # users.users = {
+  #   memos = {
+  #     group = "memos";
+  #     isSystemUser = true;
+  #   };
+  # };
+  #
+  # users.groups = {
+  #   memos = {};
+  # };
 
   users.users.nanoteck137 = {
     isNormalUser = true;
@@ -153,6 +156,8 @@ in {
     mullvad-vpn
   ];
 
+  programs.wireshark.enable = true;
+
   fileSystems."/mnt/isos" = {
       device = "//10.28.28.2/isos";
       fsType = "cifs";
@@ -173,8 +178,8 @@ in {
       in ["${automount_opts},${user},credentials=/etc/nixos/smb-secrets"];
   };
 
-  fileSystems."/mnt/temp" = {
-      device = "//10.28.28.2/temp";
+  fileSystems."/mnt/storage" = {
+      device = "//10.28.28.2/storage";
       fsType = "cifs";
       options = let
         automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
@@ -182,6 +187,16 @@ in {
 
       in ["${automount_opts},${user},credentials=/etc/nixos/smb-secrets"];
   };
+
+  # fileSystems."/mnt/temp" = {
+  #     device = "//10.28.28.2/temp";
+  #     fsType = "cifs";
+  #     options = let
+  #       automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
+  #       user = "uid=1000,gid=100";
+  #
+  #     in ["${automount_opts},${user},credentials=/etc/nixos/smb-secrets"];
+  # };
 
   fonts.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "Noto" ]; })
@@ -197,154 +212,164 @@ in {
     enable = true;
   };
 
+  # services.syncthing = {
+  #   enable = true;
+  #   openDefaultPorts = true;
+  #   dataDir = "/home/${user}/.local/share/syncthing";
+  #   configDir = "/home/${user}/.config/syncthing";
+  #   user = "${user}";
+  #   group = "users";
+  #   guiAddress = "0.0.0.0:8384";
+  # };
+
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 80 443 5173 8090 24800 ];
+  networking.firewall.allowedTCPPorts = [ 1337 8000 ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
 
-  services.caddy = {
-    package = inputs.customcaddy.packages.x86_64-linux.default;
-    enable = true;
-
-    virtualHosts."sewaddle.patrikmillvik.duckdns.org" = {
-      extraConfig = ''
-        tls {
-          dns duckdns ${secrets.duckDnsToken}
-        }
-
-        handle /api/* {
-          reverse_proxy :${toString config.services.sewaddle.port}
-        }
-
-        handle /chapters/* {
-          reverse_proxy :${toString config.services.sewaddle.port}
-        }
-
-        handle /images/* {
-          reverse_proxy :${toString config.services.sewaddle.port}
-        }
-
-        handle {
-          root * ${inputs.sewaddle-web.packages.x86_64-linux.default}
-          try_files {path} /index.html
-          file_server
-        }
-      '';
-    };
-
-    virtualHosts."dwebble.patrikmillvik.duckdns.org" = {
-      extraConfig = ''
-        tls {
-          dns duckdns ${secrets.duckDnsToken}
-        }
-
-        handle /api/* {
-          reverse_proxy :${toString config.services.dwebble.port}
-        }
-
-        handle /tracks/* {
-          reverse_proxy :${toString config.services.dwebble.port}
-        }
-
-        handle /images/* {
-          reverse_proxy :${toString config.services.dwebble.port}
-        }
-
-        handle {
-          root * ${inputs.dwebble-frontend.packages.x86_64-linux.default}
-          try_files {path} /index.html
-          file_server
-        }
-      '';
-    };
-
-    virtualHosts."memos.patrikmillvik.duckdns.org" = {
-      extraConfig = ''
-        tls {
-          dns duckdns ${secrets.duckDnsToken}
-        }
-
-        reverse_proxy :8081
-      '';
-    };
-  };
-
-  services.samba = {
-    enable = true;
-    securityType = "user";
-    openFirewall = true;
-
-    extraConfig = ''
-      workgroup = WORKGROUP
-      server string = raichu
-      netbios name = raichu
-      security = user 
-      #use sendfile = yes
-      #max protocol = smb2
-      # note: localhost is the ipv6 localhost ::1
-      # hosts allow = 192.168.0. 127.0.0.1 localhost
-      # hosts deny = 0.0.0.0/0
-      guest account = nobody
-      map to guest = bad user
-    '';
-
-    shares = {
-      isos = {
-        path = "/mnt/fastboi/isos";
-        browseable = "yes";
-        "read only" = "no";
-        "guest ok" = "no";
-        "create mask" = "0644";
-        "directory mask" = "0755";
-        "force user" = "nanoteck137";
-        "force group" = "users";
-        "writeable" = "yes";
-      };
-
-      media = {
-        path = "/mnt/fastboi/media";
-        browseable = "yes";
-        "read only" = "no";
-        "guest ok" = "no";
-        "create mask" = "0644";
-        "directory mask" = "0755";
-        "force user" = "nanoteck137";
-        "force group" = "users";
-        "writeable" = "yes";
-      };
-
-      storage = {
-        path = "/mnt/fastboi/storage";
-        browseable = "yes";
-        "read only" = "no";
-        "guest ok" = "no";
-        "create mask" = "0644";
-        "directory mask" = "0755";
-        "force user" = "nanoteck137";
-        "force group" = "users";
-        "writeable" = "yes";
-      };
-
-      # temp = {
-      #   path = "/mnt/tank/temp";
-      #   browseable = "yes";
-      #   "read only" = "no";
-      #   "guest ok" = "no";
-      #   "create mask" = "0644";
-      #   "directory mask" = "0755";
-      #   "force user" = "nanoteck137";
-      #   "force group" = "users";
-      #   "writeable" = "yes";
-      # };
-    };
-  };
-
-  services.samba-wsdd = {
-    enable = true; 
-    openFirewall = true;
-  };
+  # services.caddy = {
+  #   package = inputs.customcaddy.packages.x86_64-linux.default;
+  #   enable = true;
+  #
+  #   virtualHosts."sewaddle.patrikmillvik.duckdns.org" = {
+  #     extraConfig = ''
+  #       tls {
+  #         dns duckdns ${secrets.duckDnsToken}
+  #       }
+  #
+  #       handle /api/* {
+  #         reverse_proxy :${toString config.services.sewaddle.port}
+  #       }
+  #
+  #       handle /chapters/* {
+  #         reverse_proxy :${toString config.services.sewaddle.port}
+  #       }
+  #
+  #       handle /images/* {
+  #         reverse_proxy :${toString config.services.sewaddle.port}
+  #       }
+  #
+  #       handle {
+  #         root * ${inputs.sewaddle-web.packages.x86_64-linux.default}
+  #         try_files {path} /index.html
+  #         file_server
+  #       }
+  #     '';
+  #   };
+  #
+  #   virtualHosts."dwebble.patrikmillvik.duckdns.org" = {
+  #     extraConfig = ''
+  #       tls {
+  #         dns duckdns ${secrets.duckDnsToken}
+  #       }
+  #
+  #       handle /api/* {
+  #         reverse_proxy :${toString config.services.dwebble.port}
+  #       }
+  #
+  #       handle /tracks/* {
+  #         reverse_proxy :${toString config.services.dwebble.port}
+  #       }
+  #
+  #       handle /images/* {
+  #         reverse_proxy :${toString config.services.dwebble.port}
+  #       }
+  #
+  #       handle {
+  #         root * ${inputs.dwebble-frontend.packages.x86_64-linux.default}
+  #         try_files {path} /index.html
+  #         file_server
+  #       }
+  #     '';
+  #   };
+  #
+  #   virtualHosts."memos.patrikmillvik.duckdns.org" = {
+  #     extraConfig = ''
+  #       tls {
+  #         dns duckdns ${secrets.duckDnsToken}
+  #       }
+  #
+  #       reverse_proxy :8081
+  #     '';
+  #   };
+  # };
+  #
+  # services.samba = {
+  #   enable = true;
+  #   securityType = "user";
+  #   openFirewall = true;
+  #
+  #   extraConfig = ''
+  #     workgroup = WORKGROUP
+  #     server string = raichu
+  #     netbios name = raichu
+  #     security = user 
+  #     #use sendfile = yes
+  #     #max protocol = smb2
+  #     # note: localhost is the ipv6 localhost ::1
+  #     # hosts allow = 192.168.0. 127.0.0.1 localhost
+  #     # hosts deny = 0.0.0.0/0
+  #     guest account = nobody
+  #     map to guest = bad user
+  #   '';
+  #
+  #   shares = {
+  #     isos = {
+  #       path = "/mnt/fastboi/isos";
+  #       browseable = "yes";
+  #       "read only" = "no";
+  #       "guest ok" = "no";
+  #       "create mask" = "0644";
+  #       "directory mask" = "0755";
+  #       "force user" = "nanoteck137";
+  #       "force group" = "users";
+  #       "writeable" = "yes";
+  #     };
+  #
+  #     media = {
+  #       path = "/mnt/fastboi/media";
+  #       browseable = "yes";
+  #       "read only" = "no";
+  #       "guest ok" = "no";
+  #       "create mask" = "0644";
+  #       "directory mask" = "0755";
+  #       "force user" = "nanoteck137";
+  #       "force group" = "users";
+  #       "writeable" = "yes";
+  #     };
+  #
+  #     storage = {
+  #       path = "/mnt/fastboi/storage";
+  #       browseable = "yes";
+  #       "read only" = "no";
+  #       "guest ok" = "no";
+  #       "create mask" = "0644";
+  #       "directory mask" = "0755";
+  #       "force user" = "nanoteck137";
+  #       "force group" = "users";
+  #       "writeable" = "yes";
+  #     };
+  #
+  #     # temp = {
+  #     #   path = "/mnt/tank/temp";
+  #     #   browseable = "yes";
+  #     #   "read only" = "no";
+  #     #   "guest ok" = "no";
+  #     #   "create mask" = "0644";
+  #     #   "directory mask" = "0755";
+  #     #   "force user" = "nanoteck137";
+  #     #   "force group" = "users";
+  #     #   "writeable" = "yes";
+  #     # };
+  #   };
+  # };
+  #
+  # services.samba-wsdd = {
+  #   enable = true; 
+  #   openFirewall = true;
+  # };
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
   system.stateVersion = "23.05"; 
