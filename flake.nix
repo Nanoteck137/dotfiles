@@ -46,6 +46,9 @@
     
     dwebble-frontend.url = "github:nanoteck137/dwebble-frontend";
     dwebble-frontend.inputs.nixpkgs.follows = "nixpkgs";
+
+    crustle.url = "github:nanoteck137/crustle";
+    crustle.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = { self, nixpkgs, nix-darwin, home-manager, ... }@inputs: 
@@ -53,14 +56,14 @@
     in {
       nixosConfigurations.krokorok = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = { inherit inputs; };
+        specialArgs = { inherit self inputs; };
         modules = [ 
           ./hosts/krokorok/configuration.nix 
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = { inherit inputs; };
+            home-manager.extraSpecialArgs = { inherit self inputs; };
             home-manager.users.nanoteck137 = import ./hosts/krokorok/home.nix;
           }
         ];

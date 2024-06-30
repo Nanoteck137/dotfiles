@@ -1,4 +1,4 @@
-{config, pkgs, inputs, ...}: {
+{self, config, pkgs, inputs, ...}: {
   imports = [
     ../common/home/kitty.nix
     ../common/home/tmux.nix
@@ -6,6 +6,7 @@
     ../common/home/zsh.nix
     ../common/home/git.nix
     ../common/home/misc.nix
+    ../common/home/alacritty.nix
   ];
 
   home.username = "nanoteck137";
@@ -16,6 +17,7 @@
     discord
     pocketbase
     pavucontrol
+    inputs.crustle.packages.x86_64-linux.default
   ];
 
   programs.home-manager.enable = true;
@@ -24,11 +26,12 @@
     enable = true;
   };
 
-  xdg.configFile.awesome.source = ../../configs/awesome;
-  xdg.configFile.rofi.source = ../../configs/rofi;
-  # xdg.configFile.picom.source = ./picom/.config/picom;
+  xdg.configFile.awesome.source = "${self}/configs/awesome";
+  xdg.configFile.rofi.source = "${self}/configs/rofi";
+  xdg.configFile.crustle.source = "${self}/configs/crustle";
+  # xdg.configFile.picom.source = "${self}./picom/.config/picom;
 
-  home.file."wallpaper.png".source = ../../wallpaper.png;
+  home.file."wallpaper.png".source = "${self}/wallpaper.png";
 
   services.picom = {
     enable = true;
