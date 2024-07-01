@@ -63,6 +63,15 @@ in {
     library = "/mnt/media/music";
   };
 
+  services.snapserver = {
+    enable = true;
+
+    streams.test = {
+      type = "pipe";
+      location = "/tmp/snapfifo";
+    };
+  };
+
   services.caddy = {
     package = inputs.customcaddy.packages.x86_64-linux.default;
     enable = true;
@@ -120,7 +129,7 @@ in {
     };
   };
 
-  networking.firewall.allowedTCPPorts = [ 443 7550 3000 ];
+  networking.firewall.allowedTCPPorts = [ 443 ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
