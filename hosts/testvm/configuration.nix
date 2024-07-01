@@ -95,7 +95,7 @@ output = audioresample ! audioconvert ! audio/x-raw,rate=48000,channels=2,format
 #enabled = true
 
 [local]
-media_dir = /Users/nanoteck137/Downloads
+media_dir = /mnt/media/music
 included_file_extensions =
     .flac
 
