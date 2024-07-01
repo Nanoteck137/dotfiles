@@ -76,6 +76,20 @@ in {
     openFirewall = true;
   };
 
+  services.mpd = {
+    enable = true;
+    musicDirectory = "/mnt/media/music";
+    extraConfig = ''
+      audio_output {
+        type            "fifo"
+        name            "my pipe"
+        path            "/run/snapserver/mpd"
+        format          "48000:16:2"
+        mixer_type      "software"
+      }
+    '';
+  };
+
   services.caddy = {
     package = inputs.customcaddy.packages.x86_64-linux.default;
     enable = true;
