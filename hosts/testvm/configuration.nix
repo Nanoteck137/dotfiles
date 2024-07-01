@@ -68,8 +68,12 @@ in {
 
     streams.test = {
       type = "pipe";
-      location = "/tmp/snapfifo";
+      location = "/run/snapserver/mpd";
+      sampleFormat = "48000:16:2";
+      codec = "pcm";
     };
+
+    openFirewall = true;
   };
 
   services.caddy = {
