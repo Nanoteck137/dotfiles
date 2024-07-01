@@ -76,19 +76,54 @@ in {
     openFirewall = true;
   };
 
-  services.mpd = {
+  services.mopidy = {
     enable = true;
-    musicDirectory = "/mnt/media/music";
-    extraConfig = ''
-      audio_output {
-        type            "fifo"
-        name            "my pipe"
-        path            "/run/snapserver/mpd"
-        format          "48000:16:2"
-        mixer_type      "software"
-      }
+    configuration = ''
+[audio]
+output = audioresample ! audioconvert ! audio/x-raw,rate=48000,channels=2,format=S16LE ! filesink location=/tmp/snapfifo
+
+[http]
+#enabled = true
+#hostname = 127.0.0.1
+#port = 6680
+#zeroconf = Mopidy HTTP server on $hostname
+#allowed_origins = 
+#csrf_protection = true
+#default_app = mopidy
+
+[softwaremixer]
+#enabled = true
+
+[local]
+media_dir = /Users/nanoteck137/Downloads
+included_file_extensions =
+    .flac
+
+[mpd]
+hostname = ::
+
+[iris]
     '';
+    extensionPackages = [
+      pkgs.mopidy-mpd
+      pkgs.mopidy-iris
+      pkgs.mopidy-local
+    ];
   };
+
+  # services.mpd = {
+  #   enable = true;
+  #   musicDirectory = "/mnt/media/music";
+  #   extraConfig = ''
+  #     audio_output {
+  #       type            "fifo"
+  #       name            "my pipe"
+  #       path            "/run/snapserver/mpd"
+  #       format          "48000:16:2"
+  #       mixer_type      "software"
+  #     }
+  #   '';
+  # };
 
   services.caddy = {
     package = inputs.customcaddy.packages.x86_64-linux.default;
