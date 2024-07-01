@@ -180,6 +180,16 @@ hostname = ::
         }
       '';
     };
+
+    virtualHosts."mopidy.patrikmillvik.duckdns.org" = {
+      extraConfig = ''
+        tls {
+          dns duckdns ${secrets.duckDnsToken}
+        }
+
+        reverse_proxy :6680
+      '';
+    };
   };
 
   networking.firewall.allowedTCPPorts = [ 443 6600 6680 ];
