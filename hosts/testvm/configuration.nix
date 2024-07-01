@@ -84,7 +84,7 @@ output = audioresample ! audioconvert ! audio/x-raw,rate=48000,channels=2,format
 
 [http]
 #enabled = true
-#hostname = 127.0.0.1
+hostname = 0.0.0.0
 #port = 6680
 #zeroconf = Mopidy HTTP server on $hostname
 #allowed_origins = 
