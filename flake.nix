@@ -142,7 +142,7 @@
         pkgs = import nixpkgs { system = "x86_64-linux"; };
         extraSpecialArgs = { inherit self inputs; };
         modules = [
-          ./hosts/krokorok/home.nix
+          ./hosts/test/home.nix
         ];
       };
 
