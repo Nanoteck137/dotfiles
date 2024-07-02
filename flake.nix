@@ -140,7 +140,7 @@
         
       homeConfigurations.test = home-manager.lib.homeManagerConfiguration {
         pkgs = import nixpkgs { system = "x86_64-linux"; };
-        specialArgs = { inherit inputs; };
+        extraSpecialArgs = { inherit inputs; };
         modules = [
           ./hosts/krokorok/home.nix
         ];
