@@ -22,7 +22,7 @@ in {
 
   fileSystems."/mnt/media" = { 
     device = "media";
-    fsType = "9p";
+    fsType = "virtiofs";
   };
 
   users.users.nanoteck137 = {
