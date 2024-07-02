@@ -137,6 +137,13 @@
           }
         ];
       };
+        
+      homeConfigurations.test = home-manager.lib.homeManagerConfiguration {
+        pkgs = import nixpkgs { system = "x86_64-linux"; };
+        modules = [
+          ./hosts/krokorok/home.nix
+        ];
+      };
 
       darwinConfigurations.zorua = nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
@@ -147,6 +154,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = { inherit inputs; };
             home-manager.users.nanoteck137 = import ./hosts/zorua/home.nix;
           }
         ];
