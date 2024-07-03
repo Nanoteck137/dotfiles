@@ -25,10 +25,10 @@ in {
   # boot.zfs.forceImportRoot = false;
   # networking.hostId = "d8817982";
 
-  fileSystems."/mnt/fastboi" = { 
-    device = "/dev/disk/by-label/fastboi";
-    fsType = "xfs";
-  };
+  # fileSystems."/mnt/fastboi" = { 
+  #   device = "/dev/disk/by-label/fastboi";
+  #   fsType = "xfs";
+  # };
 
   # Configure keymap in X11
   services.xserver = {
