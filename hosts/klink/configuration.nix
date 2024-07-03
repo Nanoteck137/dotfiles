@@ -14,7 +14,7 @@ in {
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "pichu"; 
+  networking.hostName = "klink"; 
   networking.networkmanager.enable = true;
 
   services.xserver = {
@@ -24,8 +24,11 @@ in {
       variant = "nodeadkeys";
     };
 
-    displayManager.lightdm.enable = true;
-    windowManager.awesome.enable = true;
+    displayManager.gdm.enable = true;
+    desktopManager.gnome.enable = true;
+
+    # displayManager.lightdm.enable = true;
+    # windowManager.awesome.enable = true;
   };
 
   hardware.opengl = {
@@ -80,19 +83,17 @@ in {
     mullvad-vpn
   ];
 
-  fileSystems."/mnt/raichu-media" = {
-      device = "//10.28.28.2/media";
-      fsType = "cifs";
-      options = let
-        automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
-        user = "uid=1000,gid=100";
-
-      in ["${automount_opts},${user},credentials=/etc/nixos/smb-secrets"];
-  };
+  # fileSystems."/mnt/raichu-media" = {
+  #     device = "//10.28.28.2/media";
+  #     fsType = "cifs";
+  #     options = let
+  #       automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
+  #       user = "uid=1000,gid=100";
+  #
+  #     in ["${automount_opts},${user},credentials=/etc/nixos/smb-secrets"];
+  # };
 
   services.mullvad-vpn.enable = true;
-
-  services.jellyfin.enable = true;
 
   services.openssh = {
     enable = true;
