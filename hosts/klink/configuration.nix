@@ -2,6 +2,8 @@
 let
 in {
   imports = [ 
+    inputs.sewaddlenew.nixosModules.default
+    inputs.dwebble.nixosModules.default
     ./hardware-configuration.nix
     ../common/common.nix
   ];
@@ -17,6 +19,11 @@ in {
   networking.hostName = "klink"; 
   networking.networkmanager.enable = true;
 
+  fileSystems."/mnt/fastboi" = { 
+    device = "/dev/disk/by-label/fastboi";
+    fsType = "xfs";
+  };
+
   services.xserver = {
     enable = true;
     xkb = {
@@ -24,8 +31,11 @@ in {
       variant = "nodeadkeys";
     };
 
-    displayManager.gdm.enable = true;
-    desktopManager.gnome.enable = true;
+    # displayManager.gdm.enable = true;
+    # desktopManager.gnome.enable = true;
+
+    desktopManager.budgie.enable = true;
+    displayManager.lightdm.enable = true;
 
     # displayManager.lightdm.enable = true;
     # windowManager.awesome.enable = true;
@@ -99,6 +109,16 @@ in {
     enable = true;
     settings.PasswordAuthentication = false;
     settings.KbdInteractiveAuthentication = false;
+  };
+
+  services.sewaddle = {
+    enable = true;
+    library = "/mnt/fastboi/media/manga";
+  };
+
+  services.dwebble = {
+    enable = true;
+    library = "/mnt/fastboi/media/music";
   };
   
   networking.firewall.enable = false;
