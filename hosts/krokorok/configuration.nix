@@ -2,6 +2,9 @@
 let
   user = "nanoteck137";
   secrets = builtins.fromJSON (builtins.readFile /etc/nixos/secrets.json);
+
+  sewaddleAddress = "10.28.28.9:3000";
+  dwebbleAddress = "10.28.28.9:7550";
 in {
   imports = [ 
     inputs.sewaddlenew.nixosModules.default
@@ -370,6 +373,63 @@ in {
   #   enable = true; 
   #   openFirewall = true;
   # };
+  
+  services.caddy = {
+    package = inputs.customcaddy.packages.x86_64-linux.default;
+    enable = true;
+
+    virtualHosts."sewaddle.patrikmillvik.duckdns.org" = {
+      extraConfig = ''
+        tls {
+          dns duckdns ${secrets.duckDnsToken}
+        }
+
+        handle /api/* {
+          reverse_proxy ${sewaddleAddress}
+        }
+
+        handle /chapters/* {
+          reverse_proxy ${sewaddleAddress}
+        }
+
+        handle /images/* {
+          reverse_proxy ${sewaddleAddress}
+        }
+
+        handle {
+          root * ${inputs.sewaddle-web.packages.x86_64-linux.default}
+          try_files {path} /index.html
+          file_server
+        }
+      '';
+    };
+
+    virtualHosts."dwebble.patrikmillvik.duckdns.org" = {
+      extraConfig = ''
+        tls {
+          dns duckdns ${secrets.duckDnsToken}
+        }
+
+        handle /api/* {
+          reverse_proxy ${dwebbleAddress}
+        }
+
+        handle /tracks/* {
+          reverse_proxy ${dwebbleAddress}
+        }
+
+        handle /images/* {
+          reverse_proxy ${dwebbleAddress}
+        }
+
+        handle {
+          root * ${inputs.dwebble-frontend.packages.x86_64-linux.default}
+          try_files {path} /index.html
+          file_server
+        }
+      '';
+    };
+  };
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
   system.stateVersion = "23.05"; 
