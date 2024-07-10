@@ -105,6 +105,9 @@ in {
 
   services.mullvad-vpn.enable = true;
 
+  programs._1password.enable = true;
+  programs._1password-gui.enable = true;
+
   services.openssh = {
     enable = true;
     settings.PasswordAuthentication = false;
