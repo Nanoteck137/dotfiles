@@ -1,5 +1,7 @@
 { config, pkgs, inputs, ... }:
 let
+  sewaddleAddress = "10.28.28.9:3000";
+  dwebbleAddress = "10.28.28.9:7550";
   secrets = builtins.fromJSON (builtins.readFile /etc/nixos/secrets.json);
 in {
   imports = [ 
@@ -136,15 +138,15 @@ hostname = ::
         }
 
         handle /api/* {
-          reverse_proxy :${toString config.services.sewaddle.port}
+          reverse_proxy ${sewaddleAddress}
         }
 
         handle /chapters/* {
-          reverse_proxy :${toString config.services.sewaddle.port}
+          reverse_proxy ${sewaddleAddress}
         }
 
         handle /images/* {
-          reverse_proxy :${toString config.services.sewaddle.port}
+          reverse_proxy ${sewaddleAddress}
         }
 
         handle {
@@ -162,15 +164,15 @@ hostname = ::
         }
 
         handle /api/* {
-          reverse_proxy :${toString config.services.dwebble.port}
+          reverse_proxy ${dwebbleAddress}
         }
 
         handle /tracks/* {
-          reverse_proxy :${toString config.services.dwebble.port}
+          reverse_proxy ${dwebbleAddress}
         }
 
         handle /images/* {
-          reverse_proxy :${toString config.services.dwebble.port}
+          reverse_proxy ${dwebbleAddress}
         }
 
         handle {
