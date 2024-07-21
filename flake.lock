@@ -88,16 +88,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1718722582,
-        "narHash": "sha256-hMprOlTB7A7WH1MaBBOB5l7pGuwGTuM51TlZmgHdZkw=",
+        "lastModified": 1720589522,
+        "narHash": "sha256-xtAsFg4A1E6wFOERgNUwFq+q1FXu06j2kD1AHGTTK/s=",
         "owner": "nanoteck137",
         "repo": "dwebble",
-        "rev": "eeca10c147eeda776d323dc0050140ed94840e64",
+        "rev": "f030d28246d684b3baac8611b4c9c7e6264f05ba",
         "type": "github"
       },
       "original": {
         "owner": "nanoteck137",
-        "ref": "v0.11.2",
+        "ref": "v0.12.2",
         "repo": "dwebble",
         "type": "github"
       }
