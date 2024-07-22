@@ -1003,11 +1003,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1721607704,
-        "narHash": "sha256-M91l6ePswA0tR7MGKMWVYWkTHcbKsUXYGKlIqsS+7+g=",
+        "lastModified": 1721608558,
+        "narHash": "sha256-Qul8cWQnioR5Ha8H8pYTlw6MTsCopMIQFBAO0v7YCjI=",
         "owner": "nanoteck137",
         "repo": "sewaddle-web",
-        "rev": "87c0680bfe431702c54cdc1c0fc2369784298552",
+        "rev": "05a558efbdf201ff9b62a3052098435f94b3184a",
         "type": "github"
       },
       "original": {
