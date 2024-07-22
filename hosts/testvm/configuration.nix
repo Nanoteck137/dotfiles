@@ -1,6 +1,6 @@
 { config, pkgs, inputs, ... }:
 let
-  sewaddleAddress = "10.28.28.9:3000";
+  sewaddleAddress = "10.28.28.9:4005";
   dwebbleAddress = "10.28.28.9:7550";
   secrets = builtins.fromJSON (builtins.readFile /etc/nixos/secrets.json);
 in {
