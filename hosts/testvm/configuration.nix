@@ -55,15 +55,15 @@ in {
     enable = true;
   };
 
-  services.sewaddle = {
-    enable = true;
-    library = "/mnt/media/manga";
-  };
-
-  services.dwebble = {
-    enable = true;
-    library = "/mnt/media/music";
-  };
+  # services.sewaddle = {
+  #   enable = true;
+  #   library = "/mnt/media/manga";
+  # };
+  #
+  # services.dwebble = {
+  #   enable = true;
+  #   library = "/mnt/media/music";
+  # };
 
   services.snapserver = {
     enable = true;
