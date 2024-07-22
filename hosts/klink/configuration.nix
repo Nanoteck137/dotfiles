@@ -117,6 +117,7 @@ in {
   services.sewaddle = {
     enable = true;
     library = "/mnt/fastboi/media/manga";
+    jwtSecret = "some_secret";
   };
 
   services.dwebble = {

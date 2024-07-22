@@ -88,16 +88,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1720589522,
-        "narHash": "sha256-xtAsFg4A1E6wFOERgNUwFq+q1FXu06j2kD1AHGTTK/s=",
+        "lastModified": 1721485372,
+        "narHash": "sha256-q4HnaIXdyBCHKIGKQGB5Fdi7NOYB6IHLVrb9taYsnBw=",
         "owner": "nanoteck137",
         "repo": "dwebble",
-        "rev": "f030d28246d684b3baac8611b4c9c7e6264f05ba",
+        "rev": "376b487eb67d4f29d80f313a1dadb8cbc5430f3d",
         "type": "github"
       },
       "original": {
         "owner": "nanoteck137",
-        "ref": "v0.12.2",
+        "ref": "v0.13.0",
         "repo": "dwebble",
         "type": "github"
       }
@@ -1003,11 +1003,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1716725105,
-        "narHash": "sha256-c+zlQns20Aoj4lyR7i+t45hAMvgKri1gRU6NyzAjoZI=",
+        "lastModified": 1721604129,
+        "narHash": "sha256-KAD8glrAx7n7j6YtlE90PLfkka4rtp7vUsl+e9DIEss=",
         "owner": "nanoteck137",
         "repo": "sewaddle-web",
-        "rev": "c140b0beb2c2663d110732234b6206194259831e",
+        "rev": "fe2c5cbbf9abce42a2edcef2cd8e6721929b4784",
         "type": "github"
       },
       "original": {
@@ -1024,16 +1024,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1716493726,
-        "narHash": "sha256-nojJX14VNUA8+LUQP3IFLZwfCKuexnHHa8zr4drzxVs=",
+        "lastModified": 1721607027,
+        "narHash": "sha256-ThjGVYCp5m9eG1qvMrUFjx2vkLJ8fcEmnlsZizQKueQ=",
         "owner": "nanoteck137",
         "repo": "sewaddle",
-        "rev": "93662c87fe4f5e00c01c72a8b12309a106b36912",
+        "rev": "febf74c2becb9c36176437fc9505bef7efe3dbb9",
         "type": "github"
       },
       "original": {
         "owner": "nanoteck137",
-        "ref": "v0.4.0",
+        "ref": "v0.5.2",
         "repo": "sewaddle",
         "type": "github"
       }

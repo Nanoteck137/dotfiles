@@ -35,13 +35,13 @@
     customcaddy.url = "github:nanoteck137/customcaddy";
     # customcaddy.inputs.nixpkgs.follows = "nixpkgs";
 
-    sewaddlenew.url = "github:nanoteck137/sewaddle/v0.4.0";
+    sewaddlenew.url = "github:nanoteck137/sewaddle/v0.5.2";
     sewaddlenew.inputs.nixpkgs.follows = "nixpkgs";
 
     sewaddle-web.url = "github:nanoteck137/sewaddle-web";
     sewaddle-web.inputs.nixpkgs.follows = "nixpkgs";
 
-    dwebble.url = "github:nanoteck137/dwebble/v0.12.2";
+    dwebble.url = "github:nanoteck137/dwebble/v0.13.0";
     dwebble.inputs.nixpkgs.follows = "nixpkgs";
     
     dwebble-frontend.url = "github:nanoteck137/dwebble-frontend";
