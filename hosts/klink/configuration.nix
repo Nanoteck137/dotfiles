@@ -117,11 +117,13 @@ in {
   services.sewaddle = {
     enable = true;
     library = "/mnt/fastboi/media/manga";
+    jwtSecret = "some_secret";
   };
 
   services.dwebble = {
     enable = true;
     library = "/mnt/fastboi/media/music";
+    jwtSecret = "some_secret";
   };
   
   networking.firewall.enable = false;

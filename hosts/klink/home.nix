@@ -10,7 +10,9 @@
 
   home.username = "nanoteck137";
   home.homeDirectory = "/home/nanoteck137";
-  home.packages = with pkgs; [];
+  home.packages = with pkgs; [
+    discord
+  ];
 
   programs.home-manager.enable = true;
   
