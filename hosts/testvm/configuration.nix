@@ -2,6 +2,7 @@
 let
   sewaddleAddress = "10.28.28.9:4005";
   dwebbleAddress = "10.28.28.9:7550";
+  ntfyAddress = "10.28.28.2:8080";
   secrets = builtins.fromJSON (builtins.readFile /etc/nixos/secrets.json);
 in {
   imports = [ 
@@ -192,6 +193,23 @@ hostname = ::
         reverse_proxy :6680
       '';
     };
+
+    virtualHosts."ntfy.patrikmillvik.duckdns.org" = {
+      extraConfig = ''
+        tls {
+          dns duckdns ${secrets.duckDnsToken}
+        }
+
+        reverse_proxy ${ntfyAddress}
+      '';
+    };
+
+        # @httpget {
+        #     protocol http
+        #     method GET
+        #     path_regexp ^/([-_a-z0-9]{0,64}$|docs/|static/)
+        # }
+        # redir @httpget https://{host}{uri}
   };
 
   networking.firewall.allowedTCPPorts = [ 443 6600 6680 ];
