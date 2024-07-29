@@ -26,5 +26,7 @@
     neovim 
     file
     rclone
+    killall
+    ripgrep
   ];
 }
