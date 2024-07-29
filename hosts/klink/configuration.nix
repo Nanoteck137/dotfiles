@@ -31,14 +31,8 @@ in {
       variant = "nodeadkeys";
     };
 
-    # displayManager.gdm.enable = true;
-    # desktopManager.gnome.enable = true;
-
     desktopManager.budgie.enable = true;
     displayManager.lightdm.enable = true;
-
-    # displayManager.lightdm.enable = true;
-    # windowManager.awesome.enable = true;
   };
 
   hardware.opengl = {
@@ -55,17 +49,8 @@ in {
     nvidiaSettings = true;
   };
 
-  # hardware.pulseaudio.enable = true;
-  # nixpkgs.config.pulseaudio = true;
-
   sound.enable = true;
   security.rtkit.enable = true;
-  # services.pipewire = {
-  #   enable = true;
-  #   alsa.enable = true;
-  #   alsa.support32Bit = true;
-  #   pulse.enable = true;
-  # };
 
   users.users.nanoteck137 = {
     isNormalUser = true;
@@ -93,16 +78,6 @@ in {
     mullvad-vpn
   ];
 
-  # fileSystems."/mnt/raichu-media" = {
-  #     device = "//10.28.28.2/media";
-  #     fsType = "cifs";
-  #     options = let
-  #       automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
-  #       user = "uid=1000,gid=100";
-  #
-  #     in ["${automount_opts},${user},credentials=/etc/nixos/smb-secrets"];
-  # };
-
   services.mullvad-vpn.enable = true;
 
   programs._1password.enable = true;
@@ -124,6 +99,25 @@ in {
     enable = true;
     library = "/mnt/fastboi/media/music";
     jwtSecret = "some_secret";
+  };
+
+  services.restic = {
+    backups = {
+      media = {
+        paths = [ "/mnt/fastboi/media" ];
+        extraBackupArgs = [ "--tag" "media" ];
+        exclude = [ ".*" ];
+        repository = "rest:http://10.28.28.2:8000";
+        passwordFile = "/etc/nixos/restic-password";
+        initialize = true;
+        createWrapper = true;
+
+        timerConfig = {
+          OnCalendar = "hourly";
+          Persistent = true;
+        };
+      };
+    };
   };
   
   networking.firewall.enable = false;
