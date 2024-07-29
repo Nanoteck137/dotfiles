@@ -1,5 +1,8 @@
 { self, pkgs, inputs, ... }: {
-  nixpkgs.overlays = [ inputs.nixneovimplugins.overlays.default ];
+  nixpkgs.overlays = [ 
+    inputs.nixneovimplugins.overlays.default 
+    inputs.neovim-nightly-overlay.overlays.default 
+  ];
 
   environment.systemPackages = [
     pkgs.vim
