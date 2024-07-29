@@ -119,8 +119,49 @@ in {
       };
     };
   };
+
+  services.samba = {
+    enable = true;
+    securityType = "user";
+    # openFirewall = true;
+
+    extraConfig = ''
+      workgroup = WORKGROUP
+      server string = klink
+      netbios name = klink
+      security = user 
+      #use sendfile = yes
+      #max protocol = smb2
+      # note: localhost is the ipv6 localhost ::1
+      # hosts allow = 192.168.0. 127.0.0.1 localhost
+      # hosts deny = 0.0.0.0/0
+      guest account = nobody
+      map to guest = bad user
+    '';
+
+    shares = {
+      media = {
+        path = "/mnt/fastboi/media";
+        browseable = "yes";
+        "read only" = "yes";
+        "guest ok" = "no";
+        "create mask" = "0644";
+        "directory mask" = "0755";
+        "force user" = "nanoteck137";
+        "force group" = "users";
+        "writeable" = "no";
+      };
+    };
+  };
+
+  services.samba-wsdd = {
+    enable = true; 
+    # openFirewall = true;
+    hostname = "klink";
+  };
   
   networking.firewall.enable = false;
+  networking.firewall.allowPing = true;
 
   system.stateVersion = "23.05";
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
