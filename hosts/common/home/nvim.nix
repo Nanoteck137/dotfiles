@@ -56,9 +56,13 @@ in {
       vimPlugins.cmp-buffer
       vimPlugins.cmp-path
       vimPlugins.cmp-nvim-lsp
+      vimPlugins.cmp-nvim-lsp-signature-help
       vimPlugins.luasnip
       vimPlugins.cmp_luasnip
       vimPlugins.friendly-snippets
+
+      vimPlugins.comment-nvim
+      vimPlugins.todo-comments-nvim
 
       vimPlugins.dressing-nvim
 
