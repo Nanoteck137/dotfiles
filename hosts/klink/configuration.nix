@@ -9,7 +9,7 @@ in {
   ];
 
   nixpkgs.overlays = [ 
-    inputs.neovim-nightly-overlay.overlay 
+    # inputs.neovim-nightly-overlay.overlays.default
     inputs.nixneovimplugins.overlays.default
   ];
 
@@ -150,6 +150,18 @@ in {
         "force user" = "nanoteck137";
         "force group" = "users";
         "writeable" = "no";
+      };
+
+      temp = {
+        path = "/mnt/fastboi/temp";
+        browseable = "yes";
+        "read only" = "no";
+        "guest ok" = "no";
+        "create mask" = "0644";
+        "directory mask" = "0755";
+        "force user" = "nanoteck137";
+        "force group" = "users";
+        "writeable" = "yes";
       };
     };
   };

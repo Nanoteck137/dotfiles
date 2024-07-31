@@ -117,7 +117,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = { inherit inputs; };
+            home-manager.extraSpecialArgs = { inherit self inputs; };
             home-manager.users.nanoteck137 = import ./hosts/klink/home.nix;
           }
         ];
