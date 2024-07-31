@@ -112,11 +112,11 @@
         "pyrin": "pyrin"
       },
       "locked": {
-        "lastModified": 1722392442,
-        "narHash": "sha256-9TjWc1r5z1Bw9XH3U/N8YumsIFw8qKTpknvnXe8nQCg=",
+        "lastModified": 1722393456,
+        "narHash": "sha256-nHmme3lfpcon7PsnMS+bGyfPfWldzxloCIXG/Zelw/c=",
         "owner": "nanoteck137",
         "repo": "dwebble-frontend",
-        "rev": "8f5d6f592ce13ee62a2892a86533e90acbdc4fe4",
+        "rev": "b5124b76dcbd03ba955d20e7d4a7b9f8eb5b67c5",
         "type": "github"
       },
       "original": {
