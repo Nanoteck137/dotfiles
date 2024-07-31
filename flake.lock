@@ -88,16 +88,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1721485372,
-        "narHash": "sha256-q4HnaIXdyBCHKIGKQGB5Fdi7NOYB6IHLVrb9taYsnBw=",
+        "lastModified": 1722392714,
+        "narHash": "sha256-mdWld/rKtuNTCuiVgMk0MgRT1PptSmLKivWdH2uWY4w=",
         "owner": "nanoteck137",
         "repo": "dwebble",
-        "rev": "376b487eb67d4f29d80f313a1dadb8cbc5430f3d",
+        "rev": "54e60ea3d071673a9e01b1d78cc32e9e2edb3c4f",
         "type": "github"
       },
       "original": {
         "owner": "nanoteck137",
-        "ref": "v0.13.0",
+        "ref": "v0.14.1",
         "repo": "dwebble",
         "type": "github"
       }
@@ -112,11 +112,11 @@
         "pyrin": "pyrin"
       },
       "locked": {
-        "lastModified": 1717628902,
-        "narHash": "sha256-d6Lz6SF3FLYge69+FLkX/Ig2WHppY/Dx8Smk8CdQ2es=",
+        "lastModified": 1722392442,
+        "narHash": "sha256-9TjWc1r5z1Bw9XH3U/N8YumsIFw8qKTpknvnXe8nQCg=",
         "owner": "nanoteck137",
         "repo": "dwebble-frontend",
-        "rev": "0ad96adf30caa93ac1320b0b697cebc384fc13f9",
+        "rev": "8f5d6f592ce13ee62a2892a86533e90acbdc4fe4",
         "type": "github"
       },
       "original": {
