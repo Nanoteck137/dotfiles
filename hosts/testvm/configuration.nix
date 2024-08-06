@@ -2,6 +2,7 @@
 let
   sewaddleAddress = "10.28.28.9:4005";
   dwebbleAddress = "10.28.28.9:7550";
+  dwebbleFrontendAddress = "10.28.28.9:7551";
   ntfyAddress = "10.28.28.2:8080";
   secrets = builtins.fromJSON (builtins.readFile /etc/nixos/secrets.json);
 in {
@@ -177,9 +178,7 @@ hostname = ::
         }
 
         handle {
-          root * ${inputs.dwebble-frontend.packages.x86_64-linux.default}
-          try_files {path} /index.html
-          file_server
+          reverse_proxy ${dwebbleFrontendAddress}
         }
       '';
     };
