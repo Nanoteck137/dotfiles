@@ -4,6 +4,7 @@ in {
   imports = [ 
     inputs.sewaddlenew.nixosModules.default
     inputs.dwebble.nixosModules.default
+    inputs.dwebble-frontend.nixosModules.default
     ./hardware-configuration.nix
     ../common/common.nix
   ];
@@ -99,6 +100,11 @@ in {
     enable = true;
     library = "/mnt/fastboi/media/music";
     jwtSecret = "some_secret";
+  };
+
+  services.dwebble-frontend = {
+    enable = true;
+    apiAddress = "";
   };
 
   services.restic = {
