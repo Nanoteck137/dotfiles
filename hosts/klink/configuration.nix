@@ -45,10 +45,13 @@ in {
   services.xserver.videoDrivers = ["nvidia"];
 
   hardware.nvidia = {
+    package = config.boot.kernelPackages.nvidiaPackages.legacy_470;
     modesetting.enable = true;
     open = false;
     nvidiaSettings = true;
   };
+
+  virtualisation.docker.enable = true;
 
   sound.enable = true;
   security.rtkit.enable = true;
@@ -66,6 +69,7 @@ in {
   };
 
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.nvidia.acceptLicense = true;
 
   environment.systemPackages = with pkgs; [
     git
@@ -77,6 +81,7 @@ in {
     cifs-utils
     file
     mullvad-vpn
+    docker-compose
   ];
 
   services.mullvad-vpn.enable = true;
