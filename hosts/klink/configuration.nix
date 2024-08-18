@@ -131,6 +131,14 @@ in {
     };
   };
 
+  services.vsftpd = {
+    enable = true;
+    userlist = ["nanoteck137"];
+    userlistEnable = true;
+    localUsers = true;
+    writeEnable = true;
+  };
+
   services.samba = {
     enable = true;
     securityType = "user";
