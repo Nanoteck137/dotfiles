@@ -8,8 +8,6 @@ let
   secrets = builtins.fromJSON (builtins.readFile /etc/nixos/secrets.json);
 in {
   imports = [ 
-    inputs.sewaddlenew.nixosModules.default
-    inputs.dwebble.nixosModules.default
     ./hardware-configuration.nix
     ../common/common.nix
   ];
