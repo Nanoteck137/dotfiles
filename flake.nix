@@ -20,25 +20,10 @@
 
     # Server Stuff
 
-    sewaddle.url = "github:nanoteck137/sewaddle/new-backend";
+    sewaddle.url = "github:nanoteck137/sewaddle/v0.9.1";
     sewaddle.inputs.nixpkgs.follows = "nixpkgs";
 
-    swadloon.url = "github:nanoteck137/swadloon";
-    swadloon.inputs.nixpkgs.follows = "nixpkgs";
-
-    haunter.url = "github:nanoteck137/haunter";
-    haunter.inputs.nixpkgs.follows = "nixpkgs";
-
-    boldore.url = "github:nanoteck137/boldore";
-    boldore.inputs.nixpkgs.follows = "nixpkgs";
-
-    customcaddy.url = "github:nanoteck137/customcaddy";
-    # customcaddy.inputs.nixpkgs.follows = "nixpkgs";
-
-    sewaddlenew.url = "github:nanoteck137/sewaddle/v0.5.2";
-    sewaddlenew.inputs.nixpkgs.follows = "nixpkgs";
-
-    sewaddle-web.url = "github:nanoteck137/sewaddle-web";
+    sewaddle-web.url = "github:nanoteck137/sewaddle-web/v0.9.1-3";
     sewaddle-web.inputs.nixpkgs.follows = "nixpkgs";
 
     dwebble.url = "github:nanoteck137/dwebble/v0.15.5";
@@ -49,6 +34,9 @@
 
     crustle.url = "github:nanoteck137/crustle";
     crustle.inputs.nixpkgs.follows = "nixpkgs";
+
+    customcaddy.url = "github:nanoteck137/customcaddy";
+    # customcaddy.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = { self, nixpkgs, nix-darwin, home-manager, ... }@inputs: 

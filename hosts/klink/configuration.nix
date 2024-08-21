@@ -2,7 +2,8 @@
 let
 in {
   imports = [ 
-    inputs.sewaddlenew.nixosModules.default
+    inputs.sewaddle.nixosModules.default
+    inputs.sewaddle-web.nixosModules.default
     inputs.dwebble.nixosModules.default
     inputs.dwebble-frontend.nixosModules.default
     ./hardware-configuration.nix
@@ -98,7 +99,14 @@ in {
   services.sewaddle = {
     enable = true;
     library = "/mnt/fastboi/media/manga";
+    username = "nanoteck137";
+    initialPassword = "password";
     jwtSecret = "some_secret";
+  };
+
+  services.sewaddle-web = {
+    enable = true;
+    apiAddress = "http://localhost:${toString config.services.sewaddle.port}";
   };
 
   services.dwebble = {
