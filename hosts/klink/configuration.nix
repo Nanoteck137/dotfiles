@@ -106,7 +106,8 @@ in {
 
   services.sewaddle-web = {
     enable = true;
-    apiAddress = "http://localhost:${toString config.services.sewaddle.port}";
+    # apiAddress = "http://localhost:${toString config.services.sewaddle.port}";
+    apiAddress = "";
   };
 
   services.dwebble = {

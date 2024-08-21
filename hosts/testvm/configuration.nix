@@ -138,6 +138,14 @@ hostname = ::
           dns duckdns ${secrets.duckDnsToken}
         }
 
+        handle /api/* {
+          reverse_proxy ${sewaddleAddress}
+        }
+
+        handle /images/* {
+          reverse_proxy ${sewaddleAddress}
+        }
+
         handle {
           reverse_proxy ${sewaddleWebAddress}
         }
