@@ -20,7 +20,7 @@
 
     # Server Stuff
 
-    sewaddle.url = "github:nanoteck137/sewaddle/v0.9.1";
+    sewaddle.url = "github:nanoteck137/sewaddle/v0.9.2";
     sewaddle.inputs.nixpkgs.follows = "nixpkgs";
 
     sewaddle-web.url = "github:nanoteck137/sewaddle-web/v0.9.1-3";

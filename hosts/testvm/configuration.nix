@@ -142,7 +142,7 @@ hostname = ::
           reverse_proxy ${sewaddleAddress}
         }
 
-        handle /images/* {
+        handle /files/* {
           reverse_proxy ${sewaddleAddress}
         }
 

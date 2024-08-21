@@ -1017,16 +1017,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1724248838,
-        "narHash": "sha256-w4U3TeHKyw/7LH47G9M54GQKh3VaG3OyGdYOVrOhL5U=",
+        "lastModified": 1724258484,
+        "narHash": "sha256-aaZl8XXpywS5VzapJzYAVXUfIb6q8JXG43XQbNpY88A=",
         "owner": "nanoteck137",
         "repo": "sewaddle",
-        "rev": "af86a2248b2ad01b04bbfd904f476f21cd73e23f",
+        "rev": "edead666f100c880367d664c55f11aea803d3064",
         "type": "github"
       },
       "original": {
         "owner": "nanoteck137",
-        "ref": "v0.9.1",
+        "ref": "v0.9.2",
         "repo": "sewaddle",
         "type": "github"
       }
