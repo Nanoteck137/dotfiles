@@ -104,6 +104,8 @@ in {
   services.dwebble = {
     enable = true;
     library = "/mnt/fastboi/media/music";
+    username = "nanoteck137";
+    initialPassword = "password";
     jwtSecret = "some_secret";
   };
 
