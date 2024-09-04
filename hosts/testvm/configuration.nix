@@ -162,11 +162,7 @@ hostname = ::
           reverse_proxy ${dwebbleAddress}
         }
 
-        handle /tracks/* {
-          reverse_proxy ${dwebbleAddress}
-        }
-
-        handle /images/* {
+        handle /files/* {
           reverse_proxy ${dwebbleAddress}
         }
 
