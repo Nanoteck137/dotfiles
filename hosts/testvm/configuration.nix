@@ -172,12 +172,10 @@ hostname = ::
       '';
     };
 
-    virtualHosts."dwebble.patrikmillvik.theworkpc.com" = {
+    virtualHosts."dwebble.nanoteck137.net" = {
       extraConfig = ''
         tls {
-          dns dynu ${secrets.dynuDnsToken} {
-            own_domain patrikmillvik.theworkpc.com
-          }
+          dns cloudflare ${secrets.cloudflareToken}
         }
 
         handle /api/* {
