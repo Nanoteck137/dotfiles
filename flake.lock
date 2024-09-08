@@ -29,11 +29,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1725828374,
-        "narHash": "sha256-lEeW0eef9vHDi1hTePGh4OJzl0jgwRnkEbzvANAWDL4=",
+        "lastModified": 1725838564,
+        "narHash": "sha256-biYLs8TUepasDupn1cGicnqTxANt2JzM7jaSXK3dxUs=",
         "owner": "nanoteck137",
         "repo": "customcaddy",
-        "rev": "e33548ad704d291a4573418a69136b7d34e7cfaf",
+        "rev": "c1c9a0881c88845e83891240b854efd29ffca06f",
         "type": "github"
       },
       "original": {
