@@ -172,7 +172,7 @@ hostname = ::
       '';
     };
 
-    virtualHosts."patrikmillvik.theworkpc.com" = {
+    virtualHosts."dwebble.patrikmillvik.theworkpc.com" = {
       extraConfig = ''
         tls {
           dns dynu ${secrets.dynuDnsToken} {
