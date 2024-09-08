@@ -172,6 +172,28 @@ hostname = ::
       '';
     };
 
+    virtualHosts."patrikmillvik.theworkpc.com" = {
+      extraConfig = ''
+        tls {
+          dns dynu ${secrets.dynuDnsToken} {
+            own_domain patrikmillvik.theworkpc.com
+          }
+        }
+
+        handle /api/* {
+          reverse_proxy ${dwebbleAddress}
+        }
+
+        handle /files/* {
+          reverse_proxy ${dwebbleAddress}
+        }
+
+        handle {
+          reverse_proxy ${dwebbleFrontendAddress}
+        }
+      '';
+    };
+
     virtualHosts."mopidy.patrikmillvik.duckdns.org" = {
       extraConfig = ''
         tls {

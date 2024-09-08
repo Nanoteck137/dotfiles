@@ -1,11 +1,15 @@
 { config, pkgs, inputs, ... }:
 let
+  dwebbleImport = pkgs.writeShellScriptBin "dwebble-import" '' 
+    ${inputs.dwebble.packages.${pkgs.system}.default}/bin/dwebble-import $@
+  '';
 in {
   imports = [ 
     inputs.sewaddle.nixosModules.default
     inputs.sewaddle-web.nixosModules.default
     inputs.dwebble.nixosModules.default
-    inputs.dwebble-frontend.nixosModules.default
+    inputs.dwebble.nixosModules.dwebble-web
+    # inputs.dwebble-frontend.nixosModules.default
     ./hardware-configuration.nix
     ../common/common.nix
   ];
@@ -83,6 +87,7 @@ in {
     file
     mullvad-vpn
     docker-compose
+    dwebbleImport
   ];
 
   services.mullvad-vpn.enable = true;
@@ -118,7 +123,7 @@ in {
     jwtSecret = "some_secret";
   };
 
-  services.dwebble-frontend = {
+  services.dwebble-web = {
     enable = true;
     apiAddress = "";
   };
