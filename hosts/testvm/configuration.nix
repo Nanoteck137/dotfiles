@@ -132,45 +132,45 @@ hostname = ::
     package = inputs.customcaddy.packages.x86_64-linux.default;
     enable = true;
 
-    virtualHosts."sewaddle.patrikmillvik.duckdns.org" = {
-      extraConfig = ''
-        tls {
-          dns duckdns ${secrets.duckDnsToken}
-        }
-
-        handle /api/* {
-          reverse_proxy ${sewaddleAddress}
-        }
-
-        handle /files/* {
-          reverse_proxy ${sewaddleAddress}
-        }
-
-        handle {
-          reverse_proxy ${sewaddleWebAddress}
-        }
-      '';
-    };
-
-    virtualHosts."dwebble.patrikmillvik.duckdns.org" = {
-      extraConfig = ''
-        tls {
-          dns duckdns ${secrets.duckDnsToken}
-        }
-
-        handle /api/* {
-          reverse_proxy ${dwebbleAddress}
-        }
-
-        handle /files/* {
-          reverse_proxy ${dwebbleAddress}
-        }
-
-        handle {
-          reverse_proxy ${dwebbleFrontendAddress}
-        }
-      '';
-    };
+    # virtualHosts."sewaddle.patrikmillvik.duckdns.org" = {
+    #   extraConfig = ''
+    #     tls {
+    #       dns duckdns ${secrets.duckDnsToken}
+    #     }
+    #
+    #     handle /api/* {
+    #       reverse_proxy ${sewaddleAddress}
+    #     }
+    #
+    #     handle /files/* {
+    #       reverse_proxy ${sewaddleAddress}
+    #     }
+    #
+    #     handle {
+    #       reverse_proxy ${sewaddleWebAddress}
+    #     }
+    #   '';
+    # };
+    #
+    # virtualHosts."dwebble.patrikmillvik.duckdns.org" = {
+    #   extraConfig = ''
+    #     tls {
+    #       dns duckdns ${secrets.duckDnsToken}
+    #     }
+    #
+    #     handle /api/* {
+    #       reverse_proxy ${dwebbleAddress}
+    #     }
+    #
+    #     handle /files/* {
+    #       reverse_proxy ${dwebbleAddress}
+    #     }
+    #
+    #     handle {
+    #       reverse_proxy ${dwebbleFrontendAddress}
+    #     }
+    #   '';
+    # };
 
     virtualHosts."dwebble.nanoteck137.net" = {
       extraConfig = ''
@@ -192,25 +192,25 @@ hostname = ::
       '';
     };
 
-    virtualHosts."mopidy.patrikmillvik.duckdns.org" = {
-      extraConfig = ''
-        tls {
-          dns duckdns ${secrets.duckDnsToken}
-        }
-
-        reverse_proxy :6680
-      '';
-    };
-
-    virtualHosts."ntfy.patrikmillvik.duckdns.org" = {
-      extraConfig = ''
-        tls {
-          dns duckdns ${secrets.duckDnsToken}
-        }
-
-        reverse_proxy ${ntfyAddress}
-      '';
-    };
+    # virtualHosts."mopidy.patrikmillvik.duckdns.org" = {
+    #   extraConfig = ''
+    #     tls {
+    #       dns duckdns ${secrets.duckDnsToken}
+    #     }
+    #
+    #     reverse_proxy :6680
+    #   '';
+    # };
+    #
+    # virtualHosts."ntfy.patrikmillvik.duckdns.org" = {
+    #   extraConfig = ''
+    #     tls {
+    #       dns duckdns ${secrets.duckDnsToken}
+    #     }
+    #
+    #     reverse_proxy ${ntfyAddress}
+    #   '';
+    # };
 
         # @httpget {
         #     protocol http
