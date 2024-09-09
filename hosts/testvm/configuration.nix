@@ -173,13 +173,12 @@ hostname = ::
     # };
 
 
-      	# tls {
-		     #  dns cloudflare ${secrets.cloudflareToken}
-	      # }
 
     virtualHosts."nanoteck137.net" = {
       extraConfig = ''
-        tls internal
+      	tls {
+		      dns cloudflare ${secrets.cloudflareToken}
+	      }
 
         handle /api/* {
           reverse_proxy ${dwebbleAddress}
