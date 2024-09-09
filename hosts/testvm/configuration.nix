@@ -176,6 +176,7 @@ hostname = ::
       extraConfig = ''
         tls {
           dns cloudflare ${secrets.cloudflareToken}
+          resolvers 1.1.1.1
         }
 
         handle /api/* {
