@@ -179,7 +179,7 @@ hostname = ::
 
     virtualHosts."nanoteck137.net" = {
       extraConfig = ''
-        tls off
+        tls internal
 
         handle /api/* {
           reverse_proxy ${dwebbleAddress}
