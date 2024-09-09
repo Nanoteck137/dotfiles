@@ -174,10 +174,9 @@ hostname = ::
 
     virtualHosts."dwebble.nanoteck137.net" = {
       extraConfig = ''
-        tls {
-          dns cloudflare ${secrets.cloudflareToken}
-          resolvers 1.1.1.1
-        }
+      	tls {
+		      dns cloudflare ${secrets.cloudflareToken}
+	      }
 
         handle /api/* {
           reverse_proxy ${dwebbleAddress}
