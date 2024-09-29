@@ -5,6 +5,7 @@ let
   dwebbleAddress = "10.28.28.9:7550";
   dwebbleFrontendAddress = "10.28.28.9:7551";
   ntfyAddress = "10.28.28.2:8080";
+  syncthingAddress = "10.28.28.2:8384";
   secrets = builtins.fromJSON (builtins.readFile /etc/nixos/secrets.json);
 in {
   imports = [ 
@@ -190,6 +191,18 @@ hostname = ::
 
         handle {
           reverse_proxy ${dwebbleFrontendAddress}
+        }
+      '';
+    };
+
+    virtualHosts."sync.nanoteck137.net" = {
+      extraConfig = ''
+      	tls {
+		      dns cloudflare ${secrets.cloudflareToken}
+	      }
+
+        handle {
+          reverse_proxy ${syncthingAddress}
         }
       '';
     };
