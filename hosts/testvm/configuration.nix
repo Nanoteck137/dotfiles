@@ -5,7 +5,7 @@ let
   dwebbleAddress = "10.28.28.9:7550";
   dwebbleFrontendAddress = "10.28.28.9:7551";
   ntfyAddress = "10.28.28.2:8080";
-  syncthingAddress = "10.28.28.2:8384";
+  syncthingAddress = "10.28.28.9:8384";
   secrets = builtins.fromJSON (builtins.readFile /etc/nixos/secrets.json);
 in {
   imports = [ 
