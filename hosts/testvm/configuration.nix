@@ -202,7 +202,9 @@ hostname = ::
 	      }
 
         handle {
-          reverse_proxy ${syncthingAddress}
+          reverse_proxy ${syncthingAddress} {
+            header_up Host {upstream_hostport}
+          }
         }
       '';
     };
