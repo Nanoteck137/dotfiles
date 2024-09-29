@@ -3,6 +3,10 @@ let
   dwebbleImport = pkgs.writeShellScriptBin "dwebble-import" '' 
     ${inputs.dwebble.packages.${pkgs.system}.default}/bin/dwebble-import $@
   '';
+
+  dwebbleDl = pkgs.writeShellScriptBin "dwebble-dl" '' 
+    ${inputs.dwebble.packages.${pkgs.system}.default}/bin/dwebble-dl $@
+  '';
 in {
   imports = [ 
     inputs.sewaddle.nixosModules.default
@@ -88,6 +92,7 @@ in {
     mullvad-vpn
     docker-compose
     dwebbleImport
+    dwebbleDl
   ];
 
   services.mullvad-vpn.enable = true;
@@ -144,6 +149,21 @@ in {
           Persistent = true;
         };
       };
+
+      dwebble = {
+        paths = [ "/mnt/fastboi/apps/dwebble" ];
+        extraBackupArgs = [ "--tag" "dwebble" ];
+        exclude = [ ".*" ];
+        repository = "rest:http://10.28.28.2:8000";
+        passwordFile = "/etc/nixos/restic-password";
+        initialize = true;
+        createWrapper = true;
+
+        timerConfig = {
+          OnCalendar = "hourly";
+          Persistent = true;
+        };
+      };
     };
   };
 
@@ -153,6 +173,9 @@ in {
     userlistEnable = true;
     localUsers = true;
     writeEnable = true;
+    extraConfig = ''
+      local_umask=033
+    '';
   };
 
   services.samba = {
