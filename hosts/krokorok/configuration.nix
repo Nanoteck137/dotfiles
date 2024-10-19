@@ -7,14 +7,13 @@ let
   dwebbleAddress = "10.28.28.9:7550";
 in {
   imports = [ 
-    inputs.sewaddlenew.nixosModules.default
+    inputs.sewaddle.nixosModules.default
     inputs.dwebble.nixosModules.default
     ./hardware-configuration.nix
     ../common/common.nix
   ];
 
   nixpkgs.overlays = [ 
-    inputs.neovim-nightly-overlay.overlay 
     inputs.nixneovimplugins.overlays.default
   ];
 
