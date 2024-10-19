@@ -1,4 +1,4 @@
-{config, pkgs, inputs, ...}: {
+{config, pkgs, inputs, self, ...}: {
   imports = [
     ../common/home/tmux.nix
     ../common/home/nvim.nix
