@@ -23,6 +23,11 @@
   };
 
   xdg.configFile.awesome.source = "${self}/configs/awesome";
+  xdg.configFile.rofi.source = "${self}/configs/rofi";
+  xdg.configFile.crustle.source = "${self}/configs/crustle";
+  # xdg.configFile.picom.source = "${self}./picom/.config/picom;
+
+  home.file."wallpaper.png".source = "${self}/wallpaper.png";
 
   # qt.enable = true;
   # qt.platformTheme = "gtk";
