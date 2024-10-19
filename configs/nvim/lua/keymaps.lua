@@ -17,3 +17,7 @@ vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous dia
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
+
+-- NOTE(patrik): Trouble keymap
+vim.keymap.set('n', '<leader>tt', function() require("trouble").toggle() end, { desc = "Toggle Trouble" })
+vim.keymap.set('n', '<leader>to', function() require("trouble").open() end, { desc = "Open Trouble" })

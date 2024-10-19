@@ -1,3 +1,6 @@
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
+
 vim.opt.clipboard = "unnamedplus"
 vim.opt.syntax = "on"
 vim.opt.laststatus = 3
@@ -46,3 +49,9 @@ vim.diagnostic.config {
     severity = vim.diagnostic.severity.ERROR,
   }
 }
+
+vim.cmd([[
+set conceallevel=2
+syn match NBSP '\%xa0' conceal cchar=␣
+syn match NarrowNBSP '\%u202F' conceal cchar=⸤
+]])

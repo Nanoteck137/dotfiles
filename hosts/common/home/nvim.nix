@@ -47,11 +47,7 @@ in {
 
     #   vimPlugins.vim-sleuth
     #   vimPlugins.nui-nvim
-    #
-    #   vimPlugins.nvim-comment
-    #   vimPlugins.todo-comments-nvim
-    #   vimPlugins.trouble-nvim
-    #
+
       vimPlugins.nvim-cmp
       vimPlugins.cmp-buffer
       vimPlugins.cmp-path
@@ -63,16 +59,13 @@ in {
 
       vimPlugins.comment-nvim
       vimPlugins.todo-comments-nvim
+      vimPlugins.trouble-nvim
 
       vimPlugins.dressing-nvim
 
-    #
-    #   vimPlugins.null-ls-nvim
-    #
-    #   vimPlugins.nvim-surround
-    #
-    #   vimExtraPlugins.neo-tree-nvim
-    #   vimExtraPlugins.Comment-nvim
+#   vimPlugins.null-ls-nvim
+#   vimPlugins.nvim-surround
+#   vimExtraPlugins.neo-tree-nvim
     ];
   };
 }
