@@ -22,6 +22,8 @@
     enable = true;
   };
 
+  xdg.configFile.awesome.source = "${self}/configs/awesome";
+
   # qt.enable = true;
   # qt.platformTheme = "gtk";
   # qt.style.name = "adwaita-dark";
