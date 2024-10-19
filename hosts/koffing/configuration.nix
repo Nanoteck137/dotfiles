@@ -23,8 +23,14 @@ in {
       variant = "nodeadkeys";
     };
 
-    desktopManager.budgie.enable = true;
-    displayManager.lightdm.enable = true;
+    # desktopManager.budgie.enable = true;
+    # displayManager.lightdm.enable = true;
+
+    displayManager.lightdm = {
+      enable = true;
+      # greeters.slick.enable = true;
+    };
+    windowManager.awesome.enable = true;
   };
 
   hardware.opengl = {
