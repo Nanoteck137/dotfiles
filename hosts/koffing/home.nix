@@ -11,7 +11,10 @@
 
   home.username = "nanoteck137";
   home.homeDirectory = "/home/nanoteck137";
-  home.packages = with pkgs; [];
+  home.packages = with pkgs; [
+    rofi
+    lxappearance
+  ];
 
   programs.home-manager.enable = true;
   
