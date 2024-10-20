@@ -1,5 +1,6 @@
 {config, pkgs, inputs, self, ...}: {
   imports = [
+    ../common/home/kitty.nix
     ../common/home/tmux.nix
     ../common/home/nvim.nix
     ../common/home/zsh.nix
