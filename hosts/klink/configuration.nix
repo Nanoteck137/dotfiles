@@ -10,7 +10,8 @@ let
 in {
   imports = [ 
     inputs.sewaddle.nixosModules.default
-    inputs.sewaddle-web.nixosModules.default
+    inputs.sewaddle.nixosModules.frontend
+
     inputs.dwebble.nixosModules.default
     inputs.dwebble.nixosModules.dwebble-web
     # inputs.dwebble-frontend.nixosModules.default
@@ -106,6 +107,32 @@ in {
     settings.KbdInteractiveAuthentication = false;
   };
 
+  services.snapserver = {
+    enable = true;
+
+    streams.test = {
+      type = "pipe";
+      location = "/run/snapserver/mpd";
+      sampleFormat = "48000:16:2";
+      codec = "pcm";
+    };
+
+    openFirewall = true;
+  };
+
+  services.mpd = {
+    enable = true;
+    extraConfig = ''
+      audio_output {
+        type            "fifo"
+        name            "snapinfo fifo"
+        path            "/run/snapserver/mpd"
+        format          "48000:16:2"
+        mixer_type      "software"
+      }
+    '';
+  };
+
   services.sewaddle = {
     enable = true;
     library = "/mnt/fastboi/media/manga";
@@ -116,7 +143,6 @@ in {
 
   services.sewaddle-web = {
     enable = true;
-    # apiAddress = "http://localhost:${toString config.services.sewaddle.port}";
     apiAddress = "";
   };
 

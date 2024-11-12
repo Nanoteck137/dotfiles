@@ -227,15 +227,16 @@
         "tagopus": "tagopus_2"
       },
       "locked": {
-        "lastModified": 1726701699,
-        "narHash": "sha256-4bMOwcSfTsWpZaFqC5GB6IoVhhuR+HJ340+w8Fa6qTM=",
+        "lastModified": 1729437696,
+        "narHash": "sha256-8RiVS1qrfO65WFwK3yN/TdjXIn+RseV0NxA0zyiErIA=",
         "owner": "nanoteck137",
         "repo": "dwebble",
-        "rev": "4ee5246742607979cb7173b15aa38ef03153bed0",
+        "rev": "53eaa2bd1d7f5cef3af4502bb67e44b693e6838a",
         "type": "github"
       },
       "original": {
         "owner": "nanoteck137",
+        "ref": "v0.16.2",
         "repo": "dwebble",
         "type": "github"
       }
@@ -775,6 +776,27 @@
     "gitignore_4": {
       "inputs": {
         "nixpkgs": [
+          "sewaddle",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1709087332,
+        "narHash": "sha256-HG2cCnktfHsKV0s4XW83gU3F57gaTljL9KNSuG6bnQs=",
+        "owner": "hercules-ci",
+        "repo": "gitignore.nix",
+        "rev": "637db329424fd7e46cf4185293b9cc8c88c95394",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hercules-ci",
+        "repo": "gitignore.nix",
+        "type": "github"
+      }
+    },
+    "gitignore_5": {
+      "inputs": {
+        "nixpkgs": [
           "sewaddle-web",
           "nixpkgs"
         ]
@@ -1136,21 +1158,21 @@
       "inputs": {
         "devtools": "devtools_5",
         "flake-utils": "flake-utils_15",
+        "gitignore": "gitignore_4",
         "nixpkgs": [
           "nixpkgs"
         ]
       },
       "locked": {
-        "lastModified": 1724258484,
-        "narHash": "sha256-aaZl8XXpywS5VzapJzYAVXUfIb6q8JXG43XQbNpY88A=",
+        "lastModified": 1731378974,
+        "narHash": "sha256-bGXqKJ9P87gFDaywRgaUcd5G/OQb+26+qmkAEwqEKeQ=",
         "owner": "nanoteck137",
         "repo": "sewaddle",
-        "rev": "edead666f100c880367d664c55f11aea803d3064",
+        "rev": "a3ba8e4c4cdbc67a8e16a1b6e2afcfaea7798e3e",
         "type": "github"
       },
       "original": {
         "owner": "nanoteck137",
-        "ref": "v0.9.2",
         "repo": "sewaddle",
         "type": "github"
       }
@@ -1159,7 +1181,7 @@
       "inputs": {
         "devtools": "devtools_6",
         "flake-utils": "flake-utils_17",
-        "gitignore": "gitignore_4",
+        "gitignore": "gitignore_5",
         "nixpkgs": [
           "nixpkgs"
         ],
