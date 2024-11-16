@@ -2,8 +2,13 @@
 let
   sewaddleAddress = "10.28.28.9:4005";
   sewaddleWebAddress = "10.28.28.9:4006";
+
   dwebbleAddress = "10.28.28.9:7550";
   dwebbleWebAddress = "10.28.28.9:7551";
+
+  kricketuneAddress = "10.28.28.9:2040";
+  kricketuneWebAddress = "10.28.28.9:2041";
+
   ntfyAddress = "10.28.28.2:8080";
   syncthingAddress = "10.28.28.9:8384";
   secrets = builtins.fromJSON (builtins.readFile /etc/nixos/secrets.json);
@@ -211,6 +216,22 @@ hostname = ::
 
         handle {
           reverse_proxy ${sewaddleWebAddress}
+        }
+      '';
+    };
+
+    virtualHosts."kricketune.nanoteck137.net" = {
+      extraConfig = ''
+      	tls {
+		      dns cloudflare ${secrets.cloudflareToken}
+	      }
+
+        handle /api/* {
+          reverse_proxy ${kricketuneAddress}
+        }
+
+        handle {
+          reverse_proxy ${kricketuneWebAddress}
         }
       '';
     };

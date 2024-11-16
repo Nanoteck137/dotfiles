@@ -7,6 +7,10 @@ let
   dwebbleDl = pkgs.writeShellScriptBin "dwebble-dl" '' 
     ${inputs.dwebble.packages.${pkgs.system}.default}/bin/dwebble-dl $@
   '';
+
+  sewaddleImport = pkgs.writeShellScriptBin "sewaddle-import" '' 
+    ${inputs.sewaddle.packages.${pkgs.system}.default}/bin/sewaddle-import $@
+  '';
 in {
   imports = [ 
     inputs.sewaddle.nixosModules.default
@@ -14,7 +18,10 @@ in {
 
     inputs.dwebble.nixosModules.default
     inputs.dwebble.nixosModules.dwebble-web
-    # inputs.dwebble-frontend.nixosModules.default
+
+    inputs.kricketune.nixosModules.default
+    inputs.kricketune.nixosModules.frontend
+
     ./hardware-configuration.nix
     ../common/common.nix
   ];
@@ -94,6 +101,7 @@ in {
     docker-compose
     dwebbleImport
     dwebbleDl
+    sewaddleImport
   ];
 
   services.mullvad-vpn.enable = true;
@@ -110,27 +118,14 @@ in {
   services.snapserver = {
     enable = true;
 
-    streams.test = {
+    streams.kricketune = {
       type = "pipe";
-      location = "/run/snapserver/mpd";
+      location = "/run/snapserver/kricketune";
       sampleFormat = "48000:16:2";
       codec = "pcm";
     };
 
     openFirewall = true;
-  };
-
-  services.mpd = {
-    enable = true;
-    extraConfig = ''
-      audio_output {
-        type            "fifo"
-        name            "snapinfo fifo"
-        path            "/run/snapserver/mpd"
-        format          "48000:16:2"
-        mixer_type      "software"
-      }
-    '';
   };
 
   services.sewaddle = {
@@ -155,6 +150,17 @@ in {
   };
 
   services.dwebble-web = {
+    enable = true;
+    apiAddress = "";
+  };
+
+  services.kricketune = {
+    enable = true;
+    dwebbleAddress = "https://dwebble.nanoteck137.net";
+    audioOutput = "audioresample ! audioconvert ! audio/x-raw,rate=48000,channels=2,format=S16LE ! filesink location=/run/snapserver/kricketune";
+  };
+
+  services.kricketune-web = {
     enable = true;
     apiAddress = "";
   };

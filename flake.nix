@@ -32,6 +32,9 @@
     dwebble-frontend.url = "github:nanoteck137/dwebble-frontend/v0.15.5-3";
     dwebble-frontend.inputs.nixpkgs.follows = "nixpkgs";
 
+    kricketune.url = "github:nanoteck137/kricketune";
+    # kricketune.inputs.nixpkgs.follows = "nixpkgs";
+
     crustle.url = "github:nanoteck137/crustle";
     crustle.inputs.nixpkgs.follows = "nixpkgs";
 
