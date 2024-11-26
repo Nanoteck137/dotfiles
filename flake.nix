@@ -26,7 +26,7 @@
     sewaddle-web.url = "github:nanoteck137/sewaddle-web/v0.9.1-3";
     sewaddle-web.inputs.nixpkgs.follows = "nixpkgs";
 
-    dwebble.url = "github:nanoteck137/dwebble/v0.16.2";
+    dwebble.url = "github:nanoteck137/dwebble";
     dwebble.inputs.nixpkgs.follows = "nixpkgs";
     
     dwebble-frontend.url = "github:nanoteck137/dwebble-frontend/v0.15.5-3";

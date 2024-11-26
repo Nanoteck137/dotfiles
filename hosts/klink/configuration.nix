@@ -1,11 +1,11 @@
 { config, pkgs, inputs, ... }:
 let
-  dwebbleImport = pkgs.writeShellScriptBin "dwebble-import" '' 
-    ${inputs.dwebble.packages.${pkgs.system}.default}/bin/dwebble-import $@
+  dwebble-cli = pkgs.writeShellScriptBin "dwebble-cli" '' 
+    ${inputs.dwebble.packages.${pkgs.system}.default}/bin/dwebble-cli --server "https://dwebble.nanoteck137.net" $@
   '';
 
-  dwebbleDl = pkgs.writeShellScriptBin "dwebble-dl" '' 
-    ${inputs.dwebble.packages.${pkgs.system}.default}/bin/dwebble-dl $@
+  dwebbleMigrate = pkgs.writeShellScriptBin "dwebble-migrate" '' 
+    ${inputs.dwebble.packages.${pkgs.system}.default}/bin/dwebble-migrate $@
   '';
 
   sewaddleImport = pkgs.writeShellScriptBin "sewaddle-import" '' 
@@ -99,8 +99,8 @@ in {
     file
     mullvad-vpn
     docker-compose
-    dwebbleImport
-    dwebbleDl
+    dwebble-cli
+    dwebbleMigrate
     sewaddleImport
   ];
 
@@ -158,6 +158,17 @@ in {
     enable = true;
     dwebbleAddress = "https://dwebble.nanoteck137.net";
     audioOutput = "audioresample ! audioconvert ! audio/x-raw,rate=48000,channels=2,format=S16LE ! filesink location=/run/snapserver/kricketune";
+    extraConfig = ''
+    [[ filter_sets ]]
+    name = "Good"
+    filter = "hasTag(\"Good\")"
+    sort = "random"
+
+    [[ filter_sets ]]
+    name = "Soundtrack"
+    filter = "hasTag(\"Soundtrack\")"
+    sort = "random"
+    '';
   };
 
   services.kricketune-web = {
@@ -168,9 +179,12 @@ in {
   services.restic = {
     backups = {
       media = {
-        paths = [ "/mnt/fastboi/media" ];
+        paths = [ 
+          "/mnt/fastboi/media" 
+          "/mnt/fastboi/apps/dwebble"
+          "/mnt/fastboi/apps/sewaddle"
+        ];
         extraBackupArgs = [ "--tag" "media" ];
-        exclude = [ ".*" ];
         repository = "rest:http://10.28.28.2:8000";
         passwordFile = "/etc/nixos/restic-password";
         initialize = true;
@@ -181,21 +195,50 @@ in {
           Persistent = true;
         };
       };
-
-      dwebble = {
-        paths = [ "/mnt/fastboi/apps/dwebble" ];
-        extraBackupArgs = [ "--tag" "dwebble" ];
-        exclude = [ ".*" ];
-        repository = "rest:http://10.28.28.2:8000";
-        passwordFile = "/etc/nixos/restic-password";
-        initialize = true;
-        createWrapper = true;
-
-        timerConfig = {
-          OnCalendar = "hourly";
-          Persistent = true;
-        };
-      };
+      # media = {
+      #   paths = [ "/mnt/fastboi/media" ];
+      #   extraBackupArgs = [ "--tag" "media" ];
+      #   exclude = [ ".*" ];
+      #   repository = "rest:http://10.28.28.2:8000";
+      #   passwordFile = "/etc/nixos/restic-password";
+      #   initialize = true;
+      #   createWrapper = true;
+      #
+      #   timerConfig = {
+      #     OnCalendar = "hourly";
+      #     Persistent = true;
+      #   };
+      # };
+      #
+      # dwebble = {
+      #   paths = [ "/mnt/fastboi/apps/dwebble" ];
+      #   extraBackupArgs = [ "--tag" "dwebble" ];
+      #   exclude = [ ".*" ];
+      #   repository = "rest:http://10.28.28.2:8000";
+      #   passwordFile = "/etc/nixos/restic-password";
+      #   initialize = true;
+      #   createWrapper = true;
+      #
+      #   timerConfig = {
+      #     OnCalendar = "hourly";
+      #     Persistent = true;
+      #   };
+      # };
+      #
+      # sewaddle = {
+      #   paths = [ "/mnt/fastboi/apps/sewaddle" ];
+      #   extraBackupArgs = [ "--tag" "sewaddle" ];
+      #   exclude = [ ".*" ];
+      #   repository = "rest:http://10.28.28.2:8000";
+      #   passwordFile = "/etc/nixos/restic-password";
+      #   initialize = true;
+      #   createWrapper = true;
+      #
+      #   timerConfig = {
+      #     OnCalendar = "hourly";
+      #     Persistent = true;
+      #   };
+      # };
     };
   };
 
