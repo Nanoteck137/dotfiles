@@ -9,6 +9,8 @@ let
   kricketuneAddress = "10.28.28.9:2040";
   kricketuneWebAddress = "10.28.28.9:2041";
 
+  jellyfinAddress = "10.28.28.2:8096";
+
   ntfyAddress = "10.28.28.2:8080";
   syncthingAddress = "10.28.28.9:8384";
   secrets = builtins.fromJSON (builtins.readFile /etc/nixos/secrets.json);
@@ -246,6 +248,18 @@ hostname = ::
           reverse_proxy ${syncthingAddress} {
             header_up Host {upstream_hostport}
           }
+        }
+      '';
+    };
+
+    virtualHosts."jellyfin.nanoteck137.net" = {
+      extraConfig = ''
+      	tls {
+		      dns cloudflare ${secrets.cloudflareToken}
+	      }
+
+        handle {
+          reverse_proxy ${jellyfinAddress}
         }
       '';
     };
