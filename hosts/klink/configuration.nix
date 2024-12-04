@@ -53,10 +53,9 @@ in {
     displayManager.lightdm.enable = true;
   };
 
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
+    enable32Bit = true;
   };
 
   services.xserver.videoDrivers = ["nvidia"];
@@ -70,7 +69,6 @@ in {
 
   virtualisation.docker.enable = true;
 
-  sound.enable = true;
   security.rtkit.enable = true;
 
   users.users.nanoteck137 = {
@@ -253,64 +251,58 @@ in {
     '';
   };
 
-  services.samba = {
-    enable = true;
-    securityType = "user";
-    # openFirewall = true;
+  # services.samba = {
+  #   enable = true;
+  #   securityType = "user";
+  #   # openFirewall = true;
+  #
+  #   extraConfig = ''
+  #     workgroup = WORKGROUP
+  #     server string = klink
+  #     netbios name = klink
+  #     security = user 
+  #     #use sendfile = yes
+  #     #max protocol = smb2
+  #     # note: localhost is the ipv6 localhost ::1
+  #     # hosts allow = 192.168.0. 127.0.0.1 localhost
+  #     # hosts deny = 0.0.0.0/0
+  #     guest account = nobody
+  #     map to guest = bad user
+  #   '';
+  #
+  #   shares = {
+  #     media = {
+  #       path = "/mnt/fastboi/media";
+  #       browseable = "yes";
+  #       "read only" = "yes";
+  #       "guest ok" = "no";
+  #       "create mask" = "0644";
+  #       "directory mask" = "0755";
+  #       "force user" = "nanoteck137";
+  #       "force group" = "users";
+  #       "writeable" = "no";
+  #     };
+  #
+  #     temp = {
+  #       path = "/mnt/fastboi/temp";
+  #       browseable = "yes";
+  #       "read only" = "no";
+  #       "guest ok" = "no";
+  #       "create mask" = "0644";
+  #       "directory mask" = "0755";
+  #       "force user" = "nanoteck137";
+  #       "force group" = "users";
+  #       "writeable" = "yes";
+  #     };
+  #   };
+  # };
+  #
+  # services.samba-wsdd = {
+  #   enable = true; 
+  #   # openFirewall = true;
+  #   hostname = "klink";
+  # };
 
-    extraConfig = ''
-      workgroup = WORKGROUP
-      server string = klink
-      netbios name = klink
-      security = user 
-      #use sendfile = yes
-      #max protocol = smb2
-      # note: localhost is the ipv6 localhost ::1
-      # hosts allow = 192.168.0. 127.0.0.1 localhost
-      # hosts deny = 0.0.0.0/0
-      guest account = nobody
-      map to guest = bad user
-    '';
-
-    shares = {
-      media = {
-        path = "/mnt/fastboi/media";
-        browseable = "yes";
-        "read only" = "yes";
-        "guest ok" = "no";
-        "create mask" = "0644";
-        "directory mask" = "0755";
-        "force user" = "nanoteck137";
-        "force group" = "users";
-        "writeable" = "no";
-      };
-
-      temp = {
-        path = "/mnt/fastboi/temp";
-        browseable = "yes";
-        "read only" = "no";
-        "guest ok" = "no";
-        "create mask" = "0644";
-        "directory mask" = "0755";
-        "force user" = "nanoteck137";
-        "force group" = "users";
-        "writeable" = "yes";
-      };
-    };
-  };
-
-  services.samba-wsdd = {
-    enable = true; 
-    # openFirewall = true;
-    hostname = "klink";
-  };
-
-  services.syncthing = {
-    enable = true;
-    openDefaultPorts = true;
-    guiAddress = "0.0.0.0:8384";
-  };
-  
   networking.firewall.enable = false;
   networking.firewall.allowPing = true;
 
