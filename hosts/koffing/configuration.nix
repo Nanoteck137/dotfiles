@@ -33,10 +33,9 @@ in {
     windowManager.awesome.enable = true;
   };
 
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
+    enable32Bit = true;
   };
 
   services.xserver.videoDrivers = ["nvidia"];
@@ -49,7 +48,6 @@ in {
 
   virtualisation.docker.enable = true;
 
-  sound.enable = true;
   security.rtkit.enable = true;
 
   users.users.nanoteck137 = {
