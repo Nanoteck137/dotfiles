@@ -89,6 +89,8 @@ in {
     settings.KbdInteractiveAuthentication = false;
   };
 
+  services.jellyfin.enable = true;
+
   networking.firewall.enable = false;
   networking.firewall.allowPing = true;
 
