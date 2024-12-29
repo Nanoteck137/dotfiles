@@ -1,7 +1,7 @@
 {config, pkgs, ...}: 
 {
   imports = [
-    ../common/home/kitty.nix
+    # ../common/home/kitty.nix
     ../common/home/alacritty.nix
     ../common/home/tmux.nix
     ../common/home/nvim.nix
