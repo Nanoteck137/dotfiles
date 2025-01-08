@@ -38,6 +38,7 @@ in {
     fsType = "xfs";
   };
 
+  # Default Desktop System
   services.xserver = {
     enable = true;
     xkb = {
@@ -65,8 +66,10 @@ in {
 
   virtualisation.docker.enable = true;
 
+  # Default Normal System
   security.rtkit.enable = true;
 
+  # Default Normal System
   users.users.nanoteck137 = {
     isNormalUser = true;
     extraGroups = [ "wheel" ]; 
@@ -79,34 +82,43 @@ in {
     ];
   };
 
+  # Default Normal System
+  services.openssh = {
+    enable = true;
+    settings.PasswordAuthentication = false;
+    settings.KbdInteractiveAuthentication = false;
+  };
+
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.nvidia.acceptLicense = true;
 
   environment.systemPackages = with pkgs; [
-    git
+    firefox
+    mullvad-vpn
+
     neofetch
+
+    git
     lazygit
     tmux
-    firefox
-    virt-manager
-    cifs-utils
     file
-    mullvad-vpn
+    jq
+    ripgrep
+
+    virt-manager
+
     docker-compose
+    cifs-utils
+
     dwebble-cli
     sewaddle-cli
   ];
 
   services.mullvad-vpn.enable = true;
 
+  # Desktop Setup
   programs._1password.enable = true;
   programs._1password-gui.enable = true;
-
-  services.openssh = {
-    enable = true;
-    settings.PasswordAuthentication = false;
-    settings.KbdInteractiveAuthentication = false;
-  };
 
   services.jellyfin.enable = true;
 
@@ -243,20 +255,11 @@ in {
     };
   };
 
-  services.vsftpd = {
-    enable = true;
-    userlist = ["nanoteck137"];
-    userlistEnable = true;
-    localUsers = true;
-    writeEnable = true;
-    extraConfig = ''
-      local_umask=033
-    '';
-  };
+  custom.ftp.enable = true;
 
   services.samba = {
     enable = true;
-    # openFirewall = true;
+    openFirewall = true;
 
     settings = {
       global = {
@@ -296,7 +299,7 @@ in {
 
   services.samba-wsdd = {
     enable = true; 
-    # openFirewall = true;
+    openFirewall = true;
     hostname = "klink";
   };
 
