@@ -1,15 +1,11 @@
 { config, pkgs, inputs, ... }:
 let
   dwebble-cli = pkgs.writeShellScriptBin "dwebble-cli" '' 
-    ${inputs.dwebble.packages.${pkgs.system}.default}/bin/dwebble-cli --server "https://dwebble.nanoteck137.net" $@
+    ${inputs.dwebble.packages.${pkgs.system}.default}/bin/dwebble-cli --server "https://dwebble.nanoteck137.net" --web "https://dwebble.nanoteck137.net" $@
   '';
 
-  dwebbleMigrate = pkgs.writeShellScriptBin "dwebble-migrate" '' 
-    ${inputs.dwebble.packages.${pkgs.system}.default}/bin/dwebble-migrate $@
-  '';
-
-  sewaddleImport = pkgs.writeShellScriptBin "sewaddle-import" '' 
-    ${inputs.sewaddle.packages.${pkgs.system}.default}/bin/sewaddle-import $@
+  sewaddle-cli = pkgs.writeShellScriptBin "sewaddle-cli" '' 
+    ${inputs.sewaddle.packages.${pkgs.system}.default}/bin/sewaddle-cli --server "https://sewaddle.nanoteck137.net" --web "https://sewaddle.nanoteck137.net" $@
   '';
 in {
   imports = [ 
@@ -98,8 +94,7 @@ in {
     mullvad-vpn
     docker-compose
     dwebble-cli
-    dwebbleMigrate
-    sewaddleImport
+    sewaddle-cli
   ];
 
   services.mullvad-vpn.enable = true;
@@ -157,8 +152,14 @@ in {
   services.kricketune = {
     enable = true;
     dwebbleAddress = "https://dwebble.nanoteck137.net";
+    apiToken = "tmmj86843slucd00gslhz4rancyvb7jl";
     audioOutput = "audioresample ! audioconvert ! audio/x-raw,rate=48000,channels=2,format=S16LE ! filesink location=/run/snapserver/kricketune";
     extraConfig = ''
+    [[ filter_sets ]]
+    name = "Everything"
+    filter = ""
+    sort = "random"
+
     [[ filter_sets ]]
     name = "Good"
     filter = "hasTag(\"Good\")"
