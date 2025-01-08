@@ -2,11 +2,12 @@
 let
   harpoon = pkgs.vimUtils.buildVimPlugin {
     name = "harpoon";
+    doCheck = false;
     src = pkgs.fetchFromGitHub {
       owner = "ThePrimeagen";
       repo = "harpoon";
-      rev = "0378a6c428a0bed6a2781d459d7943843f374bce";
-      hash = "sha256-FZQH38E02HuRPIPAog/nWM55FuBxKp8AyrEldFkoLYk=";
+      rev = "a84ab829eaf3678b586609888ef52f7779102263";
+      hash = "sha256-PjB64kdmoCD7JfUB7Qz9n34hk0h2/ZZRlN8Jv2Z9HT8=";
     };
   };
 in {
@@ -27,6 +28,7 @@ in {
     ];
 
     plugins = with pkgs; [
+      vimPlugins.plenary-nvim
       vimPlugins.tokyonight-nvim
 
       vimPlugins.nvim-treesitter.withAllGrammars
