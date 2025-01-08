@@ -20,13 +20,15 @@
 
   programs.zsh.enable = true;
 
-  environment.shells = [pkgs.zsh];
+  environment.shells = [ pkgs.zsh ];
 
   environment.systemPackages = with pkgs; [
-    neovim 
-    file
-    rclone
     killall
+    file
+
+    rclone
     ripgrep
+
+    neovim 
   ];
 }

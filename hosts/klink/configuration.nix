@@ -17,9 +17,6 @@ in {
 
     inputs.kricketune.nixosModules.default
     inputs.kricketune.nixosModules.frontend
-
-    ./hardware-configuration.nix
-    ../common/common.nix
   ];
 
   nixpkgs.overlays = [ 
@@ -27,113 +24,48 @@ in {
     inputs.nixneovimplugins.overlays.default
   ];
 
+  # TODO(patrik): Move
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "klink"; 
-  networking.networkmanager.enable = true;
+  nano.system.username = "nanoteck137";
+  nano.system.hostname = "klink";
+  nano.system.enableSwap = true;
+
+  nano.system.enableSSH = true;
+  nano.ftp.enable = true;
+  nano.mullvad.enable = true;
+
+  nano.system.enableDesktop = true;
+
+  nano.system.nvidia = {
+    enable = true;
+    # legacy = true;
+  };
 
   fileSystems."/mnt/fastboi" = { 
     device = "/dev/disk/by-label/fastboi";
     fsType = "xfs";
   };
 
-  # Default Desktop System
-  services.xserver = {
-    enable = true;
-    xkb = {
-      layout = "se";
-      variant = "nodeadkeys";
-    };
-
-    desktopManager.budgie.enable = true;
-    displayManager.lightdm.enable = true;
-  };
-
-  hardware.graphics = {
-    enable = true;
-    enable32Bit = true;
-  };
-
-  services.xserver.videoDrivers = ["nvidia"];
-
-  hardware.nvidia = {
-    package = config.boot.kernelPackages.nvidiaPackages.legacy_470;
-    modesetting.enable = true;
-    open = false;
-    nvidiaSettings = true;
-  };
+  services.xserver.desktopManager.budgie.enable = true;
+  services.xserver.displayManager.lightdm.enable = true;
 
   virtualisation.docker.enable = true;
 
-  # Default Normal System
-  security.rtkit.enable = true;
-
-  # Default Normal System
-  users.users.nanoteck137 = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" ]; 
-    packages = with pkgs; [];
-    initialPassword = "password";
-    shell = pkgs.zsh;
-
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIIiL5jrSUxzAttiABU5jI7JhNuKsAdpkH6nm9k6LbjG nanoteck137"
-    ];
-  };
-
-  # Default Normal System
-  services.openssh = {
-    enable = true;
-    settings.PasswordAuthentication = false;
-    settings.KbdInteractiveAuthentication = false;
-  };
-
-  nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.nvidia.acceptLicense = true;
-
   environment.systemPackages = with pkgs; [
-    firefox
-    mullvad-vpn
-
-    neofetch
-
-    git
-    lazygit
-    tmux
-    file
-    jq
-    ripgrep
-
     virt-manager
 
     docker-compose
-    cifs-utils
 
     dwebble-cli
     sewaddle-cli
+
+    # Samba
+    cifs-utils
   ];
 
-  services.mullvad-vpn.enable = true;
-
-  # Desktop Setup
-  programs._1password.enable = true;
-  programs._1password-gui.enable = true;
-
   services.jellyfin.enable = true;
-
-  services.snapserver = {
-    enable = true;
-
-    streams.kricketune = {
-      type = "pipe";
-      location = "/run/snapserver/kricketune";
-      sampleFormat = "48000:16:2";
-      codec = "pcm";
-    };
-
-    openFirewall = true;
-  };
 
   services.sewaddle = {
     enable = true;
@@ -159,6 +91,19 @@ in {
   services.dwebble-web = {
     enable = true;
     apiAddress = "";
+  };
+
+  services.snapserver = {
+    enable = true;
+
+    streams.kricketune = {
+      type = "pipe";
+      location = "/run/snapserver/kricketune";
+      sampleFormat = "48000:16:2";
+      codec = "pcm";
+    };
+
+    openFirewall = true;
   };
 
   services.kricketune = {
@@ -255,7 +200,6 @@ in {
     };
   };
 
-  custom.ftp.enable = true;
 
   services.samba = {
     enable = true;
@@ -303,8 +247,6 @@ in {
     hostname = "klink";
   };
 
-  networking.firewall.enable = false;
-  networking.firewall.allowPing = true;
 
   system.stateVersion = "23.05";
   nix.settings.experimental-features = [ "nix-command" "flakes" ];

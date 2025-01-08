@@ -1,9 +1,9 @@
 { config, pkgs, lib, ... }: 
 with lib; let 
-  cfg = config.custom.ftp;
+  cfg = config.nano.ftp;
 in {
-  options = {
-    custom.ftp = {
+  options = {
+    nano.ftp = {
       enable = lib.mkEnableOption "enable ftp";
     };
   };
@@ -11,6 +11,7 @@ in {
   config = lib.mkIf cfg.enable {
     services.vsftpd = {
       enable = true;
+      # TODO(patrik): Expose the userlist
       userlist = ["nanoteck137"];
       userlistEnable = true;
       localUsers = true;
@@ -19,5 +20,5 @@ in {
         local_umask=033
         '';
     };
-  }
+  };
 }

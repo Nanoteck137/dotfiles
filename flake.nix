@@ -37,10 +37,13 @@
     let 
     in {
       nixosConfigurations = let 
-        buildSystem = { name, system ? "x86_64-linux" }: nixpkgs.lib.nixosSystem {
+        buildSystem = { name, system ? "x86_64-linux", hw }: nixpkgs.lib.nixosSystem {
           inherit system;
           specialArgs = { inherit self inputs; };
           modules = [ 
+            { nixpkgs.config.allowUnfree = true; }
+            ./nixosModules
+            ./hardware/hw-${hw}.nix
             ./hosts/${name}/configuration.nix
             home-manager.nixosModules.home-manager
             {
@@ -54,27 +57,29 @@
       in{
         krokorok = buildSystem {
           name = "krokorok";
+          hw = "amd";
         };
 
-        pichu = buildSystem {
-          name = "pichu";
-        };
+        # pichu = buildSystem {
+        #   name = "pichu";
+        # };
 
-        raichu = buildSystem {
-          name = "raichu";
-        };
+        # raichu = buildSystem {
+        #   name = "raichu";
+        # };
 
         klink = buildSystem {
           name = "klink";
+          hw = "intel";
         };
 
-        koffing = buildSystem {
-          name = "koffing";
-        };
+        # koffing = buildSystem {
+        #   name = "koffing";
+        # };
 
-        testvm = buildSystem {
-          name = "testvm";
-        };
+        # testvm = buildSystem {
+        #   name = "testvm";
+        # };
 
         iso = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
