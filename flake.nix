@@ -56,79 +56,24 @@
           name = "krokorok";
         };
 
-        pichu = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs; };
-          modules = [ 
-            ./hosts/pichu/configuration.nix 
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = { inherit inputs; };
-              home-manager.users.nanoteck137 = import ./hosts/pichu/home.nix;
-            }
-          ];
+        pichu = buildSystem {
+          name = "pichu";
         };
 
-        raichu = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs; };
-          modules = [ 
-            ./hosts/raichu/configuration.nix 
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = { inherit inputs; };
-              home-manager.users.nanoteck137 = import ./hosts/raichu/home.nix;
-            }
-          ];
+        raichu = buildSystem {
+          name = "raichu";
         };
 
-        klink = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs; };
-          modules = [ 
-            ./hosts/klink/configuration.nix 
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = { inherit self inputs; };
-              home-manager.users.nanoteck137 = import ./hosts/klink/home.nix;
-            }
-          ];
+        klink = buildSystem {
+          name = "klink";
         };
 
-        koffing = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs; };
-          modules = [ 
-            ./hosts/koffing/configuration.nix 
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = { inherit self inputs; };
-              home-manager.users.nanoteck137 = import ./hosts/koffing/home.nix;
-            }
-          ];
+        koffing = buildSystem {
+          name = "koffing";
         };
 
-        testvm = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs; };
-          modules = [ 
-            ./hosts/testvm/configuration.nix 
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = { inherit self inputs; };
-              home-manager.users.nanoteck137 = import ./hosts/testvm/home.nix;
-            }
-          ];
+        testvm = buildSystem {
+          name = "testvm";
         };
 
         iso = nixpkgs.lib.nixosSystem {
