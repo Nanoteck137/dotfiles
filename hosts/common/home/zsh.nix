@@ -1,7 +1,10 @@
 {config, pkgs, ...}:
 {
   home.packages = with pkgs; [
-    any-nix-shell
+    (pkgs.writeShellScriptBin "dev-shell" ''
+      export REALSHELL=$SHELL
+      nix develop --command $SHELL
+    '')
   ];
 
   programs.zsh = {
@@ -15,18 +18,21 @@
     shellAliases = {
       "lg" = "${pkgs.lazygit}/bin/lazygit";
       "nvim-dev" = "NVIM_APPNAME=nvim-dev nvim";
-      "dev-shell" = "nix develop --command zsh";
+      # "dev-shell" = "nix develop --command zsh";
     };
 
     initExtra = if pkgs.stdenv.isDarwin then ''
       eval "$(/opt/homebrew/bin/brew shellenv)"
-      any-nix-shell zsh --info-right | source /dev/stdin
+
+      ${pkgs.any-nix-shell}/bin/any-nix-shell zsh --info-right | source /dev/stdin
 
       export PATH=~/.npm-global/bin:$PATH
       export PATH=~/opt/flutter/bin:$PATH
-    '' 
-    else ''
-      any-nix-shell zsh --info-right | source /dev/stdin
-    '';
+
+      if [[ -n $REALSHELL ]]; then
+        export SHELL=$REALSHELL
+      fi
+      
+    '' else "";
   };
 }
