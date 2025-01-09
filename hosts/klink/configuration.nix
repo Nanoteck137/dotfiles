@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, inputs, self, ... }:
 let
   dwebble-cli = pkgs.writeShellScriptBin "dwebble-cli" '' 
     ${inputs.dwebble.packages.${pkgs.system}.default}/bin/dwebble-cli --server "https://dwebble.nanoteck137.net" --web "https://dwebble.nanoteck137.net" $@
@@ -24,13 +24,33 @@ in {
     inputs.nixneovimplugins.overlays.default
   ];
 
-  # TODO(patrik): Move
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  stylix.enable = true;
+  stylix.image = "${self}/wallpaper.png";
+  stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/tokyo-night-storm.yaml";
 
+  nano.system.type = "efi";
   nano.system.username = "nanoteck137";
   nano.system.hostname = "klink";
   nano.system.enableSwap = true;
+
+  home-manager.users.${config.nano.system.username} = {config, pkgs, inputs, ...}: {
+    imports = [
+      inputs.self.outputs.homeManagerModules.default
+    ];
+
+    nano.home.zsh.enable = true;
+    nano.home.alacritty.enable = true;
+    nano.home.nvim.enable = true;
+    nano.home.git.enable = true;
+    nano.home.tmux.enable = true;
+
+    # nano.home.discord.enable = true;
+    # nano.home.vscode.enable = true;
+    # nano.home.feh.enable = true;
+
+    home.stateVersion = "23.05";
+  };
+
 
   nano.system.enableSSH = true;
   nano.ftp.enable = true;
@@ -38,9 +58,25 @@ in {
 
   nano.system.enableDesktop = true;
 
+  nano.samba = {
+    enable = true;
+    shares = [
+      {
+        name = "media";
+        path = "/mnt/fastboi/media";
+        type = "write";
+      }
+
+      {
+        name = "temp";
+        path = "/mnt/fastboi/temp";
+        type = "write";
+      }
+    ];
+  };
+
   nano.system.nvidia = {
     enable = true;
-    # legacy = true;
   };
 
   fileSystems."/mnt/fastboi" = { 
@@ -51,18 +87,17 @@ in {
   services.xserver.desktopManager.budgie.enable = true;
   services.xserver.displayManager.lightdm.enable = true;
 
-  virtualisation.docker.enable = true;
+  # services.xserver.displayManager.gdm.enable = true;
+  # services.xserver.desktopManager.gnome.enable = true;
+
+  # services.displayManager.sddm.enable = true;
+  # services.displayManager.sddm.wayland.enable = false;
+  # services.desktopManager.plasma6.enable = true;
+  # services.displayManager.defaultSession = "plasmax11";
 
   environment.systemPackages = with pkgs; [
-    virt-manager
-
-    docker-compose
-
     dwebble-cli
     sewaddle-cli
-
-    # Samba
-    cifs-utils
   ];
 
   services.jellyfin.enable = true;
@@ -153,100 +188,8 @@ in {
           Persistent = true;
         };
       };
-      # media = {
-      #   paths = [ "/mnt/fastboi/media" ];
-      #   extraBackupArgs = [ "--tag" "media" ];
-      #   exclude = [ ".*" ];
-      #   repository = "rest:http://10.28.28.2:8000";
-      #   passwordFile = "/etc/nixos/restic-password";
-      #   initialize = true;
-      #   createWrapper = true;
-      #
-      #   timerConfig = {
-      #     OnCalendar = "hourly";
-      #     Persistent = true;
-      #   };
-      # };
-      #
-      # dwebble = {
-      #   paths = [ "/mnt/fastboi/apps/dwebble" ];
-      #   extraBackupArgs = [ "--tag" "dwebble" ];
-      #   exclude = [ ".*" ];
-      #   repository = "rest:http://10.28.28.2:8000";
-      #   passwordFile = "/etc/nixos/restic-password";
-      #   initialize = true;
-      #   createWrapper = true;
-      #
-      #   timerConfig = {
-      #     OnCalendar = "hourly";
-      #     Persistent = true;
-      #   };
-      # };
-      #
-      # sewaddle = {
-      #   paths = [ "/mnt/fastboi/apps/sewaddle" ];
-      #   extraBackupArgs = [ "--tag" "sewaddle" ];
-      #   exclude = [ ".*" ];
-      #   repository = "rest:http://10.28.28.2:8000";
-      #   passwordFile = "/etc/nixos/restic-password";
-      #   initialize = true;
-      #   createWrapper = true;
-      #
-      #   timerConfig = {
-      #     OnCalendar = "hourly";
-      #     Persistent = true;
-      #   };
-      # };
     };
   };
-
-
-  services.samba = {
-    enable = true;
-    openFirewall = true;
-
-    settings = {
-      global = {
-        security = "user";
-        "workgroup" = "WORKGROUP";
-        "server string" = "klink";
-        "netbios name" = "klink";
-        "guest account" = "nobody";
-        "map to guest" = "bad user";
-      };
-
-      media = {
-        path = "/mnt/fastboi/media";
-        browseable = "yes";
-        "read only" = "no";
-        "guest ok" = "no";
-        "create mask" = "0644";
-        "directory mask" = "0755";
-        "force user" = "nanoteck137";
-        "force group" = "users";
-        "writeable" = "yes";
-      };
-
-      temp = {
-        path = "/mnt/fastboi/temp";
-        browseable = "yes";
-        "read only" = "no";
-        "guest ok" = "no";
-        "create mask" = "0644";
-        "directory mask" = "0755";
-        "force user" = "nanoteck137";
-        "force group" = "users";
-        "writeable" = "yes";
-      };
-    };
-  };
-
-  services.samba-wsdd = {
-    enable = true; 
-    openFirewall = true;
-    hostname = "klink";
-  };
-
 
   system.stateVersion = "23.05";
   nix.settings.experimental-features = [ "nix-command" "flakes" ];

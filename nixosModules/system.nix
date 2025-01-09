@@ -16,10 +16,20 @@ in {
 
       enableSSH = mkEnableOption "enable ssh";
       enableSwap = mkEnableOption "enable swap";
+
+      type = mkOption {
+        type = types.enum ["efi"];
+        description = "system type";
+      };
     };
   };
 
   config = {
+    boot.loader = mkIf (cfg.type == "efi") {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+    };
+
     networking.hostName = cfg.hostname; 
     networking.networkmanager.enable = true;
 

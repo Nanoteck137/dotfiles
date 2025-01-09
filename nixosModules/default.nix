@@ -6,5 +6,6 @@
 
     ./ftp.nix
     ./mullvad.nix
+    ./samba.nix
   ];
 }

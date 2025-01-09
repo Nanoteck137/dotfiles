@@ -10,6 +10,8 @@
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
+    stylix.url = "github:danth/stylix";
+
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
     neovim-nightly-overlay.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -21,40 +23,38 @@
     # Server Stuff
 
     sewaddle.url = "github:nanoteck137/sewaddle";
-    sewaddle.inputs.nixpkgs.follows = "nixpkgs";
-
     dwebble.url = "github:nanoteck137/dwebble";
-    dwebble.inputs.nixpkgs.follows = "nixpkgs";
-    
     kricketune.url = "github:nanoteck137/kricketune";
-    # kricketune.inputs.nixpkgs.follows = "nixpkgs";
-
     customcaddy.url = "github:nanoteck137/customcaddy";
-    # customcaddy.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, nix-darwin, home-manager, ... }@inputs: 
+  outputs = { self, nixpkgs, nix-darwin, stylix, home-manager, ... }@inputs: 
     let 
     in {
+      homeManagerModules.default = ./homeManagerModules;
+
       nixosConfigurations = let 
         buildSystem = { name, system ? "x86_64-linux", hw }: nixpkgs.lib.nixosSystem {
           inherit system;
           specialArgs = { inherit self inputs; };
           modules = [ 
-            { nixpkgs.config.allowUnfree = true; }
-            ./nixosModules
-            ./hardware/hw-${hw}.nix
-            ./hosts/${name}/configuration.nix
+            stylix.nixosModules.stylix
             home-manager.nixosModules.home-manager
+
+            { nixpkgs.config.allowUnfree = true; }
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.extraSpecialArgs = { inherit self inputs; };
-              home-manager.users.nanoteck137 = import ./hosts/${name}/home.nix;
             }
+
+            ./nixosModules
+            ./hardware/hw-${hw}.nix
+            ./hosts/${name}/configuration.nix
           ];
         };
       in{
+        # Normal Desktop 
         krokorok = buildSystem {
           name = "krokorok";
           hw = "amd";
@@ -68,6 +68,7 @@
         #   name = "raichu";
         # };
 
+        # Media/Server 
         klink = buildSystem {
           name = "klink";
           hw = "intel";
