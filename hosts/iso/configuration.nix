@@ -1,44 +1,52 @@
-{ config, pkgs, inputs, ... }:
-let
-in {
-  imports = [ 
-    ../common/common.nix
-  ];
+{ config, pkgs, inputs, self, ... }: {
+  imports = [];
 
   nixpkgs.overlays = [ 
-    inputs.neovim-nightly-overlay.overlay 
+    # inputs.neovim-nightly-overlay.overlays.default
     inputs.nixneovimplugins.overlays.default
   ];
 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  stylix.enable = true;
+  stylix.image = "${self}/wallpaper.png";
+  stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/tokyo-night-storm.yaml";
 
-  networking.hostName = "iso-installer";
+  nano.system.type = "iso";
+  nano.system.username = "nanoteck137";
+  nano.system.hostname = "iso";
+  nano.system.enableSwap = true;
 
-  nixpkgs.config.allowUnfree = true;
+  home-manager.users.${config.nano.system.username} = {config, pkgs, inputs, ...}: {
+    imports = [
+      inputs.self.outputs.homeManagerModules.default
+    ];
 
-  environment.systemPackages = with pkgs; [
-    git
-    neofetch
-    tmux
-    file
-  ];
+    nano.home.zsh.enable = true;
+    nano.home.alacritty.enable = true;
+    nano.home.nvim.enable = true;
+    nano.home.git.enable = true;
+    nano.home.tmux.enable = true;
 
-  fonts.packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "Noto" ]; })
-  ];
-
-  # Enable the OpenSSH daemon.
-  services.openssh = {
-    enable = true;
+    home.stateVersion = "23.05";
   };
 
-  # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  nano.system.enableSSH = true;
+  nano.ftp.enable = true;
+  nano.mullvad.enable = true;
 
-  nix.settings.experimental-features = ["nix-command" "flakes"];
-  system.stateVersion = "23.05"; 
+  nano.system.enableDesktop = true;
+
+  services.xserver.desktopManager.budgie.enable = true;
+  services.xserver.displayManager.lightdm.enable = true;
+
+  # services.xserver.displayManager.gdm.enable = true;
+  # services.xserver.desktopManager.gnome.enable = true;
+
+  # services.displayManager.sddm.enable = true;
+  # services.displayManager.sddm.wayland.enable = false;
+  # services.desktopManager.plasma6.enable = true;
+  # services.displayManager.defaultSession = "plasmax11";
+
+  system.stateVersion = "23.05";
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 }
+

@@ -53,6 +53,27 @@
             ./hosts/${name}/configuration.nix
           ];
         };
+
+        buildIso = { name, system ? "x86_64-linux" }: nixpkgs.lib.nixosSystem {
+          inherit system;
+          specialArgs = { inherit self inputs; };
+          modules = [ 
+            "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
+
+            stylix.nixosModules.stylix
+            home-manager.nixosModules.home-manager
+
+            { nixpkgs.config.allowUnfree = true; }
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.extraSpecialArgs = { inherit self inputs; };
+            }
+
+            ./nixosModules
+            ./hosts/${name}/configuration.nix
+          ];
+        };
       in{
         # Normal Desktop 
         krokorok = buildSystem {
@@ -82,14 +103,18 @@
         #   name = "testvm";
         # };
 
-        iso = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs; };
-          modules = [ 
-            "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
-            ./hosts/iso/configuration.nix 
-          ];
+        iso = buildIso {
+          name = "iso";
         };
+
+        # iso = nixpkgs.lib.nixosSystem {
+        #   system = "x86_64-linux";
+        #   specialArgs = { inherit inputs; };
+        #   modules = [ 
+        #     "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
+        #     ./hosts/iso/configuration.nix 
+        #   ];
+        # };
       };
 
       homeConfigurations.test = home-manager.lib.homeManagerConfiguration {

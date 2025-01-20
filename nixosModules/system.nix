@@ -18,7 +18,7 @@ in {
       enableSwap = mkEnableOption "enable swap";
 
       type = mkOption {
-        type = types.enum ["efi"];
+        type = types.enum ["iso" "efi"];
         description = "system type";
       };
     };
@@ -31,7 +31,7 @@ in {
     };
 
     networking.hostName = cfg.hostname; 
-    networking.networkmanager.enable = true;
+    networking.networkmanager.enable = (cfg.type != "iso");
 
     # TODO(patrik): Enable firewall someday
     networking.firewall.enable = false;
