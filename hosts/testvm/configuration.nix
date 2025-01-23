@@ -269,8 +269,8 @@ hostname = ::
     virtualHosts."kanboard.nanoteck137.net" = {
       extraConfig = ''
       	tls {
-		      dns cloudflare ${secrets.cloudflareToken}
-	      }
+          dns cloudflare ${secrets.cloudflareToken}
+        }
 
         handle {
           reverse_proxy ${kanboardAddress}
