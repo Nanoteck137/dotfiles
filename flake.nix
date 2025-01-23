@@ -99,9 +99,10 @@
         #   name = "koffing";
         # };
 
-        # testvm = buildSystem {
-        #   name = "testvm";
-        # };
+        testvm = buildSystem {
+          name = "testvm";
+          hw = "vm-intel";
+        };
 
         iso = buildIso {
           name = "iso";
