@@ -11,6 +11,8 @@ let
 
   jellyfinAddress = "10.28.28.2:8096";
 
+  kanboardAddress = "10.28.28.2:8001";
+
   ntfyAddress = "10.28.28.2:8080";
   syncthingAddress = "10.28.28.9:8384";
   secrets = builtins.fromJSON (builtins.readFile /etc/nixos/secrets.json);
@@ -260,6 +262,18 @@ hostname = ::
 
         handle {
           reverse_proxy ${jellyfinAddress}
+        }
+      '';
+    };
+
+    virtualHosts."kanboard.nanoteck137.net" = {
+      extraConfig = ''
+      	tls {
+		      dns cloudflare ${secrets.cloudflareToken}
+	      }
+
+        handle {
+          reverse_proxy ${kanboardAddress}
         }
       '';
     };
