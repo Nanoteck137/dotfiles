@@ -27,54 +27,43 @@ in {
     inputs.nixneovimplugins.overlays.default
   ];
 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  nano.system.type = "efi";
+  nano.system.username = "nanoteck137";
+  nano.system.hostname = "klink";
+  nano.system.enableSwap = true;
 
-  networking.hostName = "testvm";
-  networking.networkmanager.enable = true;
+  home-manager.users.${config.nano.system.username} = {config, pkgs, inputs, ...}: {
+    imports = [
+      inputs.self.outputs.homeManagerModules.default
+    ];
+
+    nano.home.zsh.enable = true;
+    nano.home.nvim.enable = true;
+    nano.home.git.enable = true;
+    nano.home.tmux.enable = true;
+
+    # nano.home.discord.enable = true;
+    # nano.home.vscode.enable = true;
+    # nano.home.feh.enable = true;
+
+    home.stateVersion = "23.05";
+  };
+
+
+  nano.system.enableSSH = true;
+  nano.ftp.enable = true;
+  nano.mullvad.enable = true;
 
   fileSystems."/mnt/media" = { 
     device = "media";
     fsType = "virtiofs";
   };
 
-  users.users.nanoteck137 = {
-    isNormalUser = true;
-    description = "nanoteck137";
-    initialPassword = "password";
-    extraGroups = [ "networkmanager" "wheel" ];
-    shell = pkgs.zsh;
-
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIIiL5jrSUxzAttiABU5jI7JhNuKsAdpkH6nm9k6LbjG nanoteck137"
-    ];
-  };
-
   environment.systemPackages = with pkgs; [
-    git
-    neofetch
-    lazygit
-    tmux
-    cifs-utils
-    file
     mullvad-vpn
   ];
 
   services.mullvad-vpn.enable = true;
-
-  services.openssh = {
-    enable = true;
-  };
-
-  # services.sewaddle = {
-  #   enable = true;
-  #   library = "/mnt/media/manga";
-  # };
-  #
-  # services.dwebble = {
-  #   enable = true;
-  #   library = "/mnt/media/music";
-  # };
 
   services.snapserver = {
     enable = true;
@@ -88,55 +77,6 @@ in {
 
     openFirewall = true;
   };
-
-  services.mopidy = {
-    enable = true;
-    configuration = ''
-[audio]
-output = audioresample ! audioconvert ! audio/x-raw,rate=48000,channels=2,format=S16LE ! filesink location=/run/snapserver/mpd
-
-[http]
-#enabled = true
-hostname = 0.0.0.0
-#port = 6680
-#zeroconf = Mopidy HTTP server on $hostname
-#allowed_origins = 
-#csrf_protection = true
-#default_app = mopidy
-
-[softwaremixer]
-#enabled = true
-
-[local]
-media_dir = /mnt/media/music
-included_file_extensions =
-    .flac
-
-[mpd]
-hostname = ::
-
-[iris]
-    '';
-    extensionPackages = [
-      pkgs.mopidy-mpd
-      pkgs.mopidy-iris
-      pkgs.mopidy-local
-    ];
-  };
-
-  # services.mpd = {
-  #   enable = true;
-  #   musicDirectory = "/mnt/media/music";
-  #   extraConfig = ''
-  #     audio_output {
-  #       type            "fifo"
-  #       name            "my pipe"
-  #       path            "/run/snapserver/mpd"
-  #       format          "48000:16:2"
-  #       mixer_type      "software"
-  #     }
-  #   '';
-  # };
 
   services.caddy = {
     package = inputs.customcaddy.packages.x86_64-linux.default;
@@ -277,33 +217,6 @@ hostname = ::
         }
       '';
     };
-
-    # virtualHosts."mopidy.patrikmillvik.duckdns.org" = {
-    #   extraConfig = ''
-    #     tls {
-    #       dns duckdns ${secrets.duckDnsToken}
-    #     }
-    #
-    #     reverse_proxy :6680
-    #   '';
-    # };
-    #
-    # virtualHosts."ntfy.patrikmillvik.duckdns.org" = {
-    #   extraConfig = ''
-    #     tls {
-    #       dns duckdns ${secrets.duckDnsToken}
-    #     }
-    #
-    #     reverse_proxy ${ntfyAddress}
-    #   '';
-    # };
-
-        # @httpget {
-        #     protocol http
-        #     method GET
-        #     path_regexp ^/([-_a-z0-9]{0,64}$|docs/|static/)
-        # }
-        # redir @httpget https://{host}{uri}
   };
 
   networking.firewall.allowedTCPPorts = [ 443 6600 6680 ];
