@@ -17,11 +17,6 @@ let
   syncthingAddress = "10.28.28.9:8384";
   secrets = builtins.fromJSON (builtins.readFile /etc/nixos/secrets.json);
 in {
-  imports = [ 
-    ./hardware-configuration.nix
-    ../common/common.nix
-  ];
-
   nixpkgs.overlays = [ 
     # inputs.neovim-nightly-overlay.overlays.default
     inputs.nixneovimplugins.overlays.default
