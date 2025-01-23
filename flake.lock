@@ -177,11 +177,11 @@
         "tagopus": "tagopus"
       },
       "locked": {
-        "lastModified": 1735752847,
-        "narHash": "sha256-JVrCdRb33xCG+rbGL/2vfBGTbBfbHNL1/t+shlF1LXE=",
+        "lastModified": 1737557742,
+        "narHash": "sha256-iD450PKPxNzJ61Oze7BcaOkfynTthx2pEi2DVz1qMLE=",
         "owner": "nanoteck137",
         "repo": "dwebble",
-        "rev": "756856e135970e37c1b8c3b5878411ced5ccdabc",
+        "rev": "7e58ae5ea1ab70e370984df9551f507ea60c732a",
         "type": "github"
       },
       "original": {
@@ -748,11 +748,11 @@
         "nixpkgs": "nixpkgs_3"
       },
       "locked": {
-        "lastModified": 1736369686,
-        "narHash": "sha256-B6/TRBg1pQl084WYVq82EpqavDcipBAIGQsti8yY3dk=",
+        "lastModified": 1737559640,
+        "narHash": "sha256-2U1CYww5qJhUB9s/8D0UCSX3Y41hkK8HD0QVmeHDPNY=",
         "owner": "nanoteck137",
         "repo": "kricketune",
-        "rev": "41079cdf09616598f348e983d42902b2f572470e",
+        "rev": "b6b55ca65c62bdae33ec553b57edf6581077e482",
         "type": "github"
       },
       "original": {
@@ -882,11 +882,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1736012469,
-        "narHash": "sha256-/qlNWm/IEVVH7GfgAIyP6EsVZI6zjAx1cV5zNyrs+rI=",
+        "lastModified": 1705677747,
+        "narHash": "sha256-eyM3okYtMgYDgmYukoUzrmuoY4xl4FUujnsv/P6I/zI=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "8f3e1f807051e32d8c95cd12b9b421623850a34d",
+        "rev": "bbe7d8f876fbbe7c959c90ba2ae2852220573261",
         "type": "github"
       },
       "original": {

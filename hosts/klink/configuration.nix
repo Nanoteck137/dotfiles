@@ -4,6 +4,10 @@ let
     ${inputs.dwebble.packages.${pkgs.system}.default}/bin/dwebble-cli --server "https://dwebble.nanoteck137.net" --web "https://dwebble.nanoteck137.net" $@
   '';
 
+  dwebble-migrate = pkgs.writeShellScriptBin "dwebble-migrate" '' 
+    ${inputs.dwebble.packages.${pkgs.system}.default}/bin/dwebble-migrate $@
+  '';
+
   sewaddle-cli = pkgs.writeShellScriptBin "sewaddle-cli" '' 
     ${inputs.sewaddle.packages.${pkgs.system}.default}/bin/sewaddle-cli --server "https://sewaddle.nanoteck137.net" --web "https://sewaddle.nanoteck137.net" $@
   '';
@@ -95,8 +99,13 @@ in {
   # services.desktopManager.plasma6.enable = true;
   # services.displayManager.defaultSession = "plasmax11";
 
+  virtualisation.docker.enable = true;
+
   environment.systemPackages = with pkgs; [
+    docker-compose
+
     dwebble-cli
+    dwebble-migrate
     sewaddle-cli
   ];
 
