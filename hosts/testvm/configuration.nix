@@ -13,6 +13,8 @@ let
 
   kanboardAddress = "10.28.28.2:8001";
 
+  cockpitAddress = "10.28.28.9:9090";
+
   ntfyAddress = "10.28.28.2:8080";
   syncthingAddress = "10.28.28.9:8384";
   secrets = builtins.fromJSON (builtins.readFile /etc/nixos/secrets.json);
@@ -209,6 +211,18 @@ in {
 
         handle {
           reverse_proxy ${kanboardAddress}
+        }
+      '';
+    };
+
+    virtualHosts."cockpit.nanoteck137.net" = {
+      extraConfig = ''
+      	tls {
+          dns cloudflare ${secrets.cloudflareToken}
+        }
+
+        handle {
+          reverse_proxy ${cockpitAddress}
         }
       '';
     };

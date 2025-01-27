@@ -111,6 +111,8 @@ in {
 
   services.jellyfin.enable = true;
 
+  services.cockpit.enable = true;
+
   services.sewaddle = {
     enable = true;
     library = "/mnt/fastboi/media/manga";
