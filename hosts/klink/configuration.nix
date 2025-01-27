@@ -111,7 +111,17 @@ in {
 
   services.jellyfin.enable = true;
 
-  services.cockpit.enable = true;
+  services.cockpit = {
+    enable = true;
+    settings = {
+      "WebServices" = {
+        "AllowUnencrypted" = true;
+        "Origins" = "https://cockpit.nanoteck137.net wss://cockpit.nanoteck137.net";
+        "ProtocolHeader" = "X-Forwarded-Proto";
+        "UrlRoot" = "/";
+      };
+    };
+  };
 
   services.sewaddle = {
     enable = true;

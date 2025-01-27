@@ -222,7 +222,11 @@ in {
         }
 
         handle {
-          reverse_proxy ${cockpitAddress}
+          reverse_proxy ${cockpitAddress} {
+            transport http {
+              tls_insecure_skip_verify
+            }
+          }
         }
       '';
     };
