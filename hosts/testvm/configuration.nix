@@ -3,8 +3,8 @@ let
   sewaddleAddress = "10.28.28.9:4005";
   sewaddleWebAddress = "10.28.28.9:4006";
 
-  dwebbleAddress = "10.28.28.9:7550";
-  dwebbleWebAddress = "10.28.28.9:7551";
+  dwebbleAddress = "klink:7550";
+  dwebbleWebAddress = "klink:7551";
 
   kricketuneAddress = "10.28.28.9:2040";
   kricketuneWebAddress = "10.28.28.9:2041";
