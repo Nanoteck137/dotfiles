@@ -109,19 +109,10 @@ in {
     sewaddle-cli
   ];
 
-  services.jellyfin.enable = true;
+  services.tailscale.enable = true;
+  services.tailscale.useRoutingFeatures = "both";
 
-  services.cockpit = {
-    enable = true;
-    settings = {
-      "WebServices" = {
-        "AllowUnencrypted" = true;
-        "Origins" = "https://cockpit.nanoteck137.net wss://cockpit.nanoteck137.net";
-        "ProtocolHeader" = "X-Forwarded-Proto";
-        "UrlRoot" = "/";
-      };
-    };
-  };
+  services.jellyfin.enable = true;
 
   services.sewaddle = {
     enable = true;

@@ -75,6 +75,9 @@ in {
     openFirewall = true;
   };
 
+  services.tailscale.enable = true;
+  services.tailscale.useRoutingFeatures = "both";
+
   services.caddy = {
     package = inputs.customcaddy.packages.x86_64-linux.default;
     enable = true;
