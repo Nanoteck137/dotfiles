@@ -26,7 +26,7 @@ in {
 
   nano.system.type = "efi";
   nano.system.username = "nanoteck137";
-  nano.system.hostname = "klink";
+  nano.system.hostname = "testvm";
   nano.system.enableSwap = true;
 
   home-manager.users.${config.nano.system.username} = {config, pkgs, inputs, ...}: {
