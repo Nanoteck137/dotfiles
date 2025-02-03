@@ -1,6 +1,6 @@
 { config, pkgs, lib, ... }: 
 with lib; let 
-  cfg = config.nano.ftp;
+  cfg = config.nano.system;
 in {
   options = {
     nano.system = {
@@ -8,7 +8,7 @@ in {
     };
   };
 
-  config = lib.mkIf cfg.enable {
+  config = lib.mkIf cfg.enableDesktop {
     security.rtkit.enable = true;
 
     environment.systemPackages = with pkgs; [
