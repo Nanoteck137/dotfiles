@@ -29,6 +29,13 @@ in {
   nano.system.hostname = "testvm";
   nano.system.enableSwap = true;
 
+  nano.system.enableSSH = true;
+  nano.ftp.enable = true;
+  nano.mullvad.enable = true;
+
+  services.tailscale.enable = true;
+  services.tailscale.useRoutingFeatures = "both";
+
   home-manager.users.${config.nano.system.username} = {config, pkgs, inputs, ...}: {
     imports = [
       inputs.self.outputs.homeManagerModules.default
@@ -45,38 +52,6 @@ in {
 
     home.stateVersion = "23.05";
   };
-
-
-  nano.system.enableSSH = true;
-  nano.ftp.enable = true;
-  nano.mullvad.enable = true;
-
-  fileSystems."/mnt/media" = { 
-    device = "media";
-    fsType = "virtiofs";
-  };
-
-  environment.systemPackages = with pkgs; [
-    mullvad-vpn
-  ];
-
-  services.mullvad-vpn.enable = true;
-
-  services.snapserver = {
-    enable = true;
-
-    streams.test = {
-      type = "pipe";
-      location = "/run/snapserver/mpd";
-      sampleFormat = "48000:16:2";
-      codec = "pcm";
-    };
-
-    openFirewall = true;
-  };
-
-  services.tailscale.enable = true;
-  services.tailscale.useRoutingFeatures = "both";
 
   services.caddy = {
     package = inputs.customcaddy.packages.x86_64-linux.default;
