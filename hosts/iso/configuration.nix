@@ -21,7 +21,7 @@
     ];
 
     nano.home.zsh.enable = true;
-    nano.home.alacritty.enable = true;
+    # nano.home.alacritty.enable = true;
     nano.home.nvim.enable = true;
     nano.home.git.enable = true;
     nano.home.tmux.enable = true;
@@ -31,12 +31,11 @@
 
   nano.system.enableSSH = true;
   nano.ftp.enable = true;
-  nano.mullvad.enable = true;
 
-  nano.system.enableDesktop = true;
+  # nano.system.enableDesktop = true;
 
-  services.xserver.desktopManager.budgie.enable = true;
-  services.xserver.displayManager.lightdm.enable = true;
+  # services.xserver.desktopManager.budgie.enable = true;
+  # services.xserver.displayManager.lightdm.enable = true;
 
   # services.xserver.displayManager.gdm.enable = true;
   # services.xserver.desktopManager.gnome.enable = true;
