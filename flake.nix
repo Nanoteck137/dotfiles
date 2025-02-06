@@ -104,6 +104,11 @@
           hw = "vm-intel";
         };
 
+        vpnvm = buildSystem {
+          name = "vpnvm";
+          hw = "vm-intel";
+        };
+
         iso = buildIso {
           name = "iso";
         };
