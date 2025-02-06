@@ -88,6 +88,21 @@ in {
     fsType = "xfs";
   };
 
+  fileSystems."/mnt/fastboi2" = { 
+    device = "/dev/disk/by-label/fastboi2";
+    fsType = "xfs";
+  };
+
+  fileSystems."/mnt/raichu-media" = {
+      device = "//10.28.28.2/media";
+      fsType = "cifs";
+      options = let
+        automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
+        user = "uid=1000,gid=100";
+
+      in ["${automount_opts},${user},credentials=/etc/nixos/smb-secrets"];
+  };
+
   services.xserver.desktopManager.budgie.enable = true;
   services.xserver.displayManager.lightdm.enable = true;
 
