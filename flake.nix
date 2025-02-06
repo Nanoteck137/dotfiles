@@ -109,6 +109,11 @@
           hw = "vm-intel";
         };
 
+        rproxyvm = buildSystem {
+          name = "rproxyvm";
+          hw = "vm-intel";
+        };
+
         iso = buildIso {
           name = "iso";
         };
