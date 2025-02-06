@@ -9,7 +9,7 @@ in {
   nano.system.type = "efi";
   nano.system.username = "nanoteck137";
   nano.system.hostname = "vpnvm";
-  nano.system.enableSwap = true;
+  nano.system.enableSwap = false;
 
   nano.system.enableSSH = true;
   # nano.ftp.enable = true;
