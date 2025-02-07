@@ -1,4 +1,4 @@
-{config, pkgs, ...}: 
+{config, pkgs, inputs, ...}: 
 {
   imports = [
     # ../common/home/kitty.nix

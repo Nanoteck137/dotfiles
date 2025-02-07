@@ -30,10 +30,15 @@ in {
 
       extraPackages = with pkgs; [
         ripgrep
-          fd
-          xclip
-          nodejs
-          lazygit
+        fd
+        xclip
+        nodejs
+        lazygit
+
+        lua-language-server
+        svelte-language-server
+        typescript
+        typescript-language-server
       ];
 
       plugins = with pkgs; [

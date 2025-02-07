@@ -54,28 +54,28 @@ local servers = {
       },
     },
   },
-  -- tsserver = {},
-  -- html = {
-  --   filetypes = { 'html', 'twig', 'hbs', 'htmldjango' },
-  --   init_options = {
-  --     provideFormatter = false
-  --   }
-  -- },
+  ts_ls = {},
+  html = {
+    filetypes = { 'html', 'twig', 'hbs', 'htmldjango' },
+    init_options = {
+      provideFormatter = false
+    }
+  },
   -- htmx = {
   --   filetypes = { 'html', 'htmldjango' },
   -- },
-  -- svelte = {},
   -- astro = {},
-  -- tailwindcss = {
-  --   filetypes = {
-  --     'templ'
-  --   },
-  --   init_options = {
-  --     userLanguages = {
-  --       templ = "html"
-  --     }
-  --   }
-  -- },
+  svelte = {},
+  tailwindcss = {
+    -- filetypes = {
+    --   'templ'
+    -- },
+    -- init_options = {
+    --   userLanguages = {
+    --     templ = "html"
+    --   }
+    -- }
+  },
 
   lua_ls = {
     Lua = {
@@ -84,7 +84,7 @@ local servers = {
     },
   },
 
-  templ = {}
+  -- templ = {}
 }
 
 -- Setup neovim lua configuration

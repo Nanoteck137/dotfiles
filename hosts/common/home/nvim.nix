@@ -25,6 +25,12 @@ in {
       xclip
       nodejs
       lazygit
+
+      lua-language-server
+      svelte-language-server
+      typescript
+      typescript-language-server
+      tailwindcss-language-server
     ];
 
     plugins = with pkgs; [
