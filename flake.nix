@@ -82,7 +82,7 @@
         };
 
         bonk = buildSystem {
-          name = "knok";
+          name = "bonk";
           hw = "intel";
         };
 
