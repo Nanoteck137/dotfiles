@@ -81,6 +81,11 @@
           hw = "amd";
         };
 
+        bonk = buildSystem {
+          name = "knok";
+          hw = "intel";
+        };
+
         # pichu = buildSystem {
         #   name = "pichu";
         # };
