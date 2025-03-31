@@ -1,98 +1,67 @@
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, inputs, self, ... }:
 let
 in {
   imports = [ 
-    ./hardware-configuration.nix
-    ../common/common.nix
   ];
 
   nixpkgs.overlays = [ 
+    # inputs.neovim-nightly-overlay.overlays.default
     inputs.nixneovimplugins.overlays.default
   ];
 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  stylix.enable = true;
+  stylix.image = "${self}/wallpaper.png";
+  stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/tokyo-night-storm.yaml";
 
-  networking.hostName = "koffing"; 
-  networking.networkmanager.enable = true;
+  nano.system.type = "efi";
+  nano.system.username = "nanoteck137";
+  nano.system.hostname = "koffing";
+  nano.system.enableSwap = true;
 
-  services.xserver = {
+  home-manager.users.${config.nano.system.username} = {config, pkgs, inputs, ...}: {
+    imports = [
+      inputs.self.outputs.homeManagerModules.default
+    ];
+
+    nano.home.zsh.enable = true;
+    nano.home.alacritty.enable = true;
+    nano.home.nvim.enable = true;
+    nano.home.git.enable = true;
+    nano.home.tmux.enable = true;
+
+    nano.home.discord.enable = true;
+    nano.home.vscode.enable = true;
+    nano.home.feh.enable = true;
+
+    home.stateVersion = "23.05";
+  };
+
+  nano.system.enableSSH = true;
+  nano.ftp.enable = true;
+  nano.mullvad.enable = true;
+
+  nano.system.enableDesktop = true;
+
+  nano.system.nvidia = {
     enable = true;
-    xkb = {
-      layout = "se";
-      variant = "nodeadkeys";
-    };
-
-    # desktopManager.budgie.enable = true;
-    # displayManager.lightdm.enable = true;
-
-    displayManager.lightdm = {
-      enable = true;
-      # greeters.slick.enable = true;
-    };
-    windowManager.awesome.enable = true;
   };
 
-  hardware.graphics = {
-    enable = true;
-    enable32Bit = true;
-  };
+  services.xserver.desktopManager.budgie.enable = true;
+  services.xserver.displayManager.lightdm.enable = true;
 
-  services.xserver.videoDrivers = ["nvidia"];
+  # services.xserver.displayManager.gdm.enable = true;
+  # services.xserver.desktopManager.gnome.enable = true;
 
-  hardware.nvidia = {
-    modesetting.enable = true;
-    open = false;
-    nvidiaSettings = true;
-  };
+  # services.displayManager.sddm.enable = true;
+  # services.displayManager.sddm.wayland.enable = false;
+  # services.desktopManager.plasma6.enable = true;
+  # services.displayManager.defaultSession = "plasmax11";
 
   virtualisation.docker.enable = true;
 
-  security.rtkit.enable = true;
-
-  users.users.nanoteck137 = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" ]; 
-    packages = with pkgs; [];
-    initialPassword = "password";
-    shell = pkgs.zsh;
-
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIIiL5jrSUxzAttiABU5jI7JhNuKsAdpkH6nm9k6LbjG nanoteck137"
-    ];
-  };
-
-  nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.nvidia.acceptLicense = true;
-
   environment.systemPackages = with pkgs; [
-    git
-    neofetch
-    lazygit
-    tmux
-    firefox
-    virt-manager
-    cifs-utils
-    file
-    mullvad-vpn
     docker-compose
   ];
-
-  services.mullvad-vpn.enable = true;
-
-  programs._1password.enable = true;
-  programs._1password-gui.enable = true;
-
-  services.openssh = {
-    enable = true;
-    settings.PasswordAuthentication = false;
-    settings.KbdInteractiveAuthentication = false;
-  };
-
-  services.jellyfin.enable = true;
-
-  networking.firewall.enable = false;
-  networking.firewall.allowPing = true;
 
   system.stateVersion = "23.05";
   nix.settings.experimental-features = [ "nix-command" "flakes" ];

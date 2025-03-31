@@ -100,9 +100,11 @@
           hw = "intel";
         };
 
-        # koffing = buildSystem {
-        #   name = "koffing";
-        # };
+        # Dev Desktop Machine
+        koffing = buildSystem {
+          name = "koffing";
+          hw = "amd";
+        };
 
         testvm = buildSystem {
           name = "testvm";
