@@ -1,7 +1,7 @@
 { config, pkgs, inputs, self, ... }:
 let
   dwebble-cli = pkgs.writeShellScriptBin "dwebble-cli" '' 
-    ${inputs.dwebble.packages.${pkgs.system}.default}/bin/dwebble-cli --server "https://dwebble.nanoteck137.net" --web "https://dwebble.nanoteck137.net" $@
+    ${inputs.dwebble.packages.${pkgs.system}.default}/bin/dwebble-cli $@
   '';
 
   dwebble-migrate = pkgs.writeShellScriptBin "dwebble-migrate" '' 
@@ -17,7 +17,6 @@ in {
     inputs.sewaddle.nixosModules.frontend
 
     inputs.dwebble.nixosModules.default
-    inputs.dwebble.nixosModules.dwebble-web
 
     inputs.kricketune.nixosModules.default
     inputs.kricketune.nixosModules.frontend
@@ -75,6 +74,18 @@ in {
         name = "temp";
         path = "/mnt/fastboi/temp";
         type = "write";
+      }
+
+      {
+        name = "media2";
+        path = "/mnt/fastboi2/media";
+        type = "read-only";
+      }
+
+      {
+        name = "test";
+        path = "/mnt/fastboi/apps/dwebble";
+        type = "read-only";
       }
     ];
   };
@@ -144,10 +155,10 @@ in {
 
   services.dwebble = {
     enable = true;
-    library = "/mnt/fastboi/media/music";
     username = "nanoteck137";
     initialPassword = "password";
     jwtSecret = "some_secret";
+    libraryDir = "/mnt/fastboi/media/test";
   };
 
   services.dwebble-web = {
