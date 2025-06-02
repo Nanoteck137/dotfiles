@@ -158,7 +158,7 @@ in {
     username = "nanoteck137";
     initialPassword = "password";
     jwtSecret = "some_secret";
-    libraryDir = "/mnt/fastboi/media/test";
+    libraryDir = "/mnt/fastboi/media/music";
   };
 
   services.dwebble-web = {
@@ -182,7 +182,7 @@ in {
   services.kricketune = {
     enable = true;
     dwebbleAddress = "https://dwebble.nanoteck137.net";
-    apiToken = "tmmj86843slucd00gslhz4rancyvb7jl";
+    apiToken = "limmm9lmbloquifngwqlgebuenpej434";
     audioOutput = "audioresample ! audioconvert ! audio/x-raw,rate=48000,channels=2,format=S16LE ! filesink location=/run/snapserver/kricketune";
     extraConfig = ''
     [[ filter_sets ]]
