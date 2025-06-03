@@ -6,6 +6,9 @@ let
   dwebbleAddress = "10.28.28.9:7550";
   dwebbleWebAddress = "10.28.28.9:7551";
 
+  watchbookAddress = "10.28.28.9:5424";
+  watchbookWebAddress = "10.28.28.9:5425";
+
   kricketuneAddress = "10.28.28.9:2040";
   kricketuneWebAddress = "10.28.28.9:2041";
 
@@ -83,6 +86,26 @@ in {
 
         handle {
           reverse_proxy ${sewaddleWebAddress}
+        }
+      '';
+    };
+
+    virtualHosts."watchbook.nanoteck137.net" = {
+      extraConfig = ''
+      	tls {
+		      dns cloudflare {env.CF_TOKEN}
+	      }
+
+        handle /api/* {
+          reverse_proxy ${watchbookAddress}
+        }
+
+        handle /files/* {
+          reverse_proxy ${watchbookAddress}
+        }
+
+        handle {
+          reverse_proxy ${watchbookWebAddress}
         }
       '';
     };
