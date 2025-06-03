@@ -17,6 +17,7 @@ in {
     inputs.sewaddle.nixosModules.frontend
 
     inputs.dwebble.nixosModules.default
+    inputs.watchbook.nixosModules.default
 
     inputs.kricketune.nixosModules.default
     inputs.kricketune.nixosModules.frontend
@@ -162,6 +163,18 @@ in {
   };
 
   services.dwebble-web = {
+    enable = true;
+    apiAddress = "";
+  };
+
+  services.watchbook = {
+    enable = true;
+    username = "nanoteck137";
+    initialPassword = "password";
+    jwtSecret = "some_secret";
+  };
+
+  services.watchbook-web = {
     enable = true;
     apiAddress = "";
   };

@@ -25,6 +25,7 @@
     sewaddle.url = "github:nanoteck137/sewaddle";
     dwebble.url = "github:nanoteck137/dwebble";
     kricketune.url = "github:nanoteck137/kricketune";
+    watchbook.url = "github:nanoteck137/watchbook";
     customcaddy.url = "github:nanoteck137/customcaddy";
   };
 
