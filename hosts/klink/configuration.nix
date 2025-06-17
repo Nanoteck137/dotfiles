@@ -80,13 +80,7 @@ in {
       {
         name = "media2";
         path = "/mnt/fastboi2/media";
-        type = "read-only";
-      }
-
-      {
-        name = "test";
-        path = "/mnt/fastboi/apps/dwebble";
-        type = "read-only";
+        type = "write";
       }
     ];
   };

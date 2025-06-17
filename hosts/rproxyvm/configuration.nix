@@ -13,6 +13,7 @@ let
   kricketuneWebAddress = "10.28.28.9:2041";
 
   jellyfinAddress = "10.28.28.9:8096";
+  freshrssAddress = "10.28.28.2:1337";
 
   secrets = builtins.fromJSON (builtins.readFile /etc/nixos/secrets.json);
 in {
@@ -134,6 +135,18 @@ in {
 
         handle {
           reverse_proxy ${jellyfinAddress}
+        }
+      '';
+    };
+
+    virtualHosts."rss.nanoteck137.net" = {
+      extraConfig = ''
+      	tls {
+		      dns cloudflare {env.CF_TOKEN}
+	      }
+
+        handle {
+          reverse_proxy ${freshrssAddress}
         }
       '';
     };
