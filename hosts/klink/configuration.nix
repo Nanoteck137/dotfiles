@@ -179,6 +179,7 @@ in {
 
   services.dwebble = {
     enable = true;
+    dataDir = "/mnt/fastboi/apps/dwebble";
     username = "nanoteck137";
     initialPassword = "password";
     jwtSecret = "some_secret";

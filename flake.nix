@@ -77,10 +77,10 @@
         };
       in{
         # Normal Desktop 
-        krokorok = buildSystem {
-          name = "krokorok";
-          hw = "amd";
-        };
+        # krokorok = buildSystem {
+        #   name = "krokorok";
+        #   hw = "amd";
+        # };
 
         bonk = buildSystem {
           name = "bonk";
