@@ -11,6 +11,10 @@ let
   sewaddle-cli = pkgs.writeShellScriptBin "sewaddle-cli" '' 
     ${inputs.sewaddle.packages.${pkgs.system}.default}/bin/sewaddle-cli --server "https://sewaddle.nanoteck137.net" --web "https://sewaddle.nanoteck137.net" $@
   '';
+
+  watchbook-cli = pkgs.writeShellScriptBin "watchbook-cli" '' 
+    ${inputs.watchbook.packages.${pkgs.system}.default}/bin/watchbook-cli --api-address "https://watchbook.nanoteck137.net" $@
+  '';
 in {
   imports = [ 
     inputs.sewaddle.nixosModules.default
@@ -60,6 +64,8 @@ in {
   nano.ftp.enable = true;
   nano.mullvad.enable = true;
 
+  nano.customrproxy.enable = true;
+
   nano.system.enableDesktop = true;
 
   nano.samba = {
@@ -68,6 +74,12 @@ in {
       {
         name = "media";
         path = "/mnt/fastboi/media";
+        type = "write";
+      }
+
+      {
+        name = "storage";
+        path = "/mnt/fastboi/storage";
         type = "write";
       }
 
@@ -81,6 +93,12 @@ in {
         name = "media2";
         path = "/mnt/fastboi2/media";
         type = "write";
+      }
+
+      {
+        name = "old";
+        path = "/mnt/fastboi/old";
+        type = "read-only";
       }
     ];
   };
@@ -109,6 +127,16 @@ in {
       in ["${automount_opts},${user},credentials=/etc/nixos/smb-secrets"];
   };
 
+  fileSystems."/mnt/raichu-storage" = {
+      device = "//10.28.28.2/storage";
+      fsType = "cifs";
+      options = let
+        automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
+        user = "uid=1000,gid=100";
+
+      in ["${automount_opts},${user},credentials=/etc/nixos/smb-secrets"];
+  };
+
   services.xserver.desktopManager.budgie.enable = true;
   services.xserver.displayManager.lightdm.enable = true;
 
@@ -128,6 +156,7 @@ in {
     dwebble-cli
     dwebble-migrate
     sewaddle-cli
+    watchbook-cli
   ];
 
   services.tailscale.enable = true;
@@ -166,6 +195,7 @@ in {
     username = "nanoteck137";
     initialPassword = "password";
     jwtSecret = "some_secret";
+    libraryDir = "/mnt/fastboi/media/watch";
   };
 
   services.watchbook-web = {

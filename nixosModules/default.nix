@@ -7,5 +7,6 @@
     ./ftp.nix
     ./mullvad.nix
     ./samba.nix
+    ./customrproxy.nix
   ];
 }
