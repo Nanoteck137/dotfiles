@@ -31,7 +31,7 @@ in {
     };
 
     networking.hostName = cfg.hostname; 
-    networking.networkmanager.enable = (cfg.type != "iso");
+    networking.networkmanager.enable = true;
 
     # TODO(patrik): Enable firewall someday
     networking.firewall.enable = false;

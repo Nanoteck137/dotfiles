@@ -101,6 +101,12 @@
           hw = "intel";
         };
 
+        # Steamdeck
+        deck = buildSystem {
+          name = "steamdeck";
+          hw = "amd";
+        };
+
         # Dev Desktop Machine
         koffing = buildSystem {
           name = "koffing";
