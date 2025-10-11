@@ -26,6 +26,7 @@ in {
       dockgeAddress = "10.28.28.9:5001";
       rssAddress = "10.28.28.9:8080";
       bitAddress = "10.28.28.9:8085";
+      immichAddress = "10.28.28.9:2283";
     in {
       package = inputs.customcaddy.packages.x86_64-linux.default;
       enable = true;
@@ -155,6 +156,18 @@ in {
 
           handle {
             reverse_proxy ${bitAddress}
+          }
+        '';
+      };
+
+      virtualHosts."immich.nanoteck137.net" = {
+        extraConfig = ''
+          tls {
+            dns cloudflare {env.CF_TOKEN}
+          }
+
+          handle {
+            reverse_proxy ${immichAddress}
           }
         '';
       };

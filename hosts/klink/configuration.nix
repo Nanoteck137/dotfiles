@@ -41,6 +41,8 @@ in {
   nano.system.hostname = "klink";
   nano.system.enableSwap = true;
 
+  users.users."nanoteck137".extraGroups = [ "docker" ];
+
   home-manager.users.${config.nano.system.username} = {config, pkgs, inputs, ...}: {
     imports = [
       inputs.self.outputs.homeManagerModules.default
@@ -165,7 +167,7 @@ in {
   services.jellyfin.enable = true;
 
   services.sewaddle = {
-    enable = true;
+    enable = false;
     library = "/mnt/fastboi/media/manga";
     username = "nanoteck137";
     initialPassword = "password";
@@ -173,7 +175,7 @@ in {
   };
 
   services.sewaddle-web = {
-    enable = true;
+    enable = false;
     apiAddress = "";
   };
 
@@ -193,10 +195,10 @@ in {
 
   services.watchbook = {
     enable = true;
+    dataDir = "/mnt/fastboi/apps/watchbook";
     username = "nanoteck137";
     initialPassword = "password";
     jwtSecret = "some_secret";
-    libraryDir = "/mnt/fastboi/media/watch";
   };
 
   services.watchbook-web = {
@@ -266,6 +268,30 @@ in {
       };
     };
   };
+
+  services.kavita = {
+    enable = true;
+    dataDir = "/mnt/fastboi/apps/kavita";
+    tokenKeyFile = "/mnt/fastboi/apps/kavita/token";
+  };
+
+  services.komga = {
+    enable = true;
+    stateDir = "/mnt/fastboi/apps/komga";
+    settings = {};
+  };
+
+  services.immich = { 
+    enable = true;
+    mediaLocation = "/mnt/fastboi/apps/immich";
+    openFirewall = true;
+    host = "0.0.0.0";
+  };
+
+  programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [
+    zlib
+  ];
 
   system.stateVersion = "23.05";
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
