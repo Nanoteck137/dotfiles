@@ -55,7 +55,7 @@ in {
     nano.home.tmux.enable = true;
 
     # nano.home.discord.enable = true;
-    # nano.home.vscode.enable = true;
+    nano.home.vscode.enable = true;
     # nano.home.feh.enable = true;
 
     home.stateVersion = "23.05";
@@ -286,6 +286,14 @@ in {
     mediaLocation = "/mnt/fastboi/apps/immich";
     openFirewall = true;
     host = "0.0.0.0";
+  };
+
+  services.ntfy-sh = {
+    enable = true;
+    settings = {
+      base-url = "https://ntfy.nanoteck137.net";
+      listen-http = "0.0.0.0:8473";
+    };
   };
 
   programs.nix-ld.enable = true;

@@ -27,6 +27,7 @@ in {
       rssAddress = "10.28.28.9:8080";
       bitAddress = "10.28.28.9:8085";
       immichAddress = "10.28.28.9:2283";
+      ntfyAddress = "10.28.28.9:8473";
     in {
       package = inputs.customcaddy.packages.x86_64-linux.default;
       enable = true;
@@ -168,6 +169,26 @@ in {
 
           handle {
             reverse_proxy ${immichAddress}
+          }
+        '';
+      };
+
+      virtualHosts."ntfy.nanoteck137.net" = {
+        extraConfig = ''
+          tls {
+            dns cloudflare {env.CF_TOKEN}
+          }
+
+          handle {
+            reverse_proxy ${ntfyAddress}
+
+            @httpget {
+              protocol http
+              method GET
+              path_regexp ^/([-_a-z0-9]{0,64}$|docs/|static/)
+            }
+
+            redir @httpget https://{host}{uri}
           }
         '';
       };
