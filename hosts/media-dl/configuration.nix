@@ -34,15 +34,15 @@ in {
   services.qbittorrent = {
     enable = true;
     openFirewall = true;
-    serverConfig = {
+    serverConfig = {
       LegalNotice.Accepted = true;
-        Preferences = {
-          WebUI = {
-            Username = "nanoteck137";
-            Password_PBKDF2 = "@ByteArray(VacvXHKS7pL1cu8DF2FL4g==:3tEQOrc/Z+81/tSBhhTVOer1jzfI4z4cWVgChKBTeZbfTxIJXQtHpWrn7qVVSgPKXtiXbXLAxatxwBVlyN8/EA==)";
-          };
-          General.Locale = "en";
+      Preferences = {
+        WebUI = {
+          Username = "nanoteck137";
+          Password_PBKDF2 = "@ByteArray(VacvXHKS7pL1cu8DF2FL4g==:3tEQOrc/Z+81/tSBhhTVOer1jzfI4z4cWVgChKBTeZbfTxIJXQtHpWrn7qVVSgPKXtiXbXLAxatxwBVlyN8/EA==)";
         };
+        General.Locale = "en";
+      };
     };
   };
 
