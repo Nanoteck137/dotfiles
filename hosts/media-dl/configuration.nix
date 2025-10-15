@@ -13,7 +13,7 @@ in {
 
   nano.system.enableSSH = true;
   # nano.ftp.enable = true;
-  # nano.mullvad.enable = true;
+  nano.mullvad.enable = true;
 
   # services.tailscale.enable = true;
   # services.tailscale.useRoutingFeatures = "both";
