@@ -128,6 +128,11 @@
           hw = "vm-intel";
         };
 
+        media-dl-vm = buildSystem {
+          name = "media-dl";
+          hw = "vm-amd";
+        };
+
         iso = buildIso {
           name = "iso";
         };
