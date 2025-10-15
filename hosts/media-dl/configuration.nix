@@ -35,6 +35,12 @@ in {
     enable = true;
     openFirewall = true;
     serverConfig = {
+      BitTorrent = {
+        Session = {
+          AnonymousModeEnabled = true;
+        };
+      };
+
       LegalNotice.Accepted = true;
       Preferences = {
         WebUI = {
