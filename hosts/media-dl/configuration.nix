@@ -31,6 +31,11 @@ in {
     home.stateVersion = "23.05";
   };
 
+  services.qbittorrent = {
+    enable = true;
+    openFirewall = true;
+  };
+
   networking.firewall.allowedTCPPorts = [];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
