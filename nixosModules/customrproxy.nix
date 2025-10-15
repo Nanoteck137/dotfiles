@@ -25,7 +25,7 @@ in {
       jellyfinAddress = "10.28.28.9:8096";
       dockgeAddress = "10.28.28.9:5001";
       rssAddress = "10.28.28.9:8080";
-      bitAddress = "10.28.28.9:8085";
+      bitAddress = "10.28.28.241:8080";
       immichAddress = "10.28.28.9:2283";
       ntfyAddress = "10.28.28.9:8473";
     in {
