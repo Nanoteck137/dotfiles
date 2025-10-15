@@ -12,7 +12,7 @@
 
   users.users.nanoteck137.home = "/Users/nanoteck137";
 
-  services.nix-daemon.enable = true;
+  # services.nix-daemon.enable = true;
 
   programs.zsh.enable = true;  # default shell on catalina
 
