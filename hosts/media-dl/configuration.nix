@@ -47,7 +47,10 @@ in {
           Username = "nanoteck137";
           Password_PBKDF2 = "@ByteArray(VacvXHKS7pL1cu8DF2FL4g==:3tEQOrc/Z+81/tSBhhTVOer1jzfI4z4cWVgChKBTeZbfTxIJXQtHpWrn7qVVSgPKXtiXbXLAxatxwBVlyN8/EA==)";
         };
-        General.Locale = "en";
+        General = {
+          Locale = "en";
+          StatusbarExternalIPDisplayed = true;
+        };
       };
     };
   };
