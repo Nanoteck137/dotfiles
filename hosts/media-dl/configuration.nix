@@ -65,7 +65,7 @@ in {
         port = 9696;
         bindaddress = "*";
       };
-    }
+    };
   };
 
   networking.firewall.allowedTCPPorts = [];
