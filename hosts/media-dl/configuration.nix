@@ -101,6 +101,7 @@ in {
   };
 
   users.users.${config.services.sonarr.user}.extraGroups = ["media"];
+  users.users.${config.services.qbittorrent.user}.extraGroups = ["media"];
 
   networking.firewall.allowedTCPPorts = [];
   # networking.firewall.allowedUDPPorts = [ ... ];
