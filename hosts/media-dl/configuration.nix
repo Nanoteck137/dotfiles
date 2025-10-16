@@ -40,7 +40,7 @@ in {
       fsType = "cifs";
       options = let
         automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
-        user = "uid=1000,gid=${toString config.users.groups.media}";
+        user = "uid=1000,gid=${toString config.users.groups.media.gid}";
 
       in ["${automount_opts},${user},credentials=/etc/nixos/smb-secrets"];
   };
