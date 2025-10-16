@@ -95,6 +95,11 @@ in {
     };
   };
 
+  services.jellyseerr = {
+    enable = true;
+    openFirewall = true;
+  }
+
   users.users.${config.services.sonarr.user}.extraGroups = ["media"];
 
   networking.firewall.allowedTCPPorts = [];
