@@ -18,7 +18,7 @@ in {
   # services.tailscale.enable = true;
   # services.tailscale.useRoutingFeatures = "both";
 
-  users.groups.${config.nano.system.username}.extraGroups = [ "media" ];
+  users.users.${config.nano.system.username}.extraGroups = [ "media" ];
   home-manager.users.${config.nano.system.username} = {config, pkgs, inputs, ...}: {
     imports = [
       inputs.self.outputs.homeManagerModules.default
