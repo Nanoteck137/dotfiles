@@ -18,6 +18,7 @@ in {
   # services.tailscale.enable = true;
   # services.tailscale.useRoutingFeatures = "both";
 
+  users.groups.${config.nano.system.username}.extraGroups = [ "media" ];
   home-manager.users.${config.nano.system.username} = {config, pkgs, inputs, ...}: {
     imports = [
       inputs.self.outputs.homeManagerModules.default
@@ -40,7 +41,7 @@ in {
       fsType = "cifs";
       options = let
         automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
-        user = "uid=1000,gid=${toString config.users.groups.media.gid}";
+        user = "uid=1000,gid=200";
 
       in ["${automount_opts},${user},credentials=/etc/nixos/smb-secrets"];
   };
