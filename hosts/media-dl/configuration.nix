@@ -59,7 +59,7 @@ in {
     enable = true;
     openFirewall = true;
     settings = {
-      update.mechanism = "internal";
+      update.mechanism = null;
       server = {
         urlbase = "localhost";
         port = 9696;
