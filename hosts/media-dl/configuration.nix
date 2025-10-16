@@ -68,6 +68,19 @@ in {
     };
   };
 
+  services.sonarr = {
+    enable = true;
+    openFirewall = true;
+    settings = {
+      update.mechanism = null;
+      server = {
+        urlbase = "localhost";
+        port = 8989;
+        bindaddress = "*";
+      };
+    };
+  };
+
   networking.firewall.allowedTCPPorts = [];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
