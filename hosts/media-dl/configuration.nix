@@ -55,6 +55,19 @@ in {
     };
   };
 
+  services.prowlarr = {
+    enable = true;
+    openFirewall = true;
+    settings = {
+      update.mechanism = "internal";
+      server = {
+        urlbase = "localhost";
+        port = 9696;
+        bindaddress = "*";
+      };
+    }
+  };
+
   networking.firewall.allowedTCPPorts = [];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
