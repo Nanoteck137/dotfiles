@@ -31,7 +31,9 @@ in {
     home.stateVersion = "23.05";
   };
 
-  users.groups.media = {};
+  users.groups.media = {
+    gid = config.ids.gids.media;
+  };
 
   fileSystems."/mnt/klink-media" = {
       device = "//10.28.28.9/media2";
