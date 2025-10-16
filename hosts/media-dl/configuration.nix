@@ -31,12 +31,14 @@ in {
     home.stateVersion = "23.05";
   };
 
+  users.groups.media = {};
+
   fileSystems."/mnt/klink-media" = {
       device = "//10.28.28.9/media2";
       fsType = "cifs";
       options = let
         automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
-        user = "uid=1000,gid=100";
+        user = "uid=1000,gid=${config.users.groups.media.gid}";
 
       in ["${automount_opts},${user},credentials=/etc/nixos/smb-secrets"];
   };
