@@ -42,8 +42,9 @@ in {
       options = let
         automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
         user = "uid=1000,gid=200";
+        other = "dir_mode=0775,file_mode=0664"
 
-      in ["${automount_opts},${user},credentials=/etc/nixos/smb-secrets"];
+      in ["${automount_opts},${user},${other},credentials=/etc/nixos/smb-secrets"];
   };
 
   services.qbittorrent = {
