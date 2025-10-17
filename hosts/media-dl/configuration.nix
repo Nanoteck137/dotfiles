@@ -100,6 +100,11 @@ in {
     openFirewall = true;
   };
 
+  services.flaresolverr = {
+    enable = true;
+    openFirewall = true;
+  };
+
   users.users.${config.services.sonarr.user}.extraGroups = ["media"];
   users.users.${config.services.qbittorrent.user}.extraGroups = ["media"];
 
