@@ -52,10 +52,16 @@ in {
     openFirewall = true;
     user = "nanoteck137";
     group = "media";
+
+    # Session\SubcategoriesEnabled=true
+    # Session\GlobalMaxRatio=0
+
     serverConfig = {
       BitTorrent = {
         Session = {
           AnonymousModeEnabled = true;
+          SubcategoriesEnabled = true;
+          GlobalMaxRatio = 0;
         };
       };
 
