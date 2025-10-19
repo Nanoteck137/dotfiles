@@ -50,6 +50,8 @@ in {
   services.qbittorrent = {
     enable = true;
     openFirewall = true;
+    user = "nanoteck137";
+    group = "media";
     serverConfig = {
       BitTorrent = {
         Session = {
@@ -86,6 +88,8 @@ in {
   services.sonarr = {
     enable = true;
     openFirewall = true;
+    user = "nanoteck137";
+    group = "media";
     settings = {
       server = {
         urlbase = "localhost";
@@ -105,8 +109,8 @@ in {
     openFirewall = true;
   };
 
-  users.users.${config.services.sonarr.user}.extraGroups = ["media"];
-  users.users.${config.services.qbittorrent.user}.extraGroups = ["media"];
+  # users.users.${config.services.sonarr.user}.extraGroups = ["media"];
+  # users.users.${config.services.qbittorrent.user}.extraGroups = ["media"];
 
   networking.firewall.allowedTCPPorts = [];
   # networking.firewall.allowedUDPPorts = [ ... ];
