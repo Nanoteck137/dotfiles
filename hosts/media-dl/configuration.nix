@@ -15,6 +15,8 @@ in {
   # nano.ftp.enable = true;
   nano.mullvad.enable = true;
 
+  services.qemuGuest.enable = true;
+
   # services.tailscale.enable = true;
   # services.tailscale.useRoutingFeatures = "both";
 
