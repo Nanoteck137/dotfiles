@@ -18,7 +18,7 @@ in {
   #     inputs.self.outputs.homeManagerModules.default
   #   ];
   #
-  #   nano.home.zsh.enable = true;
+  #   nano.home.zsh.enable = true
   #   nano.home.nvim.enable = true;
   #   nano.home.git.enable = true;
   #   nano.home.tmux.enable = true;
@@ -30,6 +30,7 @@ in {
   # nano.system.enableSSH = true;
   # nano.ftp.enable = true;
   nano.mullvad.enable = true;
+  networking.iproute2.enable = true;
 
   # nano.customrproxy.enable = true;
 
