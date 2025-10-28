@@ -75,6 +75,24 @@
             ./hosts/${name}/configuration.nix
           ];
         };
+
+        buildPlxc = { name, system ? "x86_64-linux" }: nixpkgs.lib.nixosSystem {
+          inherit system;
+          specialArgs = { inherit self inputs; };
+          modules = [ 
+            "${nixpkgs}/nixos/modules/virtualisation/proxmox-lxc.nix"
+
+            { nixpkgs.config.allowUnfree = true; }
+            # {
+            #   home-manager.useGlobalPkgs = true;
+            #   home-manager.useUserPackages = true;
+            #   home-manager.extraSpecialArgs = { inherit self inputs; };
+            # }
+
+            ./nixosModules
+            ./hosts/${name}/configuration.nix
+          ];
+        };
       in{
         # Normal Desktop 
         # krokorok = buildSystem {
@@ -137,14 +155,9 @@
           name = "iso";
         };
 
-        # iso = nixpkgs.lib.nixosSystem {
-        #   system = "x86_64-linux";
-        #   specialArgs = { inherit inputs; };
-        #   modules = [ 
-        #     "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
-        #     ./hosts/iso/configuration.nix 
-        #   ];
-        # };
+        plxc = buildPlxc {
+          name = "plxc";
+        };
       };
 
       homeConfigurations.test = home-manager.lib.homeManagerConfiguration {

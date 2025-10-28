@@ -296,6 +296,17 @@ in {
     };
   };
 
+  services.glances = {
+    enable = true;
+    openFirewall = true;
+  };
+
+  services.homepage-dashboard = {
+    enable = true;
+    openFirewall = true;
+    allowedHosts = "*";
+  };
+
   programs.nix-ld.enable = true;
   programs.nix-ld.libraries = with pkgs; [
     zlib

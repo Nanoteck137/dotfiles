@@ -1443,11 +1443,11 @@
         "nixpkgs": "nixpkgs_8"
       },
       "locked": {
-        "lastModified": 1758794291,
-        "narHash": "sha256-z/4Eywt4mTK2kTZZIdP65jGeKreZT3bjk7ECR0IymL4=",
+        "lastModified": 1761536327,
+        "narHash": "sha256-hjIae+JEgXYka/XWomvUp1aQgxLFqULvZTlCyPVYt/g=",
         "owner": "nanoteck137",
         "repo": "watchbook",
-        "rev": "afbfdc0a2ebad822e28f2dee10f9691c2c099648",
+        "rev": "6e8d9b12b7158232014ed70c950a7a3f214ceef5",
         "type": "github"
       },
       "original": {
