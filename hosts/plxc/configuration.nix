@@ -33,9 +33,9 @@ in {
 
   # nano.customrproxy.enable = true;
 
-  environment.systemPackages = with pkgs; [
-    vim
-  ];
+  services.jellyfin.enable = true;
+
+  environment.systemPackages = with pkgs; [];
 
   system.stateVersion = "23.05";
   nix.settings.experimental-features = [ "nix-command" "flakes" ];

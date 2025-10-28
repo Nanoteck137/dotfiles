@@ -18,7 +18,7 @@ in {
       enableSwap = mkEnableOption "enable swap";
 
       type = mkOption {
-        type = types.enum ["iso" "efi"];
+        type = types.enum ["plxc" "iso" "efi"];
         description = "system type";
       };
     };
@@ -30,8 +30,10 @@ in {
       efi.canTouchEfiVariables = true;
     };
 
-    networking.hostName = cfg.hostname; 
-    networking.networkmanager.enable = true;
+    networking = mkIf (cfg.type != "plxc") {
+      hostName = cfg.hostname; 
+      networkmanager.enable = true;
+    };
 
     # TODO(patrik): Enable firewall someday
     networking.firewall.enable = false;
@@ -56,7 +58,7 @@ in {
       rclone
     ];
 
-    users.users = {
+    users.users = mkIf (cfg.type != "plxc") {
       ${cfg.username} = {
         isNormalUser = true;
         extraGroups = [ "wheel" ]; 
