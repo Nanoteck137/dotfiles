@@ -33,11 +33,11 @@ in {
     networking = mkIf (cfg.type != "plxc") {
       hostName = cfg.hostname; 
       networkmanager.enable = true;
+    } ++ {
+      # TODO(patrik): Enable firewall someday
+      firewall.enable = false;
+      firewall.allowPing = true;
     };
-
-    # TODO(patrik): Enable firewall someday
-    networking.firewall.enable = false;
-    networking.firewall.allowPing = true;
 
     services.openssh = mkIf cfg.enableSSH {
       enable = true;
