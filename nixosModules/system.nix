@@ -30,13 +30,16 @@ in {
       efi.canTouchEfiVariables = true;
     };
 
-    networking = mkIf (cfg.type != "plxc") {
-      hostName = cfg.hostname; 
-      networkmanager.enable = true;
-    } ++ {
-      # TODO(patrik): Enable firewall someday
-      firewall.enable = false;
-      firewall.allowPing = true;
+    networking = mkMerge [
+      (mkIf (cfg.type != "plxc") {
+        hostName = cfg.hostname; 
+        networkmanager.enable = true;
+      })
+      {
+        # TODO(patrik): Enable firewall someday
+        firewall.enable = false;
+        firewall.allowPing = true;
+      }
     };
 
     services.openssh = mkIf cfg.enableSSH {
