@@ -40,7 +40,7 @@ in {
         firewall.enable = false;
         firewall.allowPing = true;
       }
-    };
+    ];
 
     services.openssh = mkIf cfg.enableSSH {
       enable = true;
