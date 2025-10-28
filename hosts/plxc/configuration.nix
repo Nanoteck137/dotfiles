@@ -29,7 +29,7 @@ in {
 
   # nano.system.enableSSH = true;
   # nano.ftp.enable = true;
-  # nano.mullvad.enable = true;
+  nano.mullvad.enable = true;
 
   # nano.customrproxy.enable = true;
 
