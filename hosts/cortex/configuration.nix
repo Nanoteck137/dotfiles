@@ -27,14 +27,14 @@ in {
   # };
 
 
-  # nano.system.enableSSH = true;
+  nano.system.enableSSH = true;
   # nano.ftp.enable = true;
-  nano.mullvad.enable = true;
-  networking.iproute2.enable = true;
+  # nano.mullvad.enable = true;
+  # networking.iproute2.enable = true
 
-  # nano.customrproxy.enable = true;
+  nano.customrproxy.enable = true;
 
-  services.jellyfin.enable = true;
+  # services.jellyfin.enable = true;
 
   environment.systemPackages = with pkgs; [];
 
