@@ -34,6 +34,13 @@ in {
 
   nano.customrproxy.enable = true;
 
+  services.immich = { 
+    enable = true;
+    mediaLocation = "/mnt/fastboi/apps/immich";
+    openFirewall = true;
+    host = "0.0.0.0";
+  };
+
   services.ntfy-sh = {
     enable = true;
     settings = {

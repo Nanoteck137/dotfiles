@@ -23,10 +23,8 @@ in {
       kricketuneWebAddress = "10.28.28.9:2041";
 
       jellyfinAddress = "10.28.28.9:8096";
-      dockgeAddress = "10.28.28.9:5001";
-      rssAddress = "10.28.28.9:8080";
       bitAddress = "10.28.28.241:8080";
-      immichAddress = "10.28.28.9:2283";
+      immichAddress = "127.0.0.1:2283";
       ntfyAddress = "127.0.0.1:8473";
     in {
       package = inputs.customcaddy.packages.x86_64-linux.default;
