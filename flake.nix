@@ -158,6 +158,10 @@
         plxc = buildPlxc {
           name = "plxc";
         };
+
+        cortex = buildPlxc {
+          name = "cortex";
+        };
       };
 
       homeConfigurations.test = home-manager.lib.homeManagerConfiguration {

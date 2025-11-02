@@ -34,12 +34,11 @@ in {
       (mkIf (cfg.type != "plxc") {
         hostName = cfg.hostname; 
         networkmanager.enable = true;
-      })
-      {
+
         # TODO(patrik): Enable firewall someday
         firewall.enable = false;
         firewall.allowPing = true;
-      }
+      })
     ];
 
     services.openssh = mkIf cfg.enableSSH {
@@ -61,17 +60,23 @@ in {
       rclone
     ];
 
-    users.users = mkIf (cfg.type != "plxc") {
-      ${cfg.username} = {
-        isNormalUser = true;
-        extraGroups = [ "wheel" ]; 
-        initialPassword = "password";
-        shell = pkgs.zsh;
+    users.users = {
+      ${cfg.username} = mkMerge [
+        {
+          isNormalUser = true;
+          extraGroups = [ "wheel" ]; 
+          initialPassword = "password";
 
-        openssh.authorizedKeys.keys = [
-          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIIiL5jrSUxzAttiABU5jI7JhNuKsAdpkH6nm9k6LbjG nanoteck137"
-        ];
-      };
+
+          openssh.authorizedKeys.keys = [
+            "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIIiL5jrSUxzAttiABU5jI7JhNuKsAdpkH6nm9k6LbjG nanoteck137"
+          ];
+        }
+
+        (mkIf (cfg.type != "plxc") {
+          shell = pkgs.zsh;
+        })
+      ];
     };
 
     time.timeZone = "Europe/Stockholm";
@@ -92,8 +97,11 @@ in {
 
     console.keyMap = "sv-latin1";
 
-    programs.zsh.enable = true;
-    environment.shells = [ pkgs.zsh ];
+    programs.zsh = mkIf (cfg.type != "plxc") {
+      enable = true;
+    };
+
+    environment.shells = mkIf (cfg.type != "plxc") [ pkgs.zsh ];
 
     swapDevices = mkIf cfg.enableSwap [ 
       { 
