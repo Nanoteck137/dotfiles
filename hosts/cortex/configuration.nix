@@ -34,6 +34,14 @@ in {
 
   nano.customrproxy.enable = true;
 
+  services.ntfy-sh = {
+    enable = true;
+    settings = {
+      base-url = "https://ntfy.nanoteck137.net";
+      listen-http = "0.0.0.0:8473";
+    };
+  };
+
   # services.jellyfin.enable = true;
 
   environment.systemPackages = with pkgs; [];

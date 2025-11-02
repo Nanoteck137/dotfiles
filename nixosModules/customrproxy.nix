@@ -27,7 +27,7 @@ in {
       rssAddress = "10.28.28.9:8080";
       bitAddress = "10.28.28.241:8080";
       immichAddress = "10.28.28.9:2283";
-      ntfyAddress = "10.28.28.9:8473";
+      ntfyAddress = "127.0.0.1:8473";
     in {
       package = inputs.customcaddy.packages.x86_64-linux.default;
       enable = true;
@@ -116,35 +116,6 @@ in {
 
           handle {
             reverse_proxy ${jellyfinAddress}
-          }
-        '';
-      };
-
-      virtualHosts."dock.nanoteck137.net" = {
-        extraConfig = ''
-          tls {
-            dns cloudflare {env.CF_TOKEN}
-          }
-
-          handle {
-            reverse_proxy ${dockgeAddress}
-            @websockets {
-              header Connection *Upgrade*
-              header Upgrade websocket
-            }
-            reverse_proxy @websockets ${dockgeAddress}
-          }
-        '';
-      };
-
-      virtualHosts."rss.nanoteck137.net" = {
-        extraConfig = ''
-          tls {
-            dns cloudflare {env.CF_TOKEN}
-          }
-
-          handle {
-            reverse_proxy ${rssAddress}
           }
         '';
       };
