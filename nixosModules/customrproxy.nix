@@ -23,9 +23,13 @@ in {
       kricketuneWebAddress = "10.28.28.9:2041";
 
       jellyfinAddress = "10.28.28.9:8096";
-      bitAddress = "10.28.28.241:8080";
       immichAddress = "10.28.28.41:2283";
       ntfyAddress = "127.0.0.1:8473";
+
+      bitAddress = "10.28.28.120:8080";
+      sonarrAddress = "10.28.28.120:8989";
+      prowlarrAddress = "10.28.28.120:9696";
+      jellyseerrAddress = "10.28.28.120:5055";
     in {
       package = inputs.customcaddy.packages.x86_64-linux.default;
       enable = true;
@@ -118,18 +122,6 @@ in {
         '';
       };
 
-      virtualHosts."bit.nanoteck137.net" = {
-        extraConfig = ''
-          tls {
-            dns cloudflare {env.CF_TOKEN}
-          }
-
-          handle {
-            reverse_proxy ${bitAddress}
-          }
-        '';
-      };
-
       virtualHosts."immich.nanoteck137.net" = {
         extraConfig = ''
           tls {
@@ -158,6 +150,54 @@ in {
             }
 
             redir @httpget https://{host}{uri}
+          }
+        '';
+      };
+
+      virtualHosts."bit.nanoteck137.net" = {
+        extraConfig = ''
+          tls {
+            dns cloudflare {env.CF_TOKEN}
+          }
+
+          handle {
+            reverse_proxy ${bitAddress}
+          }
+        '';
+      };
+
+      virtualHosts."sonarr.nanoteck137.net" = {
+        extraConfig = ''
+          tls {
+            dns cloudflare {env.CF_TOKEN}
+          }
+
+          handle {
+            reverse_proxy ${sonarrAddress}
+          }
+        '';
+      };
+
+      virtualHosts."prowlarr.nanoteck137.net" = {
+        extraConfig = ''
+          tls {
+            dns cloudflare {env.CF_TOKEN}
+          }
+
+          handle {
+            reverse_proxy ${prowlarrAddress}
+          }
+        '';
+      };
+
+      virtualHosts."jellyseerr.nanoteck137.net" = {
+        extraConfig = ''
+          tls {
+            dns cloudflare {env.CF_TOKEN}
+          }
+
+          handle {
+            reverse_proxy ${jellyseerrAddress}
           }
         '';
       };
