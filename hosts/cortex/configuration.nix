@@ -55,6 +55,32 @@ in {
     apiAddress = "";
   };
 
+  services.snapserver = {
+    enable = true;
+
+    streams.kricketune = {
+      type = "pipe";
+      location = "/run/snapserver/kricketune";
+      sampleFormat = "48000:16:2";
+      codec = "pcm";
+    };
+
+    openFirewall = true;
+  };
+
+  services.kricketune = {
+    enable = true;
+    dwebbleAddress = "https://dwebble.nanoteck137.net";
+    apiToken = "limmm9lmbloquifngwqlgebuenpej434";
+    audioOutput = "audioresample ! audioconvert ! audio/x-raw,rate=48000,channels=2,format=S16LE ! filesink location=/run/snapserver/kricketune";
+    extraConfig = "";
+  };
+
+  services.kricketune-web = {
+    enable = true;
+    apiAddress = "";
+  };
+
   services.ntfy-sh = {
     enable = true;
     settings = {
