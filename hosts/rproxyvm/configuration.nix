@@ -55,81 +55,81 @@ in {
     package = inputs.customcaddy.packages.x86_64-linux.default;
     enable = true;
 
-    virtualHosts."dwebble.nanoteck137.net" = {
-      extraConfig = ''
-      	tls {
-		      dns cloudflare {env.CF_TOKEN}
-	      }
-
-        handle /api/* {
-          reverse_proxy ${dwebbleAddress}
-        }
-
-        handle /files/* {
-          reverse_proxy ${dwebbleAddress}
-        }
-
-        handle {
-          reverse_proxy ${dwebbleWebAddress}
-        }
-      '';
-    };
-
-    virtualHosts."sewaddle.nanoteck137.net" = {
-      extraConfig = ''
-      	tls {
-		      dns cloudflare {env.CF_TOKEN}
-	      }
-
-        handle /api/* {
-          reverse_proxy ${sewaddleAddress}
-        }
-
-        handle /files/* {
-          reverse_proxy ${sewaddleAddress}
-        }
-
-        handle {
-          reverse_proxy ${sewaddleWebAddress}
-        }
-      '';
-    };
-
-    virtualHosts."watchbook.nanoteck137.net" = {
-      extraConfig = ''
-      	tls {
-		      dns cloudflare {env.CF_TOKEN}
-	      }
-
-        handle /api/* {
-          reverse_proxy ${watchbookAddress}
-        }
-
-        handle /files/* {
-          reverse_proxy ${watchbookAddress}
-        }
-
-        handle {
-          reverse_proxy ${watchbookWebAddress}
-        }
-      '';
-    };
-
-    virtualHosts."kricketune.nanoteck137.net" = {
-      extraConfig = ''
-      	tls {
-		      dns cloudflare {env.CF_TOKEN}
-	      }
-
-        handle /api/* {
-          reverse_proxy ${kricketuneAddress}
-        }
-
-        handle {
-          reverse_proxy ${kricketuneWebAddress}
-        }
-      '';
-    };
+    # virtualHosts."dwebble.nanoteck137.net" = {
+    #   extraConfig = ''
+    #   	tls {
+		  #     dns cloudflare {env.CF_TOKEN}
+	   #    }
+    #
+    #     handle /api/* {
+    #       reverse_proxy ${dwebbleAddress}
+    #     }
+    #
+    #     handle /files/* {
+    #       reverse_proxy ${dwebbleAddress}
+    #     }
+    #
+    #     handle {
+    #       reverse_proxy ${dwebbleWebAddress}
+    #     }
+    #   '';
+    # };
+    #
+    # virtualHosts."sewaddle.nanoteck137.net" = {
+    #   extraConfig = ''
+    #   	tls {
+		  #     dns cloudflare {env.CF_TOKEN}
+	   #    }
+    #
+    #     handle /api/* {
+    #       reverse_proxy ${sewaddleAddress}
+    #     }
+    #
+    #     handle /files/* {
+    #       reverse_proxy ${sewaddleAddress}
+    #     }
+    #
+    #     handle {
+    #       reverse_proxy ${sewaddleWebAddress}
+    #     }
+    #   '';
+    # };
+    #
+    # virtualHosts."watchbook.nanoteck137.net" = {
+    #   extraConfig = ''
+    #   	tls {
+		  #     dns cloudflare {env.CF_TOKEN}
+	   #    }
+    #
+    #     handle /api/* {
+    #       reverse_proxy ${watchbookAddress}
+    #     }
+    #
+    #     handle /files/* {
+    #       reverse_proxy ${watchbookAddress}
+    #     }
+    #
+    #     handle {
+    #       reverse_proxy ${watchbookWebAddress}
+    #     }
+    #   '';
+    # };
+    #
+    # virtualHosts."kricketune.nanoteck137.net" = {
+    #   extraConfig = ''
+    #   	tls {
+		  #     dns cloudflare {env.CF_TOKEN}
+	   #    }
+    #
+    #     handle /api/* {
+    #       reverse_proxy ${kricketuneAddress}
+    #     }
+    #
+    #     handle {
+    #       reverse_proxy ${kricketuneWebAddress}
+    #     }
+    #   '';
+    # };
 
     virtualHosts."jellyfin.nanoteck137.net" = {
       extraConfig = ''
