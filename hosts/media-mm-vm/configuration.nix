@@ -8,7 +8,7 @@ in {
 
   nano.system.type = "efi";
   nano.system.username = "nanoteck137";
-  nano.system.hostname = "media-dl";
+  nano.system.hostname = "media-mm-vm";
   nano.system.enableSwap = true;
 
   nano.system.enableSSH = true;

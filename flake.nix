@@ -147,7 +147,7 @@
         };
 
         media-mm-vm = buildSystem {
-          name = "media-mm";
+          name = "media-mm-vm";
           hw = "vm-amd";
         };
 
