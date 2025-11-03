@@ -13,8 +13,8 @@ in {
       sewaddleAddress = "10.28.28.9:4005";
       sewaddleWebAddress = "10.28.28.9:4006";
 
-      dwebbleAddress = "10.28.28.9:7550";
-      dwebbleWebAddress = "10.28.28.9:7551";
+      dwebbleAddress = "127.0.0.1:7550";
+      dwebbleWebAddress = "127.0.0.1:7551";
 
       watchbookAddress = "10.28.28.9:5424";
       watchbookWebAddress = "10.28.28.9:5425";
