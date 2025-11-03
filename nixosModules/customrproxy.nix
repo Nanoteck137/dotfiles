@@ -24,7 +24,7 @@ in {
 
       jellyfinAddress = "10.28.28.9:8096";
       bitAddress = "10.28.28.241:8080";
-      immichAddress = "127.0.0.1:2283";
+      immichAddress = "10.28.28.41:2283";
       ntfyAddress = "127.0.0.1:8473";
     in {
       package = inputs.customcaddy.packages.x86_64-linux.default;
