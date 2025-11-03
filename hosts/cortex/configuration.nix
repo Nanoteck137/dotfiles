@@ -44,6 +44,7 @@ in {
 
   services.dwebble = {
     enable = true;
+    openFirewall = true;
     host = "0.0.0.0";
     username = "nanoteck137";
     initialPassword = "password";
