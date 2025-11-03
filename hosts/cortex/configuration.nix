@@ -10,6 +10,9 @@ let
 in {
   imports = [
     inputs.dwebble.nixosModules.default
+
+    inputs.kricketune.nixosModules.default
+    inputs.kricketune.nixosModules.frontend
   ];
 
   nixpkgs.overlays = [ 
