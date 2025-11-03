@@ -146,8 +146,8 @@
           hw = "vm-intel";
         };
 
-        media-dl-vm = buildSystem {
-          name = "media-dl";
+        media-mm-vm = buildSystem {
+          name = "media-mm";
           hw = "vm-amd";
         };
 
