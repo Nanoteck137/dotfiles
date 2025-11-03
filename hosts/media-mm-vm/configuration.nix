@@ -84,6 +84,7 @@ in {
         urlbase = "localhost";
         port = 9696;
         bindaddress = "*";
+        enablessl = false;
       };
     };
   };
