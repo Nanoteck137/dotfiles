@@ -13,8 +13,8 @@ let
   kricketuneWebAddress = "10.28.28.9:2041";
 
   jellyfinAddress = "10.28.28.9:8096";
-  freshrssAddress = "10.28.28.2:1337";
 
+  bitAddress = "10.28.28.120:8080";
   sonarrAddress = "10.28.28.120:8989";
   prowlarrAddress = "10.28.28.120:9696";
   jellyseerrAddress = "10.28.28.120:5055";
@@ -143,14 +143,14 @@ in {
       '';
     };
 
-    virtualHosts."rss.nanoteck137.net" = {
+    virtualHosts."bit.nanoteck137.net" = {
       extraConfig = ''
       	tls {
 		      dns cloudflare {env.CF_TOKEN}
 	      }
 
         handle {
-          reverse_proxy ${freshrssAddress}
+          reverse_proxy ${bitAddress}
         }
       '';
     };
