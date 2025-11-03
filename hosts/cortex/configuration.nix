@@ -44,8 +44,6 @@ in {
 
   services.dwebble = {
     enable = true;
-    openFirewall = true;
-    port = 7552;
     username = "nanoteck137";
     initialPassword = "password";
     jwtSecret = "some_secret";
