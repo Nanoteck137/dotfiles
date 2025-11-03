@@ -1,7 +1,15 @@
 { config, pkgs, inputs, self, ... }:
 let
+  dwebble-cli = pkgs.writeShellScriptBin "dwebble-cli" '' 
+    ${inputs.dwebble.packages.${pkgs.system}.default}/bin/dwebble-cli $@
+  '';
+
+  dwebble-migrate = pkgs.writeShellScriptBin "dwebble-migrate" '' 
+    ${inputs.dwebble.packages.${pkgs.system}.default}/bin/dwebble-migrate $@
+  '';
 in {
   imports = [
+    inputs.dwebble.nixosModules.default
   ];
 
   nixpkgs.overlays = [ 
@@ -34,6 +42,19 @@ in {
 
   nano.customrproxy.enable = true;
 
+  services.dwebble = {
+    enable = true;
+    username = "nanoteck137";
+    initialPassword = "password";
+    jwtSecret = "some_secret";
+    libraryDir = "/media";
+  };
+
+  services.dwebble-web = {
+    enable = true;
+    apiAddress = "";
+  };
+
   services.ntfy-sh = {
     enable = true;
     settings = {
@@ -44,7 +65,10 @@ in {
 
   # services.jellyfin.enable = true;
 
-  environment.systemPackages = with pkgs; [];
+  environment.systemPackages = with pkgs; [
+    dwebble-cli
+    dwebble-migrate
+  ];
 
   system.stateVersion = "23.05";
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
