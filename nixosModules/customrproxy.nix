@@ -19,8 +19,8 @@ in {
       watchbookAddress = "10.28.28.9:5424";
       watchbookWebAddress = "10.28.28.9:5425";
 
-      kricketuneAddress = "10.28.28.9:2040";
-      kricketuneWebAddress = "10.28.28.9:2041";
+      kricketuneAddress = "127.0.0.1:2040";
+      kricketuneWebAddress = "127.0.0.1:2041";
 
       jellyfinAddress = "10.28.28.9:8096";
       immichAddress = "10.28.28.41:2283";
