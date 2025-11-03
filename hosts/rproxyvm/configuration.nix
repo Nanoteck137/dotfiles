@@ -15,6 +15,10 @@ let
   jellyfinAddress = "10.28.28.9:8096";
   freshrssAddress = "10.28.28.2:1337";
 
+  sonarrAddress = "10.28.28.120:8989";
+  prowlarrAddress = "10.28.28.120:9696";
+  jellyseerrAddress = "10.28.28.120:5055";
+
   secrets = builtins.fromJSON (builtins.readFile /etc/nixos/secrets.json);
 in {
   nixpkgs.overlays = [ 
@@ -147,6 +151,42 @@ in {
 
         handle {
           reverse_proxy ${freshrssAddress}
+        }
+      '';
+    };
+
+    virtualHosts."sonarr.nanoteck137.net" = {
+      extraConfig = ''
+      	tls {
+		      dns cloudflare {env.CF_TOKEN}
+	      }
+
+        handle {
+          reverse_proxy ${sonarrAddress}
+        }
+      '';
+    };
+
+    virtualHosts."prowlarr.nanoteck137.net" = {
+      extraConfig = ''
+      	tls {
+		      dns cloudflare {env.CF_TOKEN}
+	      }
+
+        handle {
+          reverse_proxy ${prowlarrAddress}
+        }
+      '';
+    };
+
+    virtualHosts."jellyseerr.nanoteck137.net" = {
+      extraConfig = ''
+      	tls {
+		      dns cloudflare {env.CF_TOKEN}
+	      }
+
+        handle {
+          reverse_proxy ${jellyseerrAddress}
         }
       '';
     };
