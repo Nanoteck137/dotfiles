@@ -16,8 +16,8 @@ in {
       dwebbleAddress = "127.0.0.1:7550";
       dwebbleWebAddress = "127.0.0.1:7551";
 
-      watchbookAddress = "10.28.28.9:5424";
-      watchbookWebAddress = "10.28.28.9:5425";
+      watchbookAddress = "127.0.0.1:5424";
+      watchbookWebAddress = "127.0.0.1:5425";
 
       kricketuneAddress = "127.0.0.1:2040";
       kricketuneWebAddress = "127.0.0.1:2041";

@@ -7,9 +7,14 @@ let
   dwebble-migrate = pkgs.writeShellScriptBin "dwebble-migrate" '' 
     ${inputs.dwebble.packages.${pkgs.system}.default}/bin/dwebble-migrate $@
   '';
+
+  watchbook-cli = pkgs.writeShellScriptBin "watchbook-cli" '' 
+    ${inputs.watchbook.packages.${pkgs.system}.default}/bin/watchbook-cli --api-address "https://watchbook.nanoteck137.net" $@
+  '';
 in {
   imports = [
     inputs.dwebble.nixosModules.default
+    inputs.watchbook.nixosModules.default
 
     inputs.kricketune.nixosModules.default
     inputs.kricketune.nixosModules.frontend
@@ -54,6 +59,18 @@ in {
   };
 
   services.dwebble-web = {
+    enable = true;
+    apiAddress = "";
+  };
+
+  services.watchbook = {
+    enable = true;
+    username = "nanoteck137";
+    initialPassword = "password";
+    jwtSecret = "some_secret";
+  };
+
+  services.watchbook-web = {
     enable = true;
     apiAddress = "";
   };
