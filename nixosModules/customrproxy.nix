@@ -28,6 +28,7 @@ in {
 
       bitAddress = "10.28.28.253:8085";
       sonarrAddress = "10.28.28.253:8989";
+      radarrAddress = "10.28.28.253:7878";
       prowlarrAddress = "10.28.28.253:9696";
       jellyseerrAddress = "10.28.28.120:5055";
     in {
@@ -174,6 +175,18 @@ in {
 
           handle {
             reverse_proxy ${sonarrAddress}
+          }
+        '';
+      };
+
+      virtualHosts."radarr.nanoteck137.net" = {
+        extraConfig = ''
+          tls {
+            dns cloudflare {env.CF_TOKEN}
+          }
+
+          handle {
+            reverse_proxy ${radarrAddress}
           }
         '';
       };
