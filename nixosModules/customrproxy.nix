@@ -22,7 +22,7 @@ in {
       kricketuneAddress = "127.0.0.1:2040";
       kricketuneWebAddress = "127.0.0.1:2041";
 
-      jellyfinAddress = "10.28.28.9:8096";
+      jellyfinAddress = "10.28.28.205:8096";
       immichAddress = "10.28.28.41:2283";
       ntfyAddress = "127.0.0.1:8473";
 
