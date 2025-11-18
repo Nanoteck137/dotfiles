@@ -42,13 +42,47 @@ in {
   #   home.stateVersion = "23.05";
   # };
 
-
   nano.system.enableSSH = true;
-  # nano.ftp.enable = true;
+  nano.ftp.enable = true;
   # nano.mullvad.enable = true;
   # networking.iproute2.enable = true
 
   nano.customrproxy.enable = true;
+
+  nano.samba = {
+    enable = true;
+    shares = [
+      {
+        name = "media";
+        path = "/media";
+        type = "write";
+      }
+
+      # {
+      #   name = "storage";
+      #   path = "/mnt/fastboi/storage";
+      #   type = "write";
+      # }
+      #
+      # {
+      #   name = "temp";
+      #   path = "/mnt/fastboi/temp";
+      #   type = "write";
+      # }
+      #
+      # {
+      #   name = "media2";
+      #   path = "/mnt/fastboi2/media";
+      #   type = "write";
+      # }
+      #
+      # {
+      #   name = "old";
+      #   path = "/mnt/fastboi/old";
+      #   type = "read-only";
+      # }
+    ];
+  };
 
   services.dwebble = {
     enable = true;
