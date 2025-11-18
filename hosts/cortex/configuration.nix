@@ -89,7 +89,7 @@ in {
     username = "nanoteck137";
     initialPassword = "password";
     jwtSecret = "some_secret";
-    libraryDir = "/media";
+    libraryDir = "/media/music";
   };
 
   services.dwebble-web = {
