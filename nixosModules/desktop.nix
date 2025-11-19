@@ -5,6 +5,10 @@ in {
   options = {
     nano.system = {
       enableDesktop = lib.mkEnableOption "enable desktop";
+      desktopType = mkOption {
+        type = types.enum ["x11" "wayland"];
+        description = "desktop type";
+      };
     };
   };
 
@@ -15,7 +19,7 @@ in {
       firefox
     ];
 
-    services.xserver = {
+    services.xserver = mkIf (cfg.desktopType == "x11") {
       enable = true;
       xkb = {
         layout = "se";

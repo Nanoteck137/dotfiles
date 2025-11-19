@@ -36,6 +36,12 @@ in {
 
   services.jellyfin.enable = true;
 
+  # system.autoUpgrade.enable = true;
+
+  # Auto delete old generations
+  # nix.gc.automatic = true;
+  # nix.gc.options = "--delete-older-than 2d";
+
   environment.systemPackages = with pkgs; [];
 
   system.stateVersion = "23.05";
