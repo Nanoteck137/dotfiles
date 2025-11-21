@@ -19,6 +19,9 @@ in {
       watchbookAddress = "127.0.0.1:5424";
       watchbookWebAddress = "127.0.0.1:5425";
 
+      storebookAddress = "127.0.0.1:5285";
+      storebookWebAddress = "127.0.0.1:5286";
+
       kricketuneAddress = "127.0.0.1:2040";
       kricketuneWebAddress = "127.0.0.1:2041";
 
@@ -91,6 +94,26 @@ in {
 
           handle {
             reverse_proxy ${watchbookWebAddress}
+          }
+        '';
+      };
+
+      virtualHosts."storebook.nanoteck137.net" = {
+        extraConfig = ''
+          tls {
+            dns cloudflare {env.CF_TOKEN}
+          }
+
+          handle /api/* {
+            reverse_proxy ${storebookAddress}
+          }
+
+          handle /files/* {
+            reverse_proxy ${storebookAddress}
+          }
+
+          handle {
+            reverse_proxy ${storebookWebAddress}
           }
         '';
       };
