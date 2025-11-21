@@ -26,6 +26,7 @@
     dwebble.url = "github:nanoteck137/dwebble";
     kricketune.url = "github:nanoteck137/kricketune";
     watchbook.url = "github:nanoteck137/watchbook";
+    storebook.url = "github:nanoteck137/storebook";
     customcaddy.url = "github:nanoteck137/customcaddy";
   };
 

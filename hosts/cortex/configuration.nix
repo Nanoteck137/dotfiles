@@ -15,6 +15,7 @@ in {
   imports = [
     inputs.dwebble.nixosModules.default
     inputs.watchbook.nixosModules.default
+    inputs.storebook.nixosModules.default
 
     inputs.kricketune.nixosModules.default
     inputs.kricketune.nixosModules.frontend
@@ -105,6 +106,17 @@ in {
   };
 
   services.watchbook-web = {
+    enable = true;
+    apiAddress = "";
+  };
+
+  services.storebook = {
+    enable = true;
+    password = "password";
+    jwtSecret = "some_secret";
+  };
+
+  services.storebook-web = {
     enable = true;
     apiAddress = "";
   };
