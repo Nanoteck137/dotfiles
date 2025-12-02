@@ -206,11 +206,11 @@
         "tagopus": "tagopus"
       },
       "locked": {
-        "lastModified": 1764697323,
-        "narHash": "sha256-5yH8ffHeMUg02xQtHSLs/TpIin1a/MYbYidJP0MwydI=",
+        "lastModified": 1764697872,
+        "narHash": "sha256-oz1fsSL7vyhDsgZmtb7gGabOzvDfb+SgtyMFRdQJx0I=",
         "owner": "nanoteck137",
         "repo": "dwebble",
-        "rev": "65f8e40e2dbf1ceac8225a3a799c17dca41682dc",
+        "rev": "f86c21692b44259b3d2199639f2aed28a436350a",
         "type": "github"
       },
       "original": {
