@@ -6,6 +6,7 @@
 
   environment.systemPackages = [
     pkgs.vim
+    inputs.nvim.packages.${pkgs.system}.default
   ];
 
   nixpkgs.config.allowUnfree = true;

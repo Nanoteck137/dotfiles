@@ -4,7 +4,7 @@
     # ../common/home/kitty.nix
     ../common/home/alacritty.nix
     ../common/home/tmux.nix
-    ../common/home/nvim.nix
+    # ../common/home/nvim.nix
     ../common/home/zsh.nix
     ../common/home/git.nix
     ../common/home/misc.nix

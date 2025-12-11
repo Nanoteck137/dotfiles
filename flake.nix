@@ -20,6 +20,8 @@
     nvim-config.url = "github:nanoteck137/nvim-config";
     nvim-config.flake = false;
 
+    nvim.url = "github:nanoteck137/nvim.nix";
+
     # Server Stuff
 
     sewaddle.url = "github:nanoteck137/sewaddle";
