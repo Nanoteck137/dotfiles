@@ -52,16 +52,25 @@ in {
   nano.system.enableDesktop = true;
   nano.system.desktopType = "wayland";
 
-  services.displayManager.sddm = {
-    enable = true;
-    wayland.enable = true;
+  
+  services.xserver = {
+    displayManager.lightdm = {
+      enable = true;
+    };
+
+    windowManager.awesome.enable = true;
   };
 
-  programs.hyprland = {
-    enable = true;
-    withUWSM = true;
-    xwayland.enable = true;
-  };
+  # services.displayManager.sddm = {
+  #   enable = true;
+  #   wayland.enable = true;
+  # };
+  #
+  # programs.hyprland = {
+  #   enable = true;
+  #   withUWSM = true;
+  #   xwayland.enable = true;
+  # };
 
   # nano.samba = {
   #   enable = true;
