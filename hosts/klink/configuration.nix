@@ -50,7 +50,7 @@ in {
   };
 
   nano.system.enableDesktop = true;
-  nano.system.desktopType = "wayland";
+  nano.system.desktopType = "x11";
 
   
   services.xserver = {
