@@ -27,13 +27,63 @@ in {
 
     nano.home.zsh.enable = true;
     nano.home.alacritty.enable = true;
-    nano.home.nvim.enable = true;
+    # nano.home.nvim.enable = true;
     nano.home.git.enable = true;
     nano.home.tmux.enable = true;
 
     # nano.home.discord.enable = true;
     nano.home.vscode.enable = true;
     # nano.home.feh.enable = true;
+
+    home.packages = with pkgs; [
+      rofi
+        lxappearance
+        pavucontrol
+    ];
+
+    xdg.configFile.awesome.source = "${self}/configs/awesome";
+    xdg.configFile.rofi.source = "${self}/configs/rofi";
+    xdg.configFile.crustle.source = "${self}/configs/crustle";
+
+    home.file."wallpaper.png".source = "${self}/wallpaper.png";
+
+    services.picom = {
+      enable = true;
+      opacityRules = [
+        "100:fullscreen"
+        "100:!fullscreen"
+      ];
+    };
+
+    programs.feh = {
+      enable = true;
+    };
+
+    dconf.settings = {
+      "org/virt-manager/virt-manager/connections" = {
+        autoconnect = ["qemu:///system"];
+        uris = ["qemu:///system"];
+      };
+    };
+
+    # qt.enable = true;
+    # qt.platformTheme = "gtk";
+    # qt.style.name = "adwaita-dark";
+    # qt.style.package = pkgs.adwaita-qt;
+    #
+    # gtk.enable = true;
+    #
+    # gtk.cursorTheme.package = pkgs.simp1e-cursors;
+    # gtk.cursorTheme.name = "Simp1e-Tokyo-Night-Storm";
+    #
+    # gtk.theme.package = pkgs.tokyo-night-gtk;
+    # gtk.theme.name = "Tokyonight-Storm-BL";
+    #
+    # # gtk.iconTheme.package = pkgs.papirus-icon-theme;
+    # # gtk.iconTheme.name = "Papirus-Dark";
+    #
+    # gtk.iconTheme.package = pkgs.dracula-icon-theme;
+    # gtk.iconTheme.name = "Dracula";
 
     home.stateVersion = "23.05";
   };
@@ -128,6 +178,8 @@ in {
     wl-clipboard
     waybar
     kdePackages.dolphin
+
+    inputs.nvim.packages.${pkgs.system}.default
 
     # dwebble-cli
     # dwebble-migrate

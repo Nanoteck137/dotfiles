@@ -50,14 +50,15 @@ in {
     environment.systemPackages = with pkgs; [
       git
       file
-      jq
-      ripgrep
-      neovim 
 
       # TODO(patrik): Move?
       lazygit
       tmux
       rclone
+
+      jq
+      ripgrep
+      renameutils
     ];
 
     users.users = {
