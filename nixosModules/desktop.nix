@@ -15,8 +15,14 @@ in {
   config = lib.mkIf cfg.enableDesktop {
     security.rtkit.enable = true;
 
-    environment.systemPackages = with pkgs; [
-      firefox
+    environment.systemPackages = with pkgs; mkMerge [
+      [
+        firefox
+      ]
+
+      (mkIf (cfg.desktopType == "x11") [
+        xclip
+      ])
     ];
 
     services.xserver = mkIf (cfg.desktopType == "x11") {

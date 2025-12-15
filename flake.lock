@@ -1126,11 +1126,11 @@
         "nixpkgs": "nixpkgs_6"
       },
       "locked": {
-        "lastModified": 1765400257,
-        "narHash": "sha256-6Mw/Mcegm/xzQbXa3HAdvu2R28dsm6uTp/nXUwAoHA0=",
+        "lastModified": 1765508641,
+        "narHash": "sha256-fxrrMDMptQtSUlOyH364L2gwl6+tH52HajSNt06lu3U=",
         "owner": "nanoteck137",
         "repo": "nvim.nix",
-        "rev": "e4313604f8e8df14c9624f4f49deb9ec0b586bef",
+        "rev": "37a2848a7328aeecaa3f6e01325d3ef9ba0b60eb",
         "type": "github"
       },
       "original": {

@@ -90,6 +90,7 @@ in {
 
 
   nano.system.enableSSH = true;
+  nano.nvim.enable = true;
   # nano.ftp.enable = true;
   nano.mullvad.enable = true;
 
@@ -178,8 +179,6 @@ in {
     wl-clipboard
     waybar
     kdePackages.dolphin
-
-    inputs.nvim.packages.${pkgs.system}.default
 
     # dwebble-cli
     # dwebble-migrate

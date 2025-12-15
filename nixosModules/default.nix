@@ -4,6 +4,7 @@
     ./desktop.nix
     ./nvidia.nix
 
+    ./nvim.nix
     ./ftp.nix
     ./mullvad.nix
     ./samba.nix
