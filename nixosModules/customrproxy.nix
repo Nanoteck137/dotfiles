@@ -34,6 +34,8 @@ in {
       radarrAddress = "10.28.28.253:7878";
       prowlarrAddress = "10.28.28.253:9696";
       jellyseerrAddress = "10.28.28.120:5055";
+
+      pocketidAddress = "10.28.28.59:1411";
     in {
       package = inputs.customcaddy.packages.x86_64-linux.default;
       enable = true;
@@ -234,6 +236,18 @@ in {
 
           handle {
             reverse_proxy ${jellyseerrAddress}
+          }
+        '';
+      };
+
+      virtualHosts."pocketid.nanoteck137.net" = {
+        extraConfig = ''
+          tls {
+            dns cloudflare {env.CF_TOKEN}
+          }
+
+          handle {
+            reverse_proxy ${pocketidAddress}
           }
         '';
       };
