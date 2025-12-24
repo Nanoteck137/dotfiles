@@ -879,11 +879,11 @@
         "pyrin": "pyrin"
       },
       "locked": {
-        "lastModified": 1766550087,
-        "narHash": "sha256-ZM2xnHNcS3Kb914ZXPR+GnfEcsdGoKKKDIIjkZlrvOQ=",
+        "lastModified": 1766550723,
+        "narHash": "sha256-1vpXxz4TEH14WX7u03oKZ4LhJuuLt3P+A+A3gD4pv3Q=",
         "owner": "nanoteck137",
         "repo": "kricketune",
-        "rev": "915cc0608cb476a86cf0b5a15c7d1acfe3befd52",
+        "rev": "2922c196b25449c8d89473afee29a01c6a370910",
         "type": "github"
       },
       "original": {
