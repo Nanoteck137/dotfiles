@@ -36,6 +36,8 @@ in {
       jellyseerrAddress = "10.28.28.120:5055";
 
       pocketidAddress = "10.28.28.59:1411";
+
+      navidromeAddress = "10.28.28.88:4533";
     in {
       package = inputs.customcaddy.packages.x86_64-linux.default;
       enable = true;
@@ -248,6 +250,18 @@ in {
 
           handle {
             reverse_proxy ${pocketidAddress}
+          }
+        '';
+      };
+
+      virtualHosts."navidrome.nanoteck137.net" = {
+        extraConfig = ''
+          tls {
+            dns cloudflare {env.CF_TOKEN}
+          }
+
+          handle {
+            reverse_proxy ${navidromeAddress}
           }
         '';
       };
