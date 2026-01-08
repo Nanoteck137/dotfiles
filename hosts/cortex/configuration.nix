@@ -155,6 +155,13 @@ in {
     };
   };
 
+  services.rustdesk-server = {
+    enable = true;
+    openFirewall = true;
+    relay.enable = true;
+    signal.enable = true;
+  };
+
   # services.jellyfin.enable = true;
 
   environment.systemPackages = with pkgs; [
