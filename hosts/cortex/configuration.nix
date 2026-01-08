@@ -159,7 +159,12 @@ in {
     enable = true;
     openFirewall = true;
     relay.enable = true;
-    signal.enable = true;
+    signal = {
+      enable = true;
+      relayHosts = [
+        "127.0.0.1:21117"
+      ];
+    };
   };
 
   # services.jellyfin.enable = true;
