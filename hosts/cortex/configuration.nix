@@ -59,6 +59,12 @@ in {
         type = "write";
       }
 
+      {
+        name = "other";
+        path = "/mnt/other";
+        type = "write";
+      }
+
       # {
       #   name = "storage";
       #   path = "/mnt/fastboi/storage";
