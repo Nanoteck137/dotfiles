@@ -35,3 +35,8 @@ size = 11.0
 
 [font.normal]
 family = "NotoMono Nerd Font"
+
+[keyboard]
+bindings = [
+  { key = "N", mods = "Control", action = "CreateNewWindow" }
+]
