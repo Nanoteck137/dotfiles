@@ -25,6 +25,8 @@ in {
       kricketuneAddress = "127.0.0.1:2040";
       kricketuneWebAddress = "127.0.0.1:2041";
 
+      snapcastWebAddress = "127.0.0.1:1780";
+
       jellyfinAddress = "10.28.28.205:8096";
       immichAddress = "10.28.28.41:2283";
       ntfyAddress = "127.0.0.1:8473";
@@ -132,6 +134,18 @@ in {
 
           handle {
             reverse_proxy ${kricketuneWebAddress}
+          }
+        '';
+      };
+
+      virtualHosts."snapcast.nanoteck137.net" = {
+        extraConfig = ''
+          tls {
+            dns cloudflare {env.CF_TOKEN}
+          }
+
+          handle {
+            reverse_proxy ${snapcastWebAddress}
           }
         '';
       };
