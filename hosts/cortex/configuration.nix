@@ -137,6 +137,13 @@ in {
       codec = "pcm";
     };
 
+    streams.shairport = {
+      type = "airplay";
+      location = "${pkgs.shairport-sync}";
+      # sampleFormat = "48000:16:2";
+      # codec = "pcm";
+    };
+
     openFirewall = true;
   };
 
