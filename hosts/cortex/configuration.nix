@@ -50,6 +50,9 @@ in {
 
   nano.customrproxy.enable = true;
 
+  services.tailscale.enable = true;
+  services.tailscale.useRoutingFeatures = "both";
+
   nano.samba = {
     enable = true;
     shares = [
