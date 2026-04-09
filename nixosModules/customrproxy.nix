@@ -38,6 +38,8 @@ in {
       jellyseerrAddress = "10.28.28.120:5055";
 
       pocketidAddress = "10.28.28.59:1411";
+
+      forgejoAddress = "10.28.28.54:3000";
     in {
       package = inputs.customcaddy.packages.x86_64-linux.default;
       enable = true;
@@ -262,6 +264,18 @@ in {
 
           handle {
             reverse_proxy ${pocketidAddress}
+          }
+        '';
+      };
+
+      virtualHosts."forgejo.nanoteck137.net" = {
+        extraConfig = ''
+          tls {
+            dns cloudflare {env.CF_TOKEN}
+          }
+
+          handle {
+            reverse_proxy ${forgejoAddress}
           }
         '';
       };
