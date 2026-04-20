@@ -165,6 +165,10 @@
         cortex = buildPlxc {
           name = "cortex";
         };
+
+        build = buildPlxc {
+          name = "build";
+        };
       };
 
       homeConfigurations.test = home-manager.lib.homeManagerConfiguration {
