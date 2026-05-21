@@ -31,10 +31,10 @@ in {
       immichAddress = "10.28.28.41:2283";
       ntfyAddress = "127.0.0.1:8473";
 
-      bitAddress = "10.28.28.253:8085";
-      sonarrAddress = "10.28.28.253:8989";
-      radarrAddress = "10.28.28.253:7878";
-      prowlarrAddress = "10.28.28.253:9696";
+      bitAddress = "10.28.28.212:8085";
+      sonarrAddress = "10.28.28.212:8989";
+      radarrAddress = "10.28.28.212:7878";
+      prowlarrAddress = "10.28.28.212:9696";
       jellyseerrAddress = "10.28.28.120:5055";
 
       pocketidAddress = "10.28.28.59:1411";
