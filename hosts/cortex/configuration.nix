@@ -63,6 +63,12 @@ in {
       }
 
       {
+        name = "mediadl";
+        path = "/mnt/media-dl";
+        type = "write";
+      }
+
+      {
         name = "other";
         path = "/mnt/other";
         type = "write";
