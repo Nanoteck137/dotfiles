@@ -43,7 +43,7 @@ in {
       (mkIf (cfg.type == "plxc") {
         networking.useNetworkd = true;
         networking.networkmanager.enable = lib.mkForce false;
-      }
+      })
     ];
 
     services.openssh = mkIf cfg.enableSSH {
