@@ -41,8 +41,8 @@ in {
       })
 
       (mkIf (cfg.type == "plxc") {
-        networking.useNetworkd = true;
-        networking.networkmanager.enable = lib.mkForce false;
+        useNetworkd = true;
+        networkmanager.enable = lib.mkForce false;
       })
     ];
 
