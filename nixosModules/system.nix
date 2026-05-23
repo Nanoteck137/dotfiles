@@ -65,7 +65,7 @@ in {
       renameutils
     ];
 
-    users.users = {
+    users.users = mkIf (cfg.type != "plxc") {
       ${cfg.username} = mkMerge [
         {
           isNormalUser = true;
