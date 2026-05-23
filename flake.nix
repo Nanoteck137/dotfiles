@@ -85,7 +85,11 @@
           modules = [ 
             "${nixpkgs}/nixos/modules/virtualisation/proxmox-lxc.nix"
 
-            { nixpkgs.config.allowUnfree = true; }
+            { 
+              virtualisation.proxmoxLXC.enable = true;
+              virtualisation.proxmoxLXC.manageNetwork = true;
+              nixpkgs.config.allowUnfree = true; 
+            }
             # {
             #   home-manager.useGlobalPkgs = true;
             #   home-manager.useUserPackages = true;
