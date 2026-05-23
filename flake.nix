@@ -86,8 +86,8 @@
             "${nixpkgs}/nixos/modules/virtualisation/proxmox-lxc.nix"
 
             { 
-              virtualisation.proxmoxLXC.enable = true;
-              virtualisation.proxmoxLXC.manageNetwork = true;
+              proxmoxLXC.enable = true;
+              proxmoxLXC.manageNetwork = true;
               nixpkgs.config.allowUnfree = true; 
             }
             # {
