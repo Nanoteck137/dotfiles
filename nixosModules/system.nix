@@ -42,6 +42,9 @@ in {
 
       (mkIf (cfg.type == "plxc") {
         networkmanager.enable = lib.mkForce false;
+
+        firewall.enable = false;
+        firewall.allowPing = true;
       })
     ];
 
