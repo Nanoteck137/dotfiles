@@ -26,7 +26,7 @@ in {
     inputs.nixneovimplugins.overlays.default
   ];
 
-  nano.system.type = "iso";
+  nano.system.type = "plxc";
   nano.system.username = "nanoteck137";
   nano.system.hostname = "cortex";
 
