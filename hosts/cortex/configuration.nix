@@ -153,6 +153,13 @@ in {
       # codec = "pcm";
     };
 
+    streams.test = {
+      type = "tcp";
+      location = "0.0.0.0:4953";
+      sampleFormat = "48000:16:2";
+      codec = "pcm";
+    };
+
     openFirewall = true;
   };
 
