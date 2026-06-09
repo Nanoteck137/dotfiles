@@ -158,7 +158,9 @@ in {
       location = "10.28.28.212:4953";
       sampleFormat = "48000:16:2";
       codec = "pcm";
-      mode = "client";
+      query = {
+        mode = "client";
+      };
     };
 
     openFirewall = true;
