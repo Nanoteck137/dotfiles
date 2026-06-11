@@ -68,13 +68,12 @@ in {
       renameutils
     ];
 
-    users.users = mkIf (cfg.type != "plxc") {
+    users.users = {
       ${cfg.username} = mkMerge [
         {
           isNormalUser = true;
           extraGroups = [ "wheel" ]; 
           initialPassword = "password";
-
 
           openssh.authorizedKeys.keys = [
             "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIIiL5jrSUxzAttiABU5jI7JhNuKsAdpkH6nm9k6LbjG nanoteck137"
