@@ -14,6 +14,9 @@ https://wall.alphacoders.com/big.php?i=1318416
 - fastfetch
 - jq (dev)
 - unzip
+- killall
+- curl
+- wget
 - [charmbracelet/glow](https://github.com/charmbracelet/glow)
 
 ## Desktop Setup

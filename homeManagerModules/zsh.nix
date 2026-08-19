@@ -29,7 +29,7 @@ in {
         "nvim-dev" = "NVIM_APPNAME=nvim-dev nvim";
       };
 
-      initExtra = if pkgs.stdenv.isDarwin then ''
+      initContent = if pkgs.stdenv.hostPlatform.isDarwin then ''
         eval "$(/opt/homebrew/bin/brew shellenv)"
 
         ${pkgs.any-nix-shell}/bin/any-nix-shell zsh --info-right | source /dev/stdin
@@ -39,8 +39,7 @@ in {
 
         if [[ -n $REALSHELL ]]; then
           export SHELL=$REALSHELL
-            fi
-
+        fi
         '' 
         else "
           ${pkgs.any-nix-shell}/bin/any-nix-shell zsh --info-right | source /dev/stdin

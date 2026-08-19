@@ -20,8 +20,12 @@ in {
 
     programs.git = {
       enable = true;
-      userName  = "Patrik M. Rosenström";
-      userEmail = "patrik.millvik@gmail.com";
+      settings = {
+        user = {
+          name  = "Patrik M. Rosenström";
+          email = "patrik.millvik@gmail.com";
+        };
+      };
     };
   };
 }
