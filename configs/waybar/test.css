@@ -1,0 +1,180 @@
+@define-color bg0 @base00;
+@define-color bg1 #ff00ff;
+@define-color bg3 #ff00ff;
+@define-color bg @base00;
+@define-color fg @base05;
+@define-color green-alt #ff00ff;
+@define-color green1 #ff00ff;
+@define-color green2 #ff00ff;
+@define-color red @base09;
+
+window#waybar {
+    background: transparent;
+    margin-top: 0px;
+}
+
+tooltip {
+    background: @bg;      
+    border: 1px solid @bg3; 
+    border-radius: 20px;       
+}
+
+tooltip label {
+    color: @fg;             
+    padding: 3px 8px;       
+}
+
+/* ---Workspaces--- */
+#workspaces {
+    color: @base05;
+    background-color: @base00;
+
+    border: 1px solid @base0A;
+    border-radius: 12px;
+
+    padding: 5px 3px;
+    margin-left: 12px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+#workspaces button {
+    padding: 3px 6px;
+    margin: 0 3px;
+    border-radius: 50px;
+    background: @base02;
+    color: transparent;
+    transition: all 0.3s ease-in-out;
+}
+
+#workspaces button.active {
+    background: @base06;
+    color: @bg0;
+    min-width: 50px;
+    font-size: 13px;
+}
+
+#workspaces button:hover {
+    background-color: @base0D;
+    color: @bg0;
+    min-width: 50px;
+}
+
+#workspaces button.urgent {
+    background-color: @base08;
+    color: @bg0;
+    min-width: 50px;
+}
+
+/* ---------- Right-side Modules Base ---------- */
+#temperature,
+#pulseaudio,
+#network,
+#clock,
+#custom-notification {
+    background-color: @bg1;
+    padding: 0 15px;
+    margin-left: 12px;
+    border-radius: 50px;
+    border: 1px solid @bg1;
+    margin-top: 8px;
+}
+
+
+/* ---------- Individual Module Colors ---------- */
+#pulseaudio {
+    color: @fg;
+}
+
+#network {
+    color: @fg;
+}
+
+#temperature {
+    color: @fg;
+    margin-right: 15px;
+}
+
+#custom-notification {
+    color: @fg;
+}
+
+#clock {
+    color: @fg;
+}
+
+/* ---------- Clock Effects ---------- */
+#clock .ampm {
+    font-size: 9pt;
+    opacity: 0.7;
+    margin-left: 4px;
+    margin-top: 8px
+}
+
+#clock .blink {
+    animation: blink 1s steps(1) infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+/* ---------- Pacman Updates ---------- */
+#custom-pacman {
+    background-color: @bg0;
+    padding: 0 15px;
+    margin-left: 12px;
+    border-radius: 50px;
+    border: 1px solid @bg1;
+    margin-top: 8px;
+    color: @green-alt;
+}
+
+#custom-pacman:hover {
+    background-color: @green2;
+    color: @bg0;
+}
+
+/* ---------- Media Player ---------- */
+#custom-mediaplayer {
+    background-color: @bg0;
+    padding: 0 15px;
+    margin-left: 12px;
+    border-radius: 50px;
+    border: 1px solid @bg1;
+    margin-top: 8px;
+    color: @green1;
+}
+
+#custom-mediaplayer.playing {
+    color: @green-alt;
+}
+
+#custom-mediaplayer.paused {
+    color: @fg;
+    opacity: 0.6;
+}
+
+#custom-mediaplayer:hover {
+    background-color: @green2;
+    color: @bg0;
+}
+
+/* ---------- Tray Container ---------- */
+#tray {
+    background-color: @bg0;
+    padding: 0 12px;
+    margin-left: 12px;
+    border-radius: 50px;
+    border: 1px solid @bg1;
+    margin-top: 8px;
+}
+
+/* ---------- Tray Icons ---------- */
+#tray > .item {
+    padding: 6px;
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
+}
