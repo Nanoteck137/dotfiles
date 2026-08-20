@@ -34,4 +34,4 @@ foreground = "0xc0caf5"
 size = 11.0
 
 [font.normal]
-family = "NotoMono Nerd Font"
+family = "JetBrains Mono Nerd Font"

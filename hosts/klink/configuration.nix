@@ -10,20 +10,43 @@ in {
   stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/tokyo-night-storm.yaml";
   stylix.polarity = "dark";
   stylix.autoEnable = true;
+
+  # stylix.fonts = {
+  #   serif = {
+  #     package = pkgs.dejavu_fonts;
+  #     name = "DejaVu Serif";
+  #   };
+  #
+  #   sansSerif = {
+  #     package = pkgs.dejavu_fonts;
+  #     name = "DejaVu Sans";
+  #   };
+  #
+  #   monospace = {
+  #     package = pkgs.dejavu_fonts;
+  #     name = "DejaVu Sans Mono";
+  #   };
+  #
+  #   emoji = {
+  #     package = pkgs.noto-fonts-color-emoji;
+  #     name = "Noto Color Emoji";
+  #   };
+  # };
+
   stylix.fonts = {
     serif = {
-      package = pkgs.dejavu_fonts;
-      name = "DejaVu Serif";
+      package = pkgs.nerd-fonts.jetbrains-mono;
+      name = "JetBrains Mono Nerd Font";
     };
 
     sansSerif = {
-      package = pkgs.dejavu_fonts;
-      name = "DejaVu Sans";
+      package = pkgs.nerd-fonts.jetbrains-mono;
+      name = "JetBrains Mono Nerd Font";
     };
 
     monospace = {
-      package = pkgs.dejavu_fonts;
-      name = "DejaVu Sans Mono";
+      package = pkgs.nerd-fonts.jetbrains-mono;
+      name = "JetBrains Mono Nerd Font";
     };
 
     emoji = {
@@ -83,8 +106,6 @@ in {
       style = (builtins.readFile "${self}/configs/waybar/test4.css");
 
       settings.main = {
-        height = 35;
-
         modules-left = [
           "hyprland/workspaces"
         ];
@@ -104,6 +125,7 @@ in {
           on-scroll-up = "hyprctl dispatch workspace e+1";
           on-scroll-down = "hyprctl dispatch workspace e-1";
           all-outputs = true;
+          show-special = true;
           on-click = "activate";
         };
 
@@ -125,17 +147,18 @@ in {
     };
 
     home.packages = with pkgs; [
-      rofi
+      wofi
 
-      lxappearance
       pavucontrol
 
       thunar
       tumbler
-      hyprlauncher
 
-      # feh
       qimgv
+
+      # CAD / 3D Printing
+      freecad
+      prusa-slicer
     ];
 
     home.file."wallpaper.png".source = "${self}/wallpaper.png";
@@ -213,12 +236,8 @@ in {
 
   environment.systemPackages = with pkgs; [
     docker-compose
-    wofi
-    wl-clipboard
 
-    # CAD / 3D Printing
-    freecad
-    prusa-slicer
+    wl-clipboard
   ];
 
   # USB Auto-Mounting (used for prusa-slicer)
