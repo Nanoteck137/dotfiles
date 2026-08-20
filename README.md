@@ -7,18 +7,6 @@ https://wall.alphacoders.com/big.php?i=1318416
 # Usefull commands
 - find ./ -type f -exec sed -i '' -e 's/watchbook/feedkeep/g' {} \;
 
-## TODO
-- Nvim: set conceallevel=0
-
-### Stuff to add
-- fastfetch
-- jq (dev)
-- unzip
-- killall
-- curl
-- wget
-- [charmbracelet/glow](https://github.com/charmbracelet/glow)
-
 ## Desktop Setup
 - Desktop: Hyprland
     - Bar: Waybar

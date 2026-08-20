@@ -101,61 +101,9 @@
           ];
         };
       in{
-        # Normal Desktop 
-        # krokorok = buildSystem {
-        #   name = "krokorok";
-        #   hw = "amd";
-        # };
-
-        bonk = buildSystem {
-          name = "bonk";
-          hw = "intel";
-        };
-
-        # pichu = buildSystem {
-        #   name = "pichu";
-        # };
-
-        # raichu = buildSystem {
-        #   name = "raichu";
-        # };
-
-        # Media/Server 
         klink = buildSystem {
           name = "klink";
-          hw = "intel";
-        };
-
-        # Steamdeck
-        deck = buildSystem {
-          name = "steamdeck";
           hw = "amd";
-        };
-
-        # Dev Desktop Machine
-        koffing = buildSystem {
-          name = "koffing";
-          hw = "amd";
-        };
-
-        testvm = buildSystem {
-          name = "testvm";
-          hw = "vm-intel";
-        };
-
-        vpnvm = buildSystem {
-          name = "vpnvm";
-          hw = "vm-intel";
-        };
-
-        rproxyvm = buildSystem {
-          name = "rproxyvm";
-          hw = "vm-intel";
-        };
-
-        media-mm-vm = buildSystem {
-          name = "media-mm-vm";
-          hw = "vm-amd";
         };
 
         iso = buildIso {
@@ -174,30 +122,5 @@
           name = "build";
         };
       };
-
-      homeConfigurations.test = home-manager.lib.homeManagerConfiguration {
-        pkgs = import nixpkgs { system = "x86_64-linux"; };
-        extraSpecialArgs = { inherit self inputs; };
-        modules = [
-          ./hosts/test/home.nix
-        ];
-      };
-
-      darwinConfigurations.zorua = nix-darwin.lib.darwinSystem {
-        system = "aarch64-darwin";
-        specialArgs = { inherit self inputs; };
-        modules = [ 
-          ./hosts/zorua/configuration.nix
-          home-manager.darwinModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = { inherit self inputs; };
-            home-manager.users.nanoteck137 = import ./hosts/zorua/home.nix;
-          }
-        ];
-      };
-
-      darwinPackages = self.darwinConfigurations.zorua.pkgs;
     };
 }

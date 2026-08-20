@@ -39,6 +39,8 @@ in {
 
         if [[ -n $REALSHELL ]]; then
           export SHELL=$REALSHELL
+        else
+          fastfetch
         fi
         '' 
         else "
@@ -46,6 +48,8 @@ in {
 
           if [[ -n $REALSHELL ]]; then
             export SHELL=$REALSHELL
+          else
+            fastfetch
           fi
         ";
     };

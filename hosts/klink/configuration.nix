@@ -60,6 +60,7 @@ in {
   nano.system.hostname = "klink";
   nano.system.enableSwap = true;
 
+  # TODO(patrik): Add option to nano.system.userExtraGroups
   users.users.${config.nano.system.username}.extraGroups = [ "docker" "uinput" "input" ];
 
   home-manager.users.${config.nano.system.username} = {config, pkgs, inputs, ...}: {
@@ -79,6 +80,7 @@ in {
 
     stylix.targets.vscode.enable = false;
     stylix.targets.waybar.addCss = false;
+    stylix.targets.firefox.enable = false;
 
     # TODO(patrik): Move
     services.udiskie = {
@@ -94,16 +96,26 @@ in {
       };
     };
 
+    programs.direnv = {
+      enable = true;
+      nix-direnv.enable = true;
+      enableZshIntegration = true;
+    };
+
+    xdg.configFile."fastfetch/config.jsonc".source = "${self}/configs/fastfetch/config.jsonc";
+
+    xdg.configFile."hypr/hyprtoolkit.conf".source = "${self}/configs/hypr/hyprtoolkit.conf";
+
     wayland.windowManager.hyprland = {
       enable = true;
       configType = "lua";
-      extraConfig = (builtins.readFile "${self}/configs/hyprland/hyprland.lua");
+      extraConfig = (builtins.readFile "${self}/configs/hypr/hyprland.lua");
       plugins = [];
     };
 
     programs.waybar = {
       enable = true;
-      style = (builtins.readFile "${self}/configs/waybar/test4.css");
+      style = (builtins.readFile "${self}/configs/waybar/style.css");
 
       settings.main = {
         modules-left = [
@@ -154,14 +166,21 @@ in {
       thunar
       tumbler
 
+      hyprpicker
+      wl-clipboard
+
       qimgv
 
       # CAD / 3D Printing
       freecad
       prusa-slicer
+
+      fastfetch
     ];
 
     home.file."wallpaper.png".source = "${self}/wallpaper.png";
+
+    xdg.configFile."wofi".source = "${self}/configs/wofi";
 
     # TODO(patrik): Move
     dconf.settings = {
@@ -238,6 +257,16 @@ in {
     docker-compose
 
     wl-clipboard
+
+    # Markdown Renderer
+    glow
+
+    # utils
+    jq
+    unzip
+    killall
+    curl
+    wget
   ];
 
   # USB Auto-Mounting (used for prusa-slicer)

@@ -1,6 +1,0 @@
-require('options')
--- require('snippets')
-require('plugins')
-require('filetype')
-require('yank')
-require('keymaps')
