@@ -18,6 +18,7 @@ in {
       writeEnable = true;
       extraConfig = ''
         local_umask=033
+        pam_service_name=vsftpd
         '';
     };
   };
