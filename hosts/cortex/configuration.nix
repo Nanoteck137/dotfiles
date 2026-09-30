@@ -136,35 +136,35 @@ in {
     apiAddress = "";
   };
 
-  services.snapserver = {
-    enable = true;
-
-    streams.kricketune = {
-      type = "pipe";
-      location = "/run/snapserver/kricketune";
-      sampleFormat = "48000:16:2";
-      codec = "pcm";
-    };
-
-    streams.shairport = {
-      type = "airplay";
-      location = "${pkgs.shairport-sync}/bin/shairport-sync";
-      # sampleFormat = "48000:16:2";
-      # codec = "pcm";
-    };
-
-    streams.test = {
-      type = "tcp";
-      location = "10.28.28.212:4953";
-      sampleFormat = "48000:16:2";
-      codec = "pcm";
-      query = {
-        mode = "client";
-      };
-    };
-
-    openFirewall = true;
-  };
+  # services.snapserver = {
+  #   enable = true;
+  #
+  #   streams.kricketune = {
+  #     type = "pipe";
+  #     location = "/run/snapserver/kricketune";
+  #     sampleFormat = "48000:16:2";
+  #     codec = "pcm";
+  #   };
+  #
+  #   streams.shairport = {
+  #     type = "airplay";
+  #     location = "${pkgs.shairport-sync}/bin/shairport-sync";
+  #     # sampleFormat = "48000:16:2";
+  #     # codec = "pcm";
+  #   };
+  #
+  #   streams.test = {
+  #     type = "tcp";
+  #     location = "10.28.28.212:4953";
+  #     sampleFormat = "48000:16:2";
+  #     codec = "pcm";
+  #     query = {
+  #       mode = "client";
+  #     };
+  #   };
+  #
+  #   openFirewall = true;
+  # };
 
   services.kricketune = {
     enable = true;
