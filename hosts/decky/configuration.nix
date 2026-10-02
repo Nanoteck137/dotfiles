@@ -193,7 +193,7 @@ in {
 
     xdg.configFile."wofi".source = "${self}/configs/wofi";
 
-    xdg.configFile."kenshi/config".source = "${self}/configs/kenshi/steamdeck";
+    xdg.configFile."kanshi/config".source = "${self}/configs/kanshi/steamdeck";
 
     # TODO(patrik): Move
     dconf.settings = {
