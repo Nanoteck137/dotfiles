@@ -23,6 +23,14 @@ hl.monitor({
     scale    = "auto",
 })
 
+hl.monitor({
+  output = "eDP-1",
+  mode     = "preferred",
+  position = "auto",
+  scale    = "auto",
+  transform = 1
+})
+
 ---------------------
 ---- MY PROGRAMS ----
 ---------------------
