@@ -42,6 +42,7 @@ local menu        = "wofi --show drun"
 -- Or execute your favorite apps at launch like this:
 --
 hl.on("hyprland.start", function ()
+  hl.exec_cmd("hypridle")
   hl.exec_cmd("waybar")
   hl.exec_cmd("mullvad-vpn")
 end)
@@ -259,6 +260,8 @@ hl.bind(mainMod .. " + S", hl.dsp.exec_cmd(menu))
 --
 hl.bind(mainMod .. " + P", hl.dsp.exec_cmd("hyprpicker -a"))
 
+hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen({ action = "toggle" }))
+
 -- Move focus with mainMod + arrow keys
 hl.bind(mainMod .. " + left",  hl.dsp.focus({ direction = "left" }))
 hl.bind(mainMod .. " + right", hl.dsp.focus({ direction = "right" }))
@@ -267,7 +270,6 @@ hl.bind(mainMod .. " + down",  hl.dsp.focus({ direction = "down" }))
 
 hl.bind(mainMod .. " + J",  hl.dsp.window.cycle_next({ tiled = true }))
 hl.bind(mainMod .. " + K",  hl.dsp.window.cycle_next({ tiled = true, next = false }))
-
 
 
 -- Switch workspaces with mainMod + [0-9]
@@ -343,6 +345,14 @@ hl.window_rule({
 --     float = true,
 --     size = {800, 600},
 -- })
+
+hl.window_rule({
+    name  = "1password-float",
+    match = { class = "1password" },
+    float = true,
+    size = {"(monitor_w*0.75)", "(monitor_h*0.75)"},
+})
+
 
 -- Layer rules also return a handle.
 -- local overlayLayerRule = hl.layer_rule({
