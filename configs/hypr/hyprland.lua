@@ -50,6 +50,7 @@ local menu        = "wofi --show drun"
 -- Or execute your favorite apps at launch like this:
 --
 hl.on("hyprland.start", function ()
+  hl.exec_cmd("kanshi")
   hl.exec_cmd("hypridle")
   hl.exec_cmd("waybar")
   hl.exec_cmd("mullvad-vpn")
