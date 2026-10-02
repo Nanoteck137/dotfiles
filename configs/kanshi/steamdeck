@@ -1,6 +1,6 @@
 # Profile 1: Only the Steam Deck (Undocked)
 profile {
-    output eDP-1 enable mode preferred position 0,0 transform 270 scale 1.0
+    output eDP-1 enable mode preferred position auto transform 270 scale 1.0
 }
 
 # Profile 2: External Monitor Connected (Docked)
