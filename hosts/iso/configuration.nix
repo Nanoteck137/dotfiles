@@ -22,7 +22,7 @@
 
     nano.home.zsh.enable = true;
     # nano.home.alacritty.enable = true;
-    nano.home.nvim.enable = true;
+    # nano.home.nvim.enable = true;
     nano.home.git.enable = true;
     nano.home.tmux.enable = true;
 
@@ -31,6 +31,7 @@
 
   nano.system.enableSSH = true;
   nano.ftp.enable = true;
+  nano.nvim.enable = true;
 
   # nano.system.enableDesktop = true;
 
