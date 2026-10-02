@@ -14,6 +14,8 @@ in {
        export REALSHELL=$SHELL
        nix develop --command $SHELL
        '')
+
+      fastfetch
     ];
 
     programs.zsh = {
@@ -40,7 +42,7 @@ in {
         if [[ -n $REALSHELL ]]; then
           export SHELL=$REALSHELL
         else
-          fastfetch
+          ${pkgs.fastfetch}/bin/fastfetch
         fi
         '' 
         else "
@@ -49,7 +51,7 @@ in {
           if [[ -n $REALSHELL ]]; then
             export SHELL=$REALSHELL
           else
-            fastfetch
+            ${pkgs.fastfetch}/bin/fastfetch
           fi
         ";
     };

@@ -11,42 +11,25 @@ in {
   stylix.polarity = "dark";
   stylix.autoEnable = true;
 
-  # stylix.fonts = {
-  #   serif = {
-  #     package = pkgs.dejavu_fonts;
-  #     name = "DejaVu Serif";
-  #   };
-  #
-  #   sansSerif = {
-  #     package = pkgs.dejavu_fonts;
-  #     name = "DejaVu Sans";
-  #   };
-  #
-  #   monospace = {
-  #     package = pkgs.dejavu_fonts;
-  #     name = "DejaVu Sans Mono";
-  #   };
-  #
-  #   emoji = {
-  #     package = pkgs.noto-fonts-color-emoji;
-  #     name = "Noto Color Emoji";
-  #   };
-  # };
+  fonts.packages = [
+    pkgs.dejavu_fonts
+    pkgs.nerd-fonts.jetbrains-mono
+  ];
 
   stylix.fonts = {
     serif = {
-      package = pkgs.nerd-fonts.jetbrains-mono;
-      name = "JetBrains Mono Nerd Font";
+      package = pkgs.dejavu_fonts;
+      name = "DejaVu Serif";
     };
 
     sansSerif = {
-      package = pkgs.nerd-fonts.jetbrains-mono;
-      name = "JetBrains Mono Nerd Font";
+      package = pkgs.dejavu_fonts;
+      name = "DejaVu Sans";
     };
 
     monospace = {
-      package = pkgs.nerd-fonts.jetbrains-mono;
-      name = "JetBrains Mono Nerd Font";
+      package = pkgs.dejavu_fonts;
+      name = "DejaVu Sans Mono";
     };
 
     emoji = {
@@ -54,6 +37,28 @@ in {
       name = "Noto Color Emoji";
     };
   };
+
+  # stylix.fonts = {
+  #   serif = {
+  #     package = pkgs.nerd-fonts.jetbrains-mono;
+  #     name = "JetBrains Mono Nerd Font";
+  #   };
+  #
+  #   sansSerif = {
+  #     package = pkgs.nerd-fonts.jetbrains-mono;
+  #     name = "JetBrains Mono Nerd Font";
+  #   };
+  #
+  #   monospace = {
+  #     package = pkgs.nerd-fonts.jetbrains-mono;
+  #     name = "JetBrains Mono Nerd Font";
+  #   };
+  #
+  #   emoji = {
+  #     package = pkgs.noto-fonts-color-emoji;
+  #     name = "Noto Color Emoji";
+  #   };
+  # };
 
   nano.system.type = "efi";
   nano.system.username = "nanoteck137";
@@ -75,7 +80,7 @@ in {
     nano.home.tmux.enable = true;
 
     # nano.home.discord.enable = true;
-    nano.home.vscode.enable = true;
+    # nano.home.vscode.enable = true;
     # nano.home.feh.enable = true;
 
     stylix.targets.vscode.enable = false;
@@ -105,6 +110,7 @@ in {
     xdg.configFile."fastfetch/config.jsonc".source = "${self}/configs/fastfetch/config.jsonc";
 
     xdg.configFile."hypr/hyprtoolkit.conf".source = "${self}/configs/hypr/hyprtoolkit.conf";
+    xdg.configFile."hypr/hypridle.conf".source = "${self}/configs/hypr/hypridle.conf";
 
     wayland.windowManager.hyprland = {
       enable = true;
@@ -166,6 +172,9 @@ in {
       thunar
       tumbler
 
+      hypridle
+      brightnessctl
+
       hyprpicker
       wl-clipboard
 
@@ -175,7 +184,9 @@ in {
       freecad
       prusa-slicer
 
-      fastfetch
+      # My Custom Stuff
+      inputs.dusk.packages.${pkgs.stdenv.hostPlatform.system}.default
+      inputs.forge.packages.${pkgs.stdenv.hostPlatform.system}.default
     ];
 
     home.file."wallpaper.png".source = "${self}/wallpaper.png";

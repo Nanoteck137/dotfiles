@@ -22,8 +22,10 @@
 
     nvim.url = "github:nanoteck137/nvim.nix";
 
-    # Server Stuff
+    dusk.url = "github:nanoteck137/dusk/0.1.0";
+    forge.url = "github:nanoteck137/forge";
 
+    # Server Stuff
     sewaddle.url = "github:nanoteck137/sewaddle";
     dwebble.url = "github:nanoteck137/dwebble";
     kricketune.url = "github:nanoteck137/kricketune";
@@ -103,6 +105,11 @@
       in{
         klink = buildSystem {
           name = "klink";
+          hw = "amd";
+        };
+
+        decky = buildSystem {
+          name = "decky";
           hw = "amd";
         };
 

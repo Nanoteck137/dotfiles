@@ -11,7 +11,12 @@ in {
   config = lib.mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
       inputs.nvim.packages.${pkgs.stdenv.system}.default
+
       lua-language-server
+      typescript-language-server
+      svelte-language-server
+      tailwindcss-language-server
+      clang-tools
     ];
   };
 }
