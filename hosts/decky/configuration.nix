@@ -193,6 +193,8 @@ in {
 
     xdg.configFile."wofi".source = "${self}/configs/wofi";
 
+    xdg.configFile."kenshi/config".source = "${self}/configs/kenshi/steamdeck";
+
     # TODO(patrik): Move
     dconf.settings = {
       "org/virt-manager/virt-manager/connections" = {
