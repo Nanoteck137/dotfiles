@@ -319,6 +319,11 @@ in {
       in ["${automount_opts},${user},credentials=/etc/nixos/smb-secrets"];
   };
 
+  # Suspend when power button is pressed, instead of shutdown
+  services.logind.settings.Login = {
+    HandlePowerKey = "suspend";
+  };
+
   programs.nix-ld.enable = true;
   programs.nix-ld.libraries = with pkgs; [
     zlib

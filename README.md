@@ -29,3 +29,20 @@ https://wall.alphacoders.com/big.php?i=1318416
 - [newemperor221/hyprland-dotfiles](https://github.com/newemperor221/hyprland-dotfiles)
 - [Alexays/Waybar/Examples](https://github.com/Alexays/Waybar/wiki/Examples)
 
+## TODO
+- Setup kenshi
+
+```bash
+# kenshi example config for steam deck
+
+# Profile 1: Only the Steam Deck (Undocked)
+profile {
+    output eDP-1 enable mode auto position 0,0 transform 270 scale 1.0
+}
+
+# Profile 2: External Monitor Connected (Docked)
+profile {
+    output eDP-1 disable
+    output * enable mode auto position auto scale 1.0
+}
+```
