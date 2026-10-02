@@ -180,6 +180,8 @@ in {
 
       qimgv
 
+      kanshi
+
       # CAD / 3D Printing
       freecad
       prusa-slicer
