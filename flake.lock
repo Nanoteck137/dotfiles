@@ -1381,11 +1381,11 @@
         "nixpkgs": "nixpkgs_11"
       },
       "locked": {
-        "lastModified": 1790641810,
-        "narHash": "sha256-UVSjzMA3ksn/XAQgq9OkfCNKHQMQhhibfHV9GFAznZc=",
+        "lastModified": 1792592605,
+        "narHash": "sha256-O37EZLmtYXwICkwTK+sVNEm3BOz7Zb4BqikbWgFvkTE=",
         "owner": "nanoteck137",
         "repo": "nvim.nix",
-        "rev": "979278466ad340069787966a1159ef7f1e504cda",
+        "rev": "73064739210a63ff97d23fd4fe090ddcffbca4ba",
         "type": "github"
       },
       "original": {
