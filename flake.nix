@@ -113,6 +113,11 @@
           hw = "amd";
         };
 
+        bonk = buildSystem {
+          name = "bonk";
+          hw = "intel";
+        };
+
         iso = buildIso {
           name = "iso";
         };
