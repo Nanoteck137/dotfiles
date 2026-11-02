@@ -262,14 +262,14 @@ hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
 hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
--- hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
+hl.bind(mainMod .. " + F", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + S", hl.dsp.exec_cmd(menu))
 -- hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 -- hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"))    -- dwindle only
 --
 hl.bind(mainMod .. " + P", hl.dsp.exec_cmd("hyprpicker -a"))
 
-hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen({ action = "toggle" }))
+hl.bind(mainMod .. " + SHIFT + F", hl.dsp.window.fullscreen({ action = "toggle" }))
 
 -- Move focus with mainMod + arrow keys
 hl.bind(mainMod .. " + left",  hl.dsp.focus({ direction = "left" }))
@@ -277,8 +277,8 @@ hl.bind(mainMod .. " + right", hl.dsp.focus({ direction = "right" }))
 hl.bind(mainMod .. " + up",    hl.dsp.focus({ direction = "up" }))
 hl.bind(mainMod .. " + down",  hl.dsp.focus({ direction = "down" }))
 
-hl.bind(mainMod .. " + J",  hl.dsp.window.cycle_next({ tiled = true }))
-hl.bind(mainMod .. " + K",  hl.dsp.window.cycle_next({ tiled = true, next = false }))
+hl.bind(mainMod .. " + J",  hl.dsp.window.cycle_next({ }))
+hl.bind(mainMod .. " + K",  hl.dsp.window.cycle_next({ next = false }))
 
 
 -- Switch workspaces with mainMod + [0-9]
@@ -378,4 +378,19 @@ hl.window_rule({
 
     move  = "20 monitor_h-120",
     float = true,
+})
+
+hl.window_rule({
+    name  = "float-kicad",
+    match = { class = "kicad" },
+    float = true,
+})
+
+hl.window_rule({
+    name  = "center-kicad-dialogs",
+    match = {
+        class = "kicad",
+        title = "^(Choose.*|Properties.*|Edit.*|PCB Editor|Schematic Editor)$"
+    },
+    center = true,
 })

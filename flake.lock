@@ -741,11 +741,11 @@
         "versionctl": "versionctl_2"
       },
       "locked": {
-        "lastModified": 1787269071,
-        "narHash": "sha256-71DuV+069nAe+EDZEi1lsFRQhyLEimfhyaLBcNgzoyA=",
+        "lastModified": 1793225317,
+        "narHash": "sha256-U99D5XzFhtrMICsvRi5nAe2emr/kXCMwZSGmV9/iHrw=",
         "owner": "nanoteck137",
         "repo": "forge",
-        "rev": "dcef2f163fd6c3d5627463dadc6c500a9c613859",
+        "rev": "6b3518b6250d9cf9d088a26d06623e07a7e9f3c9",
         "type": "github"
       },
       "original": {

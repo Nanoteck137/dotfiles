@@ -1,7 +1,8 @@
 { pkgs, lib, ... }: {
   imports = [
+    ./desktop
+
     ./system.nix
-    ./desktop.nix
     ./nvidia.nix
 
     ./nvim.nix
